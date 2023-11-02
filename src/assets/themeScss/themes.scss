@@ -1,0 +1,59 @@
+:root {
+    --body-primary: #ffffff;
+    --h1-title: #2a2439;
+    ///sidenav colors
+    --background-color-sidenav: #212570;
+    --box-shadow-sidenav: 0.063rem 0 1.25rem 0 #8690a3;
+    --background-color-submenu: #1f213d;
+
+    ///header colors
+    --background-color-header: rgba(239, 241, 255, 0.973);
+    --background-color-head-content: #ffffff;
+    --bg-color-head-menu-item: #eaecf4;
+    --color-head-menu-item: black;
+    --color-hover-menu-item: #faa169;
+    --bg-circle-indicator: #b46203; 
+    --pulse-animation-shadow1: rgba(206, 80, 26, 0.6);
+    --pulse-animation-shadow2: rgba(126, 50, 17, 0);
+    --overlay-bg-color: #fff;
+    --text-overlay-color: #495057;
+    --hover-overlay: #eff2f3;
+    --notification-subject: #30363b;
+    --notification-desc: #414141;
+    --background-color-body-app: #ffffff;
+
+    --card-text-color: #495057;
+    --card-box-shadow: #e6edef;
+    --border-bottom-card: #edf1f7;
+}
+
+.dark-mode {
+    --body-primary: #1d1b23;
+    --h1-title: #464581;
+    --card-text-color: #6968a1;
+    --card-box-shadow: #151414;
+    --border-bottom-card: #041227;
+
+    --background-color-sidenav: #0d0b14;
+    --box-shadow-sidenav: 0.063rem 0 1.25rem 0 #191919;
+    --background-color-submenu: #221e2e;
+
+
+    --background-color-header: rgb(37, 36, 41);
+    --background-color-head-content: #141517ef;
+    --bg-color-head-menu-item: #181d33;
+    --color-head-menu-item: #888b97;
+    --color-hover-menu-item: #4c4d86;
+    --bg-circle-indicator: #381e61; 
+    --pulse-animation-shadow1: rgba(111, 60, 155, 0.6);
+    --pulse-animation-shadow2: rgba(19, 62, 156, 0);
+    --overlay-bg-color: #272629;
+    --text-overlay-color: #fff;
+    --hover-overlay: #3d3d3f;
+    --notification-subject: rgb(221, 221, 221);
+    --notification-desc: #bcbcbc;
+    --color: white;
+
+
+    --background-color-body-app: #1d1b23;
+}

@@ -1,0 +1,46 @@
+h1 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    color: #1f1e1e;
+    font-weight: 600;
+}
+  
+.p-text {
+    max-width: 350px;
+    color: #2d2d2d;
+    margin-bottom: 40px;
+    //display: flex;
+    text-align: justify;
+}
+
+.close-button {
+    display: flex;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+  
+.google-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFFFFF;
+    color: #3f4346;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.256), 0 1px 2px rgba(0, 0, 0, 0.279);
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: box-shadow 0.3s ease;
+    margin-bottom: 20px;
+
+    &:hover {
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    }
+}
+  
+.google-icon {
+    width: 20px;
+    margin-right: 10px;
+}

@@ -1,16 +1,55 @@
+import { CdkMenuModule } from '@angular/cdk/menu';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import player from 'lottie-web';
+import { LottieModule } from 'ngx-lottie';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { BodyComponent } from './body/body.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { HeaderComponent } from './header/header.component';
+import { ProductsComponent } from './products/products.component';
+import { ReserveHistoryComponent } from './reserve-history/reserve-history.component';
+import { ReserveNowComponent } from './reserve-now/reserve-now.component';
+import { ReserveComponent } from './reserve/reserve.component';
+import { SettingsComponent } from './settings/settings.component';
+import { SidenavComponent } from './sidenav/sidenav.component';
+import { TrainingComponent } from './training/training.component';
+import { LoginComponent } from './login/login.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import {MatIconModule} from '@angular/material/icon';
 
+export function playerFactory() {
+  return player;
+}
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    BodyComponent,
+    SidenavComponent,
+    DashboardComponent,
+    ProductsComponent,
+    SettingsComponent,
+    ReserveComponent,
+    TrainingComponent,
+    ReserveNowComponent,
+    ReserveHistoryComponent,
+    HeaderComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    OverlayModule,
+    CdkMenuModule,
+    LottieModule.forRoot({ player: playerFactory }),
+    MatDialogModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,36 @@
+.text-container {
+    color: var(--h1-title);
+}
+
+.container > div:first-child {
+    border-top-left-radius: 15px; 
+    border-bottom-left-radius: 15px; 
+}
+
+.container > div:last-child {
+    border-top-right-radius: 15px; 
+    border-bottom-right-radius: 15px; 
+}
+
+.animation-container {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    max-width: 90%;
+    max-height: 90%;
+}
+
+@media (max-width: 639.5px) {
+    .container {
+        .container-right {
+            margin-top: 20px;
+        }
+    }
+}
+
+@media (max-width: 357px) {
+    h2 {
+        font-size: 0.8rem;
+    }
+}

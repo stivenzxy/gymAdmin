@@ -1,0 +1,115 @@
+<div class="head" [ngClass]="getHeadClass()">
+    <div class="head-content">
+        <div class="head-content-left">
+            <div class="head-menu-left">
+                <div class="head-menu-item">
+                    <button class="head-menu-item-btn ripple" [cdkMenuTriggerFor]="themeOverlay">
+                        <img [src]="'assets/themes/' + selectedTheme.icon + '.png' "
+                            class="theme" alt="icon">
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="head-content-right">
+            <div class="head-menu">
+                <div class="head-menu-item">
+                    <button class="head-menu-item-btn ripple" [cdkMenuTriggerFor]="notificationOverlay">
+                        <i class="fas fa-bell menu-icon"></i>
+                    </button>
+                </div>
+            </div>
+           <!-- Se muestra cuando el usuario está logueado -->
+            <div class="head-user-avatar-container" *ngIf="isLoggedIn">
+                <div class="head-user-avatar" [cdkMenuTriggerFor]="userOverlay">
+                    <img src="../../assets/user-example2.jpg" alt="user" class="user-avatar">
+                    <div class="circle-indicator pulse"></div>
+                </div>
+            </div>
+
+            <!-- Se muestra cuando el usuario NO está logueado -->
+            <div class="head-user-avatar-container" *ngIf="!isLoggedIn">
+                <div class="head-user-avatar" [cdkMenuTriggerFor]="notLoggedOverlay">
+                    <img src="../../assets/avatar-signIn2.png" alt="user" class="user-avatar">
+                    <div class="circle-indicator pulse"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #themeOverlay>
+    <div class="overlay overlay-theme overlay-fall" cdkMenu>
+        <ul>
+            <li *ngFor="let theme of themes" cdkMenuItem (click)="changeTheme(theme)">
+                <img [src]="'assets/themes/' + theme.icon + '.png'" alt="theme">
+                <span>{{theme.name}}</span>
+            </li>
+        </ul>
+    </div>
+</ng-template>
+
+<ng-template #notificationOverlay>
+    <div class="overlay overlay-notification overlay-fall" cdkMenu>
+        <ul>
+            <li class="notification-head-container">
+                <div class="notification-head">Notificaciones</div>
+                <span class="view-all-link">
+                    <a>Ver todo</a>
+                </span>
+            </li>
+            <li class="notification-message-container"
+                *ngFor="let notification of notifications"
+                cdkMenuItem
+            >
+                <i [class]="notification.icon"></i>
+                <div>
+                    <div class="notification-subject">
+                        {{notification.subject}}
+                    </div>
+                    <p class="notification-desc">
+                        {{notification.description}}
+                    </p>
+                </div>
+            </li>
+        </ul>
+    </div>
+</ng-template>
+
+<ng-template #userOverlay>
+    <div class="overlay overlay-user overlay-fall" cdkMenu>
+        <ul>
+            <li *ngFor="let item of userItems" cdkMenuItem>
+                <a>
+                    <i class="icon" [ngClass]="item.icon"></i>
+                    <span>{{item.label}}</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</ng-template>
+
+<ng-template #userOverlay>
+    <div class="overlay overlay-user overlay-fall" cdkMenu>
+        <ul>
+            <li *ngFor="let item of userItems" cdkMenuItem>
+                <a>
+                    <i class="icon" [ngClass]="item.icon"></i>
+                    <span>{{item.label}}</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</ng-template>
+
+<ng-template #notLoggedOverlay>
+    <div class="overlay overlay-user overlay-fall" cdkMenu>
+        <ul>
+            <li *ngFor="let log of loginItem" cdkMenuItem (click)="openLoginDialog()">
+                <a>
+                    <i class="icon" [ngClass]="log.icon"></i>
+                    <span>{{log.label}}</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</ng-template>
