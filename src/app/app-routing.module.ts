@@ -7,6 +7,7 @@ import { ProductsComponent } from './products/products.component';
 import { SettingsComponent } from './settings/settings.component';
 import { ReserveNowComponent } from './reserve-now/reserve-now.component';
 import { ReserveHistoryComponent } from './reserve-history/reserve-history.component';import { LoginComponent } from './login/login.component';
+import { AuthGuard } from 'src/shared/guards/auth.guard';
 
 
 const routes: Routes = [
@@ -23,8 +24,8 @@ const routes: Routes = [
   },
   {path: 'training', component: TrainingComponent},
   {path: 'products', component: ProductsComponent},
-  {path: 'settings', component: SettingsComponent},
-  { path: 'login', component: LoginComponent },
+  {path: 'settings', component: SettingsComponent, canActivate: [AuthGuard]},
+  {path: 'login', component: LoginComponent },
 ];
 
 @NgModule({

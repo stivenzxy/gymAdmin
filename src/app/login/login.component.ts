@@ -1,15 +1,18 @@
 import { Component } from '@angular/core';
-//import { MatButtonModule } from '@angular/material/button';
-//import { MatDialogModule } from '@angular/material/dialog';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
-  standalone: false,
-  //imports: [MatButtonModule, MatDialogModule],
+  styleUrls: ['./login.component.scss']
 })
+export class LoginComponent {
 
-export class LoginComponent {}
+  constructor(private authService: AuthService) { }
 
+  logInWithGoogle() {
+    this.authService.logInWithGoogleProvider();
+  }
+  
+}
 

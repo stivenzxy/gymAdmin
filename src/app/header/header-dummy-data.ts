@@ -36,14 +36,15 @@ export const userItems = [
         routeLink: 'profile'
     }, 
     {
-        icon: 'fas fa-cog',
-        label: 'Ajustes',
+        icon: 'fas fa-wrench',
+        label: 'Info',
         routeLink: 'ajustes'
     },
     {
         icon: 'fas fa-power-off',
         label: 'Salir',
-        routeLink: 'signOut'
+        //routeLink: 'signOut',
+        action: 'logout'
     }
 ]
 

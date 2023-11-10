@@ -21,7 +21,9 @@
            <!-- Se muestra cuando el usuario está logueado -->
             <div class="head-user-avatar-container" *ngIf="isLoggedIn">
                 <div class="head-user-avatar" [cdkMenuTriggerFor]="userOverlay">
-                    <img src="../../assets/user-example2.jpg" alt="user" class="user-avatar">
+                    <!--<img src="../../assets/user-example2.jpg" alt="user" class="user-avatar">-->
+                        <img [src]="userData?.photoURL" alt="user" class="user-avatar">
+                        <!---<span>{{ userData.displayName }}</span>-->
                     <div class="circle-indicator pulse"></div>
                 </div>
             </div>
@@ -30,7 +32,6 @@
             <div class="head-user-avatar-container" *ngIf="!isLoggedIn">
                 <div class="head-user-avatar" [cdkMenuTriggerFor]="notLoggedOverlay">
                     <img src="../../assets/avatar-signIn2.png" alt="user" class="user-avatar">
-                    <div class="circle-indicator pulse"></div>
                 </div>
             </div>
         </div>
@@ -78,20 +79,7 @@
 <ng-template #userOverlay>
     <div class="overlay overlay-user overlay-fall" cdkMenu>
         <ul>
-            <li *ngFor="let item of userItems" cdkMenuItem>
-                <a>
-                    <i class="icon" [ngClass]="item.icon"></i>
-                    <span>{{item.label}}</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-</ng-template>
-
-<ng-template #userOverlay>
-    <div class="overlay overlay-user overlay-fall" cdkMenu>
-        <ul>
-            <li *ngFor="let item of userItems" cdkMenuItem>
+            <li *ngFor="let item of userItems" cdkMenuItem (click)="selectOptionProfile(item)">
                 <a>
                     <i class="icon" [ngClass]="item.icon"></i>
                     <span>{{item.label}}</span>
