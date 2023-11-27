@@ -1,12 +1,12 @@
-import { Component, HostListener, Input, OnInit, Inject, OnDestroy } from '@angular/core';
-import { themes, notifications, userItems, redirectLogin } from './header-dummy-data';
 import { DOCUMENT } from '@angular/common';
-import { Router } from '@angular/router';
-import { LoginComponent } from '../login/login.component';
+import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AuthService } from 'src/shared/services/auth.service';
+import { Router } from '@angular/router';
+import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Subject, Subscription  } from 'rxjs';
+import { AuthService } from 'src/shared/services/auth.service';
+import { LoginComponent } from '../login/login.component';
+import { notifications, redirectLogin, themes, userItems } from './header-dummy-data';
 
 @Component({
   selector: 'app-header',
@@ -17,7 +17,6 @@ export class HeaderComponent implements OnInit, OnDestroy{
   @Input() collapsed = false;
   @Input() screenWidth = 0;
   private destroy$ = new Subject<void>();
-  
 
   // datos del usuario
   userData: any;
@@ -80,7 +79,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
     }
   }
 
-  changeTheme(theme: any): void {
+  /*changeTheme(theme: any): void {
     this.selectedTheme = theme;
 
     if (theme.class === 'dark-theme') {
@@ -93,6 +92,19 @@ export class HeaderComponent implements OnInit, OnDestroy{
     // guardar en LocalStorage el tema seleccionado
     localStorage.setItem('selectedTheme', JSON.stringify(theme));
     console.log(theme.class)
+  }*/
+
+  toggleTheme(): void {
+    if (this.selectedTheme.class === 'dark-theme') {
+      this.selectedTheme = this.themes.find(theme => theme.class !== 'dark-theme'); 
+      this.document.body.classList.remove('dark-mode');
+    } else {
+      this.selectedTheme = this.themes.find(theme => theme.class === 'dark-theme');
+      this.document.body.classList.add('dark-mode');
+    }
+  
+    // Guardar en LocalStorage el tema seleccionado
+    localStorage.setItem('selectedTheme', JSON.stringify(this.selectedTheme));
   }
 
   openLoginDialog() {

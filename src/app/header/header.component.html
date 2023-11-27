@@ -1,9 +1,9 @@
-<div class="head" [ngClass]="getHeadClass()">
+<div class="head animate__animated animate__fadeIn" [ngClass]="getHeadClass()">
     <div class="head-content">
         <div class="head-content-left">
             <div class="head-menu-left">
                 <div class="head-menu-item">
-                    <button class="head-menu-item-btn ripple" [cdkMenuTriggerFor]="themeOverlay">
+                    <button class="head-menu-item-btn ripple" (click)="toggleTheme()">
                         <img [src]="'assets/themes/' + selectedTheme.icon + '.png' "
                             class="theme" alt="icon">
                     </button>
@@ -18,6 +18,7 @@
                     </button>
                 </div>
             </div>
+           <!-- <img [src]="userData?.photoURL" alt="xd">-->
            <!-- Se muestra cuando el usuario está logueado -->
             <div class="head-user-avatar-container" *ngIf="isLoggedIn">
                 <div class="head-user-avatar" [cdkMenuTriggerFor]="userOverlay">
@@ -38,7 +39,7 @@
     </div>
 </div>
 
-<ng-template #themeOverlay>
+<!--<ng-template #themeOverlay>
     <div class="overlay overlay-theme overlay-fall" cdkMenu>
         <ul>
             <li *ngFor="let theme of themes" cdkMenuItem (click)="changeTheme(theme)">
@@ -47,7 +48,7 @@
             </li>
         </ul>
     </div>
-</ng-template>
+</ng-template>-->
 
 <ng-template #notificationOverlay>
     <div class="overlay overlay-notification overlay-fall" cdkMenu>

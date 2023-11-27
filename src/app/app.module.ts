@@ -4,11 +4,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
+import { AngularFireModule } from '@angular/fire/compat';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import player from 'lottie-web';
+import { CookieService } from 'ngx-cookie-service';
 import { LottieModule } from 'ngx-lottie';
 import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
@@ -16,6 +19,7 @@ import { AppComponent } from './app.component';
 import { BodyComponent } from './body/body.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HeaderComponent } from './header/header.component';
+import { LoadingScreenComponent } from './loading-screen/loading-screen.component';
 import { LoginComponent } from './login/login.component';
 import { ProductsComponent } from './products/products.component';
 import { ReserveHistoryComponent } from './reserve-history/reserve-history.component';
@@ -24,8 +28,6 @@ import { ReserveComponent } from './reserve/reserve.component';
 import { SettingsComponent } from './settings/settings.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { TrainingComponent } from './training/training.component';
-import { AngularFireModule } from '@angular/fire/compat'
-import { CookieService } from 'ngx-cookie-service';
 
 export function playerFactory() {
   return player;
@@ -44,7 +46,8 @@ export function playerFactory() {
     ReserveNowComponent,
     ReserveHistoryComponent,
     HeaderComponent,
-    LoginComponent
+    LoginComponent,
+    LoadingScreenComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +62,9 @@ export function playerFactory() {
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
 
-    AngularFireModule.initializeApp(environment.firebase)
+    AngularFireModule.initializeApp(environment.firebase),
+    ReactiveFormsModule,
+    
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

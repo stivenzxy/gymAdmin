@@ -9,7 +9,7 @@ import { AnimationOptions } from 'ngx-lottie';
 })
 export class TrainingComponent {
   public options: AnimationOptions = {
-    path: '/assets/lottie-animations/workout.json',
+    path: '/assets/lottie-animations/training.json',
     rendererSettings: {
       preserveAspectRatio: 'xMidYMid slice',
       progressiveLoad: true

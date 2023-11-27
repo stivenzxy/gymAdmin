@@ -1,0 +1,63 @@
+<div class="flex flex-col items-center justify-center h-screen">
+    <form class="w-full max-w-xs" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+                Username <span class="text-red-500">*</span>
+            </label>
+            <input type="text" id="username" formControlName="username" placeholder="Enter your username"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                [ngClass]="{ 'border-red-500': loginForm.get('username')!.invalid && loginForm.get('username')!.touched }">
+            <div *ngIf="loginForm.get('username')!.invalid && loginForm.get('username')!.touched"
+                class="text-red-500 text-xs italic">
+                Please enter a username.
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="number1">
+                Number Input 1 <span class="text-red-500">*</span>
+            </label>
+            <input type="number" id="number1" formControlName="number1" placeholder="Enter number"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                [ngClass]="{ 'border-red-500': loginForm.get('number1')!.invalid && loginForm.get('number1')!.touched }">
+            <div *ngIf="loginForm.get('number1')!.invalid && loginForm.get('number1')!.touched"
+                class="text-red-500 text-xs italic">
+                Please enter a number.
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="number2">
+                Number Input 2 <span class="text-red-500">*</span>
+            </label>
+            <input type="number" id="number2" formControlName="number2" placeholder="Enter another number"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                [ngClass]="{ 'border-red-500': loginForm.get('number2')!.invalid && loginForm.get('number2')!.touched }">
+            <div *ngIf="loginForm.get('number2')!.invalid && loginForm.get('number2')!.touched"
+                class="text-red-500 text-xs italic">
+                Please enter another number.
+            </div>
+        </div>
+
+        <div class="mb-6">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="date">
+                Date <span class="text-red-500">*</span>
+            </label>
+            <input type="date" id="date" formControlName="date"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                [ngClass]="{ 'border-red-500': loginForm.get('date')!.invalid && loginForm.get('date')!.touched }">
+            <div *ngIf="loginForm.get('date')!.invalid && loginForm.get('date')!.touched"
+                class="text-red-500 text-xs italic">
+                Please enter a date.
+            </div>
+        </div>
+
+        <div class="flex items-center justify-between">
+            <button
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                type="submit">
+                Submit
+            </button>
+        </div>
+    </form>
+</div>

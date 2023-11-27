@@ -1,1 +1,74 @@
-<p>reserve-now works!</p>
+ <div class="container mx-auto mt-4 p-6 bg-white shadow-md rounded-lg animate__animated animate__fadeIn">
+    <h1 class="title text-2xl font-bold mb-8">Bienvenido al área de reservas!</h1>
+    <div class="flex flex-col md:flex-row md:space-x-12">
+      <div class="w-full md:w-1/2">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-5">
+          <div class="input">
+            <label class="inputLabel block text-sm font-medium">Programa (carrera que cursa)</label>
+            <input formControlName="programa" type="text" placeholder="Ingrese su programa" class="mt-1 p-2 block w-full rounded-md border">
+            <div class="text-red-500 text-xs mt-1 h-2">
+              <span *ngIf="loginForm.get('programa')!.invalid && loginForm.get('programa')!.touched">
+                Por favor ingrese su programa
+              </span>
+            </div>
+          </div>
+          <div class="input">
+            <label class="inputLabel block text-sm font-medium">Hora en la que desea entrenar</label>
+            <input formControlName="hora" type="time" min="07:00" max="18:00" class="mt-1 p-2 block w-full rounded-md border">
+            <div class="text-red-500 text-xs mt-1 h-2">
+              <span *ngIf="loginForm.get('hora')!.invalid && loginForm.get('hora')!.touched">
+                Ingrese la hora en la que desea entrenar
+              </span>
+            </div>
+          </div>
+          <div class="input">
+            <label class="inputLabel block text-sm font-medium">Fecha en la que desea reservar</label>
+            <input formControlName="fecha" type="date" class="mt-1 p-2 block w-full rounded-md border">
+            <div class="text-red-500 text-xs mt-1 h-2">
+              <span *ngIf="loginForm.get('fecha')!.invalid && loginForm.get('fecha')!.touched">
+                Por favor seleccione la fecha
+              </span>
+            </div>
+          </div>
+          <div class="input">
+            <label class="inputLabel block text-sm font-medium">Cantidad de horas a reservar</label>
+            <input formControlName="cantHoras" type="number" max="12" placeholder="Digite el número de horas" class="mt-1 p-2 block w-full rounded-md border">
+            <div class="text-red-500 text-xs mt-1 h-2">
+              <span *ngIf="loginForm.get('cantHoras')!.hasError('required') && loginForm.get('cantHoras')!.touched">
+                Digite el número de horas
+              </span>
+              <span *ngIf="loginForm.get('cantHoras')!.hasError('max')">
+                El máximo número de horas es 12
+              </span>
+            </div>
+          </div>
+            
+          <div class="flex justify-start">
+            <button type="submit" class="px-6 py-2 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+              Reservar
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div class="w-full md:w-1/2 md:mt-0 mt-16 flex flex-col items-center">
+        <img src="../../assets/calendar.png" alt="Calendario" class="w-32 h-32">
+        <div class="containerHorario mt-6 p-8 rounded-lg w-full md:max-w-md">
+          <h1 class="text-lg font-bold">Horario:</h1>
+          <p class="mt-2">Lunes - Viernes: 8am - 6pm</p>
+          <p>Sábado: 8am - 1pm</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="recomendations flex h-auto md:h-80 mt-20 w-full bg-slate-500 rounded-lg flex-col md:flex-row p-4">
+      <div class="lottie-animation md:w-[35%]">
+        <ng-lottie [options]="options" (animationCreated)="animationCreated($event)"></ng-lottie>
+      </div> 
+      <div class="text-recomendation w-full md:w-1/2 flex items-center justify-center flex-col p-4">
+        <h1 class="text-xl md:text-2x1 font-bold mb-4 text-center">Recomendaciones para ti:</h1>
+        <h3  class="recomendationsText text-md md:text-lg text-center">{{ recomendacionAleatoria }}</h3>
+      </div>
+    </div>    
+  </div>
+  
