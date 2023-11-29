@@ -2,43 +2,40 @@
     <h1 class="title text-2xl font-bold mb-8">Bienvenido al área de reservas!</h1>
     <div class="flex flex-col md:flex-row md:space-x-12">
       <div class="w-full md:w-1/2">
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-5">
-          <div class="input">
-            <label class="inputLabel block text-sm font-medium">Programa (carrera que cursa)</label>
-            <input formControlName="programa" type="text" placeholder="Ingrese su programa" class="mt-1 p-2 block w-full rounded-md border">
-            <div class="text-red-500 text-xs mt-1 h-2">
-              <span *ngIf="loginForm.get('programa')!.invalid && loginForm.get('programa')!.touched">
-                Por favor ingrese su programa
-              </span>
-            </div>
-          </div>
+        <form [formGroup]="reserveForm" (ngSubmit)="onSubmit()" class="space-y-5">
           <div class="input">
             <label class="inputLabel block text-sm font-medium">Hora en la que desea entrenar</label>
-            <input formControlName="hora" type="time" min="07:00" max="18:00" class="mt-1 p-2 block w-full rounded-md border">
+            <input formControlName="hora" type="time" min="07:00" max="18:00" class="mt-1 p-2 block w-full rounded-md border"
+            [ngClass]="{ 'border-red-500': reserveForm.get('hora')!.invalid && reserveForm.get('hora')!.touched }">
             <div class="text-red-500 text-xs mt-1 h-2">
-              <span *ngIf="loginForm.get('hora')!.invalid && loginForm.get('hora')!.touched">
+              <span *ngIf="reserveForm.get('hora')!.invalid && reserveForm.get('hora')!.touched">
                 Ingrese la hora en la que desea entrenar
               </span>
             </div>
           </div>
           <div class="input">
             <label class="inputLabel block text-sm font-medium">Fecha en la que desea reservar</label>
-            <input formControlName="fecha" type="date" class="mt-1 p-2 block w-full rounded-md border">
+            <input formControlName="fecha" type="date" class="mt-1 p-2 block w-full rounded-md border" 
+            [ngClass]="{ 'border-red-500': reserveForm.get('fecha')!.invalid && reserveForm.get('fecha')!.touched && !reserveForm.get('fecha')!.errors?.['pastDate']}">
             <div class="text-red-500 text-xs mt-1 h-2">
-              <span *ngIf="loginForm.get('fecha')!.invalid && loginForm.get('fecha')!.touched">
+              <span *ngIf="reserveForm.get('fecha')!.invalid && reserveForm.get('fecha')!.touched && !reserveForm.get('fecha')!.errors?.['pastDate']">
                 Por favor seleccione la fecha
+              </span>
+              <span *ngIf="reserveForm.get('fecha')!.errors?.['pastDate']">
+                La fecha no puede ser inferior a la actual
               </span>
             </div>
           </div>
           <div class="input">
             <label class="inputLabel block text-sm font-medium">Cantidad de horas a reservar</label>
-            <input formControlName="cantHoras" type="number" max="12" placeholder="Digite el número de horas" class="mt-1 p-2 block w-full rounded-md border">
+            <input formControlName="cantHoras" type="number" max="12" placeholder="Digite el número de horas" class="mt-1 p-2 block w-full rounded-md border"
+            [ngClass]="{ 'border-red-500': reserveForm.get('cantHoras')!.invalid && reserveForm.get('cantHoras')!.touched }">
             <div class="text-red-500 text-xs mt-1 h-2">
-              <span *ngIf="loginForm.get('cantHoras')!.hasError('required') && loginForm.get('cantHoras')!.touched">
+              <span *ngIf="reserveForm.get('cantHoras')!.hasError('required') && reserveForm.get('cantHoras')!.touched">
                 Digite el número de horas
               </span>
-              <span *ngIf="loginForm.get('cantHoras')!.hasError('max')">
-                El máximo número de horas es 12
+              <span *ngIf="reserveForm.get('cantHoras')!.hasError('max')">
+                El máximo número de horas es 2
               </span>
             </div>
           </div>

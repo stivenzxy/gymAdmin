@@ -19,7 +19,7 @@ import { AppComponent } from './app.component';
 import { BodyComponent } from './body/body.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HeaderComponent } from './header/header.component';
-import { LoadingScreenComponent } from './loading-screen/loading-screen.component';
+import { InitformComponent } from './initform/initform.component';
 import { LoginComponent } from './login/login.component';
 import { ProductsComponent } from './products/products.component';
 import { ReserveHistoryComponent } from './reserve-history/reserve-history.component';
@@ -47,7 +47,7 @@ export function playerFactory() {
     ReserveHistoryComponent,
     HeaderComponent,
     LoginComponent,
-    LoadingScreenComponent
+    InitformComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +63,7 @@ export function playerFactory() {
     provideAuth(() => getAuth()),
 
     AngularFireModule.initializeApp(environment.firebase),
-    ReactiveFormsModule,
+    ReactiveFormsModule
     
   ],
   providers: [CookieService],

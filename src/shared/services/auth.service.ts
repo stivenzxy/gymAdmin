@@ -4,12 +4,19 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject, Subject } from 'rxjs';
+import { HttpClient } from '@angular/common/http'
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
+  //////////////////////////////////////////
+  // para enviar el Uid y el nombre de usuario al backend:
+  private apiUrl = 'http://backendUrl'
+ //////////////////////////////////////////
+
+ 
   private logoutSubject = new Subject<void>();
   public onLogout = this.logoutSubject.asObservable();
   userData: any;
@@ -18,6 +25,7 @@ export class AuthService {
   public user = this.userSubject.asObservable();
 
   constructor(
+    private http: HttpClient,
     private firebaseAuthenticationService: AngularFireAuth,
     private router: Router,
     private ngZone: NgZone,
@@ -29,9 +37,13 @@ export class AuthService {
         this.userSubject.next(this.userData);
         this.cookieService.set('user', JSON.stringify(this.userData));
 
-        console.log('Nombre del usuario:', user.displayName);
+        const uid = user.uid;
+        const usernameClient = user.displayName ?? '';
+
+        this.sendUserDataToBackend(uid, usernameClient);
+        /*console.log('Nombre del usuario:', user.displayName);
         console.log('Email del usuario:', user.email);
-        console.log('Foto de perfil del usuario:', user.photoURL);
+        console.log('Foto de perfil del usuario:', user.photoURL);*/
       } else {
         this.userSubject.next(null);
         this.cookieService.delete('user');
@@ -67,5 +79,21 @@ export class AuthService {
       //this.onLogout.emit();
       this.logoutSubject.next();
     })
+  }
+
+
+
+  /// enviar los datos al backend
+  sendUserDataToBackend(uid: string, usernameClient: string) {
+    console.log(uid, usernameClient);
+    const body = { uid: uid, displayName: usernameClient };
+    return this.http.post(this.apiUrl, body).subscribe({
+      next: response => {
+        alert('Datos enviados correctamente');
+      },
+      error: error => {
+       // alert('Error al enviar los datos' + error);
+      }
+    });
   }
 }

@@ -3,10 +3,42 @@
     <mat-icon>close</mat-icon>
   </button>
 <mat-dialog-content class="mat-typography modal-container">
-  <div class="p-text">Inicia sesión para elevar tu entrenamiento. 
-    Reservas, productos especializados y más te esperan. 
-    ¡Conéctate con nosotros!</div>
-  <button mat-raised-button class="google-btn" (click)="logInWithGoogle()">
+  <!--Aqui debe ir el form de administrador-->
+  <form [formGroup]="adminForm" class="space-y-4" (ngSubmit)="submitDataAdmin()">
+    <div class="p-text">Si eres administrador ingresa los datos de acceso:</div>
+    <div class="input">
+      <input formControlName="username" type="text" name="username" placeholder="Usuario" class="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500" required
+      [ngClass]="{ 'border-red-500' : adminForm.get('username')!.invalid && adminForm.get('username')!.touched }">
+      <div class="text-red-500 text-xs mt-1 h-2">
+        <span *ngIf="adminForm.get('username')!.invalid && adminForm.get('username')!.touched">
+          Ingrese el nombre de usuario
+        </span>
+      </div>
+    </div>
+    <div class="input">
+      <input formControlName="password" type="password" name="password" placeholder="Contraseña" class="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500" required
+      [ngClass]="{ 'border-red-500' : adminForm.get('password')!.invalid && adminForm.get('password')!.touched }">
+      <div class="text-red-500 text-xs mt-1 h-2">
+        <span *ngIf="adminForm.get('username')!.invalid && adminForm.get('username')!.touched">
+          Ingrese la contraseña
+        </span>
+      </div>
+    </div>
+    <div>
+      <button type="submit" class="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500">Iniciar Sesión</button>
+    </div>
+  </form>
+  <!--O si eres cliente inicia sesion con google-->
+  <div class="relative my-6">
+    <div class="absolute inset-0 flex items-center" aria-hidden="true">
+      <div class="w-full border-t border-gray-300"></div>
+    </div>
+    <div class="relative flex justify-center text-sm">
+      <span class="px-2 bg-white text-gray-500">o</span>
+    </div>
+  </div>
+  <div class="p-text">Si eres cliente accede con tu cuenta de google:</div>
+  <button mat-raised-button class="google-btn mt-4" (click)="logInWithGoogle()">
     <img src="../../assets/google.png" alt="Google Icon" class="google-icon"> Continuar con Google
   </button>
 </mat-dialog-content>

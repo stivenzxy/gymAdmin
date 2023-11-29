@@ -36,6 +36,7 @@ p {
 
 input {
     background-color: var(--body-primary);
+    color: var(--placeholder);
 }
 
 ::placeholder { /* Firefox 51+, Chrome 57+ */
