@@ -1,3 +1,5 @@
+<div class="overlay" *ngIf="collapsed" (click)="closeSidenav()"></div>
+
 <div class="sidenav fixed z-10 top-0 w-16 h-screen" #sidenavContainer [ngClass]="collapsed ? 'sidenav-collapsed' : ''">
     <div class="logo-container flex items-center justify-center pt-8 pr-4 w-full" [ngStyle]="{ 'padding-left': !collapsed ? '1rem' : '0' }">
         <button class="logo text-black p-1 rounded-md text-center w-12 min-w-12 text-2xl font-extrabold cursor-pointer border-none" @fadeInOut (click)="toggleCollapse()" (click)="closeAllSubMenu()">

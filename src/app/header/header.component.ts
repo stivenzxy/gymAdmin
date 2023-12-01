@@ -7,6 +7,7 @@ import { takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/shared/services/auth.service';
 import { LoginComponent } from '../login/login.component';
 import { notifications, redirectLogin, themes, userItems } from './header-dummy-data';
+import { LoginAdminService } from 'src/shared/services/login-admin.service';
 
 @Component({
   selector: 'app-header',
@@ -19,11 +20,12 @@ export class HeaderComponent implements OnInit, OnDestroy{
   private destroy$ = new Subject<void>();
 
   // datos del usuario
+  usuarioLogueado: boolean = false;
   userData: any;
   userSubscription!: Subscription;
 
   constructor(@Inject(DOCUMENT) private document :Document, private router: Router, public dialog: MatDialog,
-   private authService: AuthService) {
+   private authService: AuthService, private adminService: LoginAdminService) {
     this.authService.onLogout.pipe(
       takeUntil(this.destroy$)
     ).subscribe(() => {
@@ -60,6 +62,8 @@ export class HeaderComponent implements OnInit, OnDestroy{
     this.userSubscription = this.authService.user.subscribe(user => {
       this.userData = user;
     });
+
+    this.usuarioLogueado = this.adminService.isLoggedIn();
   }
   
 
@@ -78,21 +82,6 @@ export class HeaderComponent implements OnInit, OnDestroy{
       this.authService.logOut();
     }
   }
-
-  /*changeTheme(theme: any): void {
-    this.selectedTheme = theme;
-
-    if (theme.class === 'dark-theme') {
-      this.document.body.classList.add('dark-mode');
-      //alert('modo oscuro eleccionado');
-    } else {
-      this.document.body.classList.remove('dark-mode');
-      //alert('modo claro seleccionado');
-    }
-    // guardar en LocalStorage el tema seleccionado
-    localStorage.setItem('selectedTheme', JSON.stringify(theme));
-    console.log(theme.class)
-  }*/
 
   toggleTheme(): void {
     if (this.selectedTheme.class === 'dark-theme') {
@@ -115,6 +104,10 @@ export class HeaderComponent implements OnInit, OnDestroy{
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+  get loggedAdmin() : boolean {
+    return this.adminService.isLoggedIn();
   }
 
   get isLoggedIn(): boolean {

@@ -20,7 +20,7 @@
             </div>
            <!-- <img [src]="userData?.photoURL" alt="xd">-->
            <!-- Se muestra cuando el usuario está logueado -->
-            <div class="head-user-avatar-container" *ngIf="isLoggedIn">
+            <div class="head-user-avatar-container" *ngIf="isLoggedIn || usuarioLogueado">
                 <div class="head-user-avatar" [cdkMenuTriggerFor]="userOverlay">
                     <!--<img src="../../assets/user-example2.jpg" alt="user" class="user-avatar">-->
                         <img [src]="userData?.photoURL" alt="user" class="user-avatar">
@@ -38,17 +38,6 @@
         </div>
     </div>
 </div>
-
-<!--<ng-template #themeOverlay>
-    <div class="overlay overlay-theme overlay-fall" cdkMenu>
-        <ul>
-            <li *ngFor="let theme of themes" cdkMenuItem (click)="changeTheme(theme)">
-                <img [src]="'assets/themes/' + theme.icon + '.png'" alt="theme">
-                <span>{{theme.name}}</span>
-            </li>
-        </ul>
-    </div>
-</ng-template>-->
 
 <ng-template #notificationOverlay>
     <div class="overlay overlay-notification overlay-fall" cdkMenu>

@@ -3,6 +3,7 @@ import { AuthService } from '../../shared/services/auth.service';
 import { LoginAdminService } from 'src/shared/services/login-admin.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -31,15 +32,25 @@ export class LoginComponent implements OnInit, OnDestroy{
       //alert('Datos enviados!');
       this.loginAdmin.submitDataAdmin(this.adminForm.value).subscribe({
         next: (response: any) => {
-          if(response.success) { // success es la respuesta exitosa del backend
-            alert('Inicio de sesión exitoso');
+          if(response.success) {
+            //alert('Inicio de sesión exitoso: ' + response.message);
+            this.loginAdmin.saveUserData(response.data);
+            Swal.fire({
+              title: response.message,
+              confirmButtonText: "Aceptar",
+              icon: "success"
+            });
             this.router.navigate(['dashboard']);
           } else {
-            alert('Usuario o contraseña incorrectos');
+            alert('Error: ' + response.message);
           }
         },
         error: (error) => {
-          alert('Error de conexion con el servidor' + error.message) // error al devolver la respuesta de django
+          if(error.error && error.error.message) {
+            alert('Error de autenticación: ' + error.error.message);
+          } else {
+            alert('Error de conexión con el servidor: ' + error.message);
+          }
         }
       })
     } else {

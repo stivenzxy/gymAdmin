@@ -1,3 +1,7 @@
-h1 {
+h1, h2 {
     color: var(--h1-title);
+}
+
+select {
+    background-color: var(--body-primary);
 }

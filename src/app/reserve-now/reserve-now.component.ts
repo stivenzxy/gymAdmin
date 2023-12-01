@@ -6,6 +6,7 @@ import { RecomendacionesService } from '../../shared/services/recomendations.ser
 import { recomendaciones } from './recomendaciones';
 import { ReservarService } from 'src/shared/services/reservar.service';
 import { futureDateValidator } from './validator.date';
+import  Swal from 'sweetalert2';
 @Component({
   selector: 'app-reserve-now',
   templateUrl: './reserve-now.component.html',
@@ -37,20 +38,49 @@ export class ReserveNowComponent implements OnInit, OnDestroy{
 
   onSubmit() {
     if (this.reserveForm.valid) {
-      this.reserveService.submitDataReserve(this.reserveForm.value).subscribe({
-        next: (response : any) => {
-          if(response.success) { // success es la respuesta exitosa del backend
-            alert('Reserva realizada correctamente');
-          } else {
-            alert('Verifique los datos ingresados');
+      const reservationObservable = this.reserveService.submitDataReserve(this.reserveForm.value);
+  
+      if (reservationObservable) {
+        reservationObservable.subscribe({
+          next: (response: any) => {
+            if (response.success) { // success es la respuesta exitosa del backend
+              Swal.fire({
+                title: "Reserva realizada correctamente",
+                text: "Continue navegando por nuestro sitio",
+                confirmButtonText: "Aceptar",
+                confirmButtonColor: '#1C36B5',
+                icon: "success"
+              }).then((result) => {
+                if(result.isConfirmed) {
+                  window.location.reload();
+                }
+              });;
+            } else {
+              Swal.fire({
+                title: "Error inesperado",
+                text: "Verifique la información ingresada o comuníquese con soporte técnico",
+                confirmButtonText: "Aceptar",
+                icon: "warning"
+              });
+            }
+          },
+          error: (error) => {
+            Swal.fire({
+              title: "Error!",
+              text: "Ha ocurrido un error: " + error.error.message,
+              confirmButtonText: "Aceptar",
+              icon: "warning"
+            });
           }
-        },
-        error: (error) => {
-          alert('Error de conexion con el servidor' + error.message); // error al devolver la respuesta de django
-        }
-      });
-
-      // Handle the form submission
+        });
+      } else {
+        Swal.fire({
+          title: "Acceso Denegado",
+          text: "Debes iniciar sesión para realizar una reserva.",
+          confirmButtonText: "Aceptar",
+          icon: "warning"
+        });
+      }
     } else {
       // Si el formulario no es válido, marca todos los controles como tocados para mostrar los mensajes de error
       Object.keys(this.reserveForm.controls).forEach(field => {

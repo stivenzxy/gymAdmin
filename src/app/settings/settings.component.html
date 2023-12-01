@@ -1,2 +1,34 @@
-<h1 class="font-extrabold text-3xl">Ajustes</h1>
-
+<div class="container mx-auto p-4">
+    <h1 class="text-2xl font-bold mb-8">Administración de Usuarios</h1>
+    
+    <!-- Sección de Penalización de Usuarios -->
+    <div class="mb-12">
+      <h2 class="text-xl font-semibold mb-3">Penalizar Usuarios</h2>
+      <div class="flex flex-col md:flex-row md:items-end gap-3">
+        <select class="form-select block w-full md:w-auto rounded-md">
+          <!-- Opciones de usuarios generadas dinámicamente -->
+        </select>
+        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+          Penalizar
+        </button>
+      </div>
+    </div>
+  
+    <!-- Sección de Descarga de Reportes -->
+    <div class="mb-12">
+      <h2 class="text-xl font-semibold mb-3">Descargar Reportes</h2>
+      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" (click)="descargar()">
+        <i class="fa-solid fa-file mr-2 text-white"></i>
+        Descargar Reporte
+      </button>
+    </div>
+  
+    <!-- Tabla de Usuarios 
+    <div>
+      <h2 class="text-xl font-semibold mb-3">Usuarios</h2>
+      <table class="min-w-full">
+        Cabezera y Cuerpo de la Tabla 
+      </table>
+    </div>-->
+  </div>
+  

@@ -14,6 +14,18 @@ input[type='time']::-webkit-datetime-edit-year-field {
   color: var(--placeholder);
 }
 
+/* Para ocultar las flechas en navegadores basados en WebKit (como Chrome, Safari) */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Para ocultar las flechas en Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 h1 {
     color: var(--h1-title);
 }

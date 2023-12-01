@@ -1,1 +1,32 @@
-<p>initform works!</p>
+<!-- login-dialog.component.html -->
+<h2 mat-dialog-title>
+  <h1>Por favor ingresa estos datos adicionales para tu registro!</h1>
+</h2>
+<button mat-icon-button class="close-button" [mat-dialog-close]="false">
+  <mat-icon>close</mat-icon>
+</button>
+<mat-dialog-content class="mat-typography modal-container">
+    <form [formGroup]="extraDataForm" class="space-y-4" (ngSubmit)="submitExtraData()">
+        <div class="input">
+          <input formControlName="programa" type="text" name="programa" placeholder="Programa (carrera que estudia)" class="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500" required
+          [ngClass]="{ 'border-red-500' : extraDataForm.get('programa')!.invalid && extraDataForm.get('programa')!.touched }">
+          <div class="text-red-500 text-xs mt-1 h-2">
+            <span *ngIf="extraDataForm.get('programa')!.invalid && extraDataForm.get('programa')!.touched">
+              Ingrese su programa (carrera que estudia)
+            </span>
+          </div>
+        </div>
+        <div class="input">
+          <input formControlName="codigo" type="codigo" name="codigo" placeholder="Codigo estudiantil" class="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500" required
+          [ngClass]="{ 'border-red-500' : extraDataForm.get('codigo')!.invalid && extraDataForm.get('codigo')!.touched }">
+          <div class="text-red-500 text-xs mt-1 h-2">
+            <span *ngIf="extraDataForm.get('codigo')!.invalid && extraDataForm.get('codigo')!.touched">
+              Ingrese su codigo estudiantil
+            </span>
+          </div>
+        </div>
+        <div>
+          <button type="submit" class="w-full px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-800 focus:outline-none focus:ring-2 focus:ring-slate-500">Enviar</button>
+        </div>
+      </form>
+</mat-dialog-content>

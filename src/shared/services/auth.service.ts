@@ -5,6 +5,9 @@ import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http'
+import { InitformComponent } from 'src/app/initform/initform.component';
+import { MatDialog } from '@angular/material/dialog';
+import { SharedService } from './shared.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +16,7 @@ export class AuthService {
 
   //////////////////////////////////////////
   // para enviar el Uid y el nombre de usuario al backend:
-  private apiUrl = 'http://backendUrl'
+  private apiUrl = 'http://172.17.213.169:8000/CheckUser/'
  //////////////////////////////////////////
 
  
@@ -29,7 +32,9 @@ export class AuthService {
     private firebaseAuthenticationService: AngularFireAuth,
     private router: Router,
     private ngZone: NgZone,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private dialog: MatDialog,
+    private sharedService: SharedService
   ) {
     this.firebaseAuthenticationService.authState.subscribe((user) => {
       if(user) {
@@ -39,12 +44,19 @@ export class AuthService {
 
         const uid = user.uid;
         const usernameClient = user.displayName ?? '';
+        const emailClient = user.email ?? '';
 
         this.sendUserDataToBackend(uid, usernameClient);
+
+        if (this.userData && this.userData.uid) {
+          this.sharedService.changeUser(this.userData);
+        }
         /*console.log('Nombre del usuario:', user.displayName);
         console.log('Email del usuario:', user.email);
         console.log('Foto de perfil del usuario:', user.photoURL);*/
       } else {
+        this.userData = null;
+        this.sharedService.changeUser(null);
         this.userSubject.next(null);
         this.cookieService.delete('user');
       }
@@ -75,6 +87,7 @@ export class AuthService {
     return this. firebaseAuthenticationService.signOut().then(() => {
       this.cookieService.deleteAll('/');
       this.userSubject.next(null); // se establecen en null los datos al cerrar la sesion
+      this.sharedService.changeUser(null);
       this.router.navigate(['dashboard']);
       //this.onLogout.emit();
       this.logoutSubject.next();
@@ -87,13 +100,32 @@ export class AuthService {
   sendUserDataToBackend(uid: string, usernameClient: string) {
     console.log(uid, usernameClient);
     const body = { uid: uid, displayName: usernameClient };
-    return this.http.post(this.apiUrl, body).subscribe({
-      next: response => {
-        alert('Datos enviados correctamente');
+    return this.http.post<any>(this.apiUrl, body).subscribe({
+      next: (response) => {
+        console.log('Respuesta del servidor:', response);
+        if (response.user_exists) {
+          console.log('El usuario existe');
+        } else {
+         // alert('El usuario no existe');
+          this.openLoginDialog();
+        }
       },
-      error: error => {
-       // alert('Error al enviar los datos' + error);
+      error: (error) => {
+        console.error('Error al enviar los datos', error);
       }
     });
   }
+
+  openLoginDialog(): void {
+    const dialogRef = this.dialog.open(InitformComponent, {
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+
+  
 }

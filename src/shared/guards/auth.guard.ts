@@ -22,7 +22,7 @@ export const AuthGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: R
       try {
         Swal.fire({
           title: 'Acceso Denegado!',
-          text: 'Necesitas iniciar sesion para acceder a esta funcion',
+          text: 'Necesitas iniciar sesion como administrador para acceder a esta funcion',
           icon: 'warning',
           showCancelButton: true,
           confirmButtonText: 'Iniciar Sesion',
