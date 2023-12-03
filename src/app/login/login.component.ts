@@ -37,6 +37,7 @@ export class LoginComponent implements OnInit, OnDestroy{
             this.loginAdmin.saveUserData(response.data);
             Swal.fire({
               title: response.message,
+              text: 'Bienvenido!, usted ha ingresado con privilegios de administrador',
               confirmButtonText: "Aceptar",
               icon: "success"
             }).then((result) => {

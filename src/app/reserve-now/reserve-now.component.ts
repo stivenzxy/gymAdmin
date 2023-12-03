@@ -32,7 +32,7 @@ export class ReserveNowComponent implements OnInit, OnDestroy{
     this.reserveForm = this.fb.group({
       hora: ['', [Validators.required]],
       cantHoras: ['', [Validators.required, Validators.max(2)]],
-      fecha: ['', [Validators.required, futureDateValidator()]]
+      fecha_reserva: ['', [Validators.required, futureDateValidator()]]
     });
   }
 
@@ -57,8 +57,8 @@ export class ReserveNowComponent implements OnInit, OnDestroy{
               });;
             } else {
               Swal.fire({
-                title: "Error inesperado",
-                text: "Verifique la información ingresada o comuníquese con soporte técnico",
+                title: "Ups!....",
+                text: response.message,
                 confirmButtonText: "Aceptar",
                 icon: "warning"
               });
@@ -76,7 +76,7 @@ export class ReserveNowComponent implements OnInit, OnDestroy{
       } else {
         Swal.fire({
           title: "Acceso Denegado",
-          text: "Debes iniciar ser cliente e iniciar sesion con google para realizar una reserva.",
+          text: "Debes ser cliente e iniciar sesion con google para realizar una reserva.",
           confirmButtonText: "Aceptar",
           icon: "warning"
         });

@@ -24,8 +24,16 @@ export class ReservarService {
   }
 
   submitDataReserve(formData: any) {
+    var currentDate = new Date();
+
+    var day = String(currentDate.getDate()).padStart(2, '0');
+    var month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    var year = currentDate.getFullYear();
+
+    const currentDateString = year + '-' + month + '-' + day;
+
     if (this.currentUser) {
-      const dataWithUid = { ...formData, uid: this.currentUser };
+      const dataWithUid = { ...formData, uid: this.currentUser, fecha_actual: currentDateString};
       console.log(dataWithUid);
       return this.http.post(this.apiUrl, dataWithUid);
     } else {

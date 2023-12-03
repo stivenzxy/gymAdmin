@@ -15,13 +15,13 @@
           </div>
           <div class="input">
             <label class="inputLabel block text-sm font-medium">Fecha en la que desea reservar</label>
-            <input formControlName="fecha" type="date" class="mt-1 p-2 block w-full rounded-md border" 
-            [ngClass]="{ 'border-red-500': reserveForm.get('fecha')!.invalid && reserveForm.get('fecha')!.touched && !reserveForm.get('fecha')!.errors?.['pastDate']}">
+            <input formControlName="fecha_reserva" type="date" class="mt-1 p-2 block w-full rounded-md border" 
+            [ngClass]="{ 'border-red-500': reserveForm.get('fecha_reserva')!.invalid && reserveForm.get('fecha_reserva')!.touched && !reserveForm.get('fecha_reserva')!.errors?.['pastDate']}">
             <div class="text-red-500 text-xs mt-1 h-2">
-              <span *ngIf="reserveForm.get('fecha')!.invalid && reserveForm.get('fecha')!.touched && !reserveForm.get('fecha')!.errors?.['pastDate']">
+              <span *ngIf="reserveForm.get('fecha_reserva')!.invalid && reserveForm.get('fecha_reserva')!.touched && !reserveForm.get('fecha_reserva')!.errors?.['pastDate']">
                 Por favor seleccione la fecha
               </span>
-              <span *ngIf="reserveForm.get('fecha')!.errors?.['pastDate']">
+              <span *ngIf="reserveForm.get('fecha_reserva')!.errors?.['pastDate']">
                 La fecha no puede ser inferior a la actual
               </span>
             </div>
