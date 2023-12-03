@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
   private destroy$ = new Subject<void>();
 
   // datos del usuario
-  usuarioLogueado: boolean = false;
+  adminLogueado: boolean = false;
   userData: any;
   userSubscription!: Subscription;
 
@@ -63,7 +63,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
       this.userData = user;
     });
 
-    this.usuarioLogueado = this.adminService.isLoggedIn();
+    this.adminLogueado = this.adminService.isLoggedIn();
   }
   
 
@@ -80,6 +80,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
   selectOptionProfile(itemProfile: any) : void {
     if(itemProfile.action === 'logout') {
       this.authService.logOut();
+      this.adminService.logout();
     }
   }
 

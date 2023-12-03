@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { ReportService } from 'src/shared/services/report.service';
+import { PenalizarComponent } from '../penalizar/penalizar.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-settings',
@@ -8,7 +10,7 @@ import { ReportService } from 'src/shared/services/report.service';
 })
 export class SettingsComponent {
 
-  constructor(private reporteService : ReportService){}
+  constructor(private reporteService : ReportService, private dialog : MatDialog){}
 
   descargar() {
     this.reporteService.descargarReporte().subscribe(data => {
@@ -20,4 +22,19 @@ export class SettingsComponent {
       window.URL.revokeObjectURL(url);
     });
   }
+
+  penalizar() {
+    this.openLoginDialog();
+  }
+
+  openLoginDialog(): void {
+    const dialogRef = this.dialog.open(PenalizarComponent, {
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
 }

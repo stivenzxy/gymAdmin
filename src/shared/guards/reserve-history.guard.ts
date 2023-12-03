@@ -2,20 +2,16 @@ import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } fr
 import { AuthService } from '../services/auth.service';
 import { inject } from '@angular/core';
 import Swal from 'sweetalert2';
-import { DialogService } from '../guards/dialog.service';
-import { LoginAdminService } from '../services/login-admin.service';
 
-export const AuthGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+export const reserveHistoryGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
   console.log('AuthGuard is running');
   const authService = inject(AuthService);
-  const adminService = inject(LoginAdminService);
   const router = inject(Router);
-  const dialog = inject(DialogService);
 
-  const isAdminLoggedIn = adminService.isLoggedIn();
+  const isClientLogin = authService.isLoggedIn;
 
   // El guard debe activarse si no hay un administrador logueado.
-  if (!isAdminLoggedIn) {
+  if (!isClientLogin) {
     guardAlert();
     //router.navigate(['dashboard']);
     return false; // Previene la navegación porque no hay un administrador logueado
@@ -26,7 +22,7 @@ export const AuthGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: R
       try {
         Swal.fire({
           title: 'Acceso Denegado!',
-          text: 'Necesitas iniciar sesion como administrador para acceder a esta funcion',
+          text: 'Solo los clientes pueden visualizar sus historiales de reservas.',
           icon: 'warning',
           showCancelButton: false,
           confirmButtonText: 'Aceptar',

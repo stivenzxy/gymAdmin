@@ -76,7 +76,7 @@ export class ReserveNowComponent implements OnInit, OnDestroy{
       } else {
         Swal.fire({
           title: "Acceso Denegado",
-          text: "Debes iniciar sesión para realizar una reserva.",
+          text: "Debes iniciar ser cliente e iniciar sesion con google para realizar una reserva.",
           confirmButtonText: "Aceptar",
           icon: "warning"
         });

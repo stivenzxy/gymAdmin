@@ -9,6 +9,7 @@ import { ReserveNowComponent } from './reserve-now/reserve-now.component';
 import { ReserveHistoryComponent } from './reserve-history/reserve-history.component';import { LoginComponent } from './login/login.component';
 import { AuthGuard } from 'src/shared/guards/auth.guard';
 import { InitformComponent } from './initform/initform.component';
+import { reserveHistoryGuard } from 'src/shared/guards/reserve-history.guard';
 
 
 const routes: Routes = [
@@ -20,7 +21,7 @@ const routes: Routes = [
     children: [
       {path: '', redirectTo: 'now', pathMatch: 'full'}, // Redireccionar a 'now' por defecto
       {path: 'now', component: ReserveNowComponent},
-      {path: 'history', component: ReserveHistoryComponent}
+      {path: 'history', component: ReserveHistoryComponent, canActivate: [reserveHistoryGuard]}
     ]
   },
   {path: 'training', component: TrainingComponent},

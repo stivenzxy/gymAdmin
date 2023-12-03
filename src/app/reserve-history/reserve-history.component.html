@@ -4,15 +4,15 @@
         <tr>
           <th scope="col" class="py-3 px-6 text-center">Fecha</th>
           <th scope="col" class="py-3 px-6 text-center">Nombre</th>
-          <th scope="col" class="py-3 px-6 text-center">Estado</th>
+          <th scope="col" class="py-3 px-6 text-center">Hora de asistencia</th>
         </tr>
       </thead>
       <tbody>
         <!-- Los datos de las filas se generarían dinámicamente -->
-        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-          <td class="py-4 px-6 text-center">01/01/2023</td>
-          <td class="py-4 px-6 text-center">Jesus Estiven Perez Torres</td>
-          <td class="py-4 px-6 text-center">Confirmado</td>
+        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" *ngFor="let historialActual of historial; let i = index">
+          <td class="px-4 py-2 text-center">{{ historialActual.fecha }}</td>
+          <td class="px-4 py-2 text-center">{{ historialActual.usuario.nombre }}</td>
+          <td class="px-4 py-2 text-center">{{ historialActual.hora }}</td>
         </tr>
       </tbody>
     </table>

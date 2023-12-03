@@ -39,15 +39,30 @@ export class LoginComponent implements OnInit, OnDestroy{
               title: response.message,
               confirmButtonText: "Aceptar",
               icon: "success"
+            }).then((result) => {
+              if(result.isConfirmed) {
+                window.location.reload();
+              }
             });
-            this.router.navigate(['dashboard']);
           } else {
             alert('Error: ' + response.message);
           }
         },
         error: (error) => {
           if(error.error && error.error.message) {
-            alert('Error de autenticación: ' + error.error.message);
+            Swal.fire({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000, // Duración del toast en milisegundos
+              timerProgressBar: true,
+              icon: 'error',
+              title: error.error.message,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            });            
           } else {
             alert('Error de conexión con el servidor: ' + error.message);
           }

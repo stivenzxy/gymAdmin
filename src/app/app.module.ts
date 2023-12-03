@@ -28,6 +28,7 @@ import { ReserveComponent } from './reserve/reserve.component';
 import { SettingsComponent } from './settings/settings.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { TrainingComponent } from './training/training.component';
+import { PenalizarComponent } from './penalizar/penalizar.component';
 
 export function playerFactory() {
   return player;
@@ -47,7 +48,8 @@ export function playerFactory() {
     ReserveHistoryComponent,
     HeaderComponent,
     LoginComponent,
-    InitformComponent
+    InitformComponent,
+    PenalizarComponent
   ],
   imports: [
     BrowserModule,

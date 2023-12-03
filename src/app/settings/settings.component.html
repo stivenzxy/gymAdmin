@@ -3,12 +3,9 @@
     
     <!-- Sección de Penalización de Usuarios -->
     <div class="mb-12">
-      <h2 class="text-xl font-semibold mb-3">Penalizar Usuarios</h2>
+      <h2 class="text-xl font-semibold mb-3">Penalizar Reservas no asistidas</h2>
       <div class="flex flex-col md:flex-row md:items-end gap-3">
-        <select class="form-select block w-full md:w-auto rounded-md">
-          <!-- Opciones de usuarios generadas dinámicamente -->
-        </select>
-        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" (click)="penalizar()">
           Penalizar
         </button>
       </div>

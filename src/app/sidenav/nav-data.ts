@@ -34,6 +34,6 @@ export const navbarData : INavbarData[] = [
     {   
         routeLink: 'settings',
         icon: 'fas fa-gear',
-        label: 'Ajustes'
+        label: 'Gestionar'
     },
 ];

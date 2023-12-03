@@ -45,10 +45,12 @@ export class InitformComponent implements OnInit, OnDestroy{
                 Swal.fire({
                   title: 'Su usuario ha sido añadido con exito',
                   confirmButtonText: "Aceptar",
-                  confirmButtonColor: 'orange',
                   icon: "success"
+                }).then((response) => {
+                  if(response.isConfirmed){
+                    window.location.reload();
+                  }
                 });
-                window.location.reload();
               } else {
                 // Manejo de una respuesta no exitosa del servidor
                 Swal.fire({
