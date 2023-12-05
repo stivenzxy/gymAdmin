@@ -7,7 +7,7 @@ import { Subject } from 'rxjs'
   providedIn: 'root'
 })
 export class LoginAdminService {
-  private apiUrl = 'http://192.168.0.8:8000/login/';
+  private apiUrl = 'http://172.17.212.196:8000/login/';
   private closeLoginModalSubject = new Subject<void>();
 
   constructor(

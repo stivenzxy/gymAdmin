@@ -5,7 +5,7 @@
         <form [formGroup]="reserveForm" (ngSubmit)="onSubmit()" class="space-y-5">
           <div class="input">
             <label class="inputLabel block text-sm font-medium">Hora en la que desea entrenar</label>
-            <input formControlName="hora" type="time" min="07:00" max="18:00" class="mt-1 p-2 block w-full rounded-md border"
+            <input formControlName="hora" type="time" step="1800" class="mt-1 p-2 block w-full rounded-md border"
             [ngClass]="{ 'border-red-500': reserveForm.get('hora')!.invalid && reserveForm.get('hora')!.touched }">
             <div class="text-red-500 text-xs mt-1 h-2">
               <span *ngIf="reserveForm.get('hora')!.invalid && reserveForm.get('hora')!.touched">
@@ -37,6 +37,9 @@
               <span *ngIf="reserveForm.get('cantHoras')!.hasError('max')">
                 El máximo número de horas es 2
               </span>
+              <span *ngIf="reserveForm.get('cantHoras')!.hasError('min')">
+                El minimo número de horas es 1
+              </span>
             </div>
           </div>
             
@@ -52,8 +55,8 @@
         <img src="../../assets/calendar.png" alt="Calendario" class="w-32 h-32">
         <div class="containerHorario mt-6 p-8 rounded-lg w-full md:max-w-md">
           <h1 class="text-lg font-bold">Horario:</h1>
-          <p class="mt-2">Lunes - Viernes: 8am - 6pm</p>
-          <p>Sábado: 8am - 1pm</p>
+          <p class="mt-2">Lunes y Viernes: 8am - 5pm</p>
+          <p>Martes a Jueves: 8am - 3pm</p>
         </div>
       </div>
     </div>

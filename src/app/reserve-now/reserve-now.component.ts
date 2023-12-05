@@ -31,7 +31,7 @@ export class ReserveNowComponent implements OnInit, OnDestroy{
   constructor(private fb: FormBuilder, private recomendacionesService: RecomendacionesService, private reserveService: ReservarService) {
     this.reserveForm = this.fb.group({
       hora: ['', [Validators.required]],
-      cantHoras: ['', [Validators.required, Validators.max(2)]],
+      cantHoras: ['', [Validators.required, Validators.max(2), Validators.min(1)]],
       fecha_reserva: ['', [Validators.required, futureDateValidator()]]
     });
   }
@@ -107,5 +107,4 @@ export class ReserveNowComponent implements OnInit, OnDestroy{
   }
 
   animationCreated(animationItem: AnimationItem): void { }
-
 }
