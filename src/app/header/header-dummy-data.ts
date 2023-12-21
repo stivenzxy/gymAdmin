@@ -13,20 +13,20 @@ export const themes = [
 
 export const notifications = [
     {
-        icon: 'fas fa-cloud-download',
-        subject: 'Download complete',
-        description: 'Lorem ipsum dolor sit amet, consectetuer.',
+        icon: 'fas fa-dumbbell',
+        subject: 'Tu entrenamiento aguarda por ti!',
+        description: 'Es importante que asistas a cada reserva que haces, o estarias tomando el puesto de alguien mas',
     },
     {
         icon: 'fas fa-cloud-upload',
-        subject: 'Upload complete',
-        description: 'Lorem ipsum dolor sit amet, consectetuer.',
+        subject: 'No olvides cargar los datos del formulario de ingreso!',
+        description: 'Debemos conocer bien tu informacion basica para que hagas parte de esta comuidad',
     },
-    {
+    /*{
         icon: 'fas fa-trash',
         subject: '350 MB trash files',
         description: 'Lorem ipsum dolor sit amet, consectetuer.',
-    }
+    }*/
 ];
 
 export const userItems = [

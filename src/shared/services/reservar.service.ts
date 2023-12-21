@@ -6,7 +6,7 @@ import { SharedService } from './shared.service';
   providedIn: 'root'
 })
 export class ReservarService {
-  private apiUrl = 'http://172.17.212.196:8000/CreateReserva/';
+  private apiUrl = 'http://192.168.133.178:8000/CreateReserva/';
   private currentUser: string | null = null;
 
   constructor(

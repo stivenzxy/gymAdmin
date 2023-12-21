@@ -54,7 +54,7 @@ export class InitformComponent implements OnInit, OnDestroy{
               } else {
                 // Manejo de una respuesta no exitosa del servidor
                 Swal.fire({
-                  title: 'Error',
+                  title: 'Ups!...',
                   text: response.message || 'Ha ocurrido un error',
                   icon: 'error',
                   confirmButtonText: 'Aceptar'

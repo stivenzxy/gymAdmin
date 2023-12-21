@@ -18,7 +18,7 @@ export class PenalizarComponent implements OnInit {
   obtenerReservas() {
     this.http
       .get<{ success: boolean; reservas: any[] }>(
-        'http://172.17.212.196:8000/GetReservas/'
+        'http://192.168.133.178:8000/GetReservas/'
       )
       .subscribe({
         next: (response) => {
@@ -48,7 +48,7 @@ export class PenalizarComponent implements OnInit {
     //console.log('Reserva penalizada con éxito', response);
     Swal.fire({
       title: '¿Estás seguro?',
-      text: 'Esta acción no se puede deshacer.',
+      text: 'Esta acción no se puede deshacer, si penalizas al usuario se perdera el registro de esta reserva.',
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -57,7 +57,7 @@ export class PenalizarComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.http.post('http://172.17.212.196:8000/Penalizar/', body).subscribe({
+        this.http.post('http://192.168.133.178:8000/Penalizar/', body).subscribe({
           next: (response: any) => {
             // Manejo de la respuesta exitosa
             if (response.success) {

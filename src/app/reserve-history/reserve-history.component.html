@@ -1,20 +1,25 @@
 <div class="overflow-x-auto relative shadow-md rounded-lg">
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-        <tr>
-          <th scope="col" class="py-3 px-6 text-center">Fecha</th>
-          <th scope="col" class="py-3 px-6 text-center">Nombre</th>
-          <th scope="col" class="py-3 px-6 text-center">Hora de asistencia</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Los datos de las filas se generarían dinámicamente -->
-        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" *ngFor="let historialActual of historial; let i = index">
-          <td class="px-4 py-2 text-center">{{ historialActual.fecha }}</td>
-          <td class="px-4 py-2 text-center">{{ historialActual.usuario.nombre }}</td>
-          <td class="px-4 py-2 text-center">{{ historialActual.hora }}</td>
-        </tr>
-      </tbody>
-    </table>
+  <table *ngIf="historial.length > 0; else noDataContent" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <tr>
+        <th scope="col" class="py-3 px-6 text-center">Fecha</th>
+        <th scope="col" class="py-3 px-6 text-center">Nombre</th>
+        <th scope="col" class="py-3 px-6 text-center">Hora de asistencia</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" *ngFor="let historialActual of historial; let i = index">
+        <td class="px-4 py-2 text-center">{{ historialActual.fecha }}</td>
+        <td class="px-4 py-2 text-center">{{ historialActual.usuario.nombre }}</td>
+        <td class="px-4 py-2 text-center">{{ historialActual.hora }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Contenido alternativo para cuando no hay datos -->
+  <ng-template #noDataContent>
+    <div class="text-center p-4">
+      <p class="text-gray-700 dark:text-gray-400">No hay datos en tu historial aún, ¡es un buen momento para hacer que empiece a crecer!</p>
+    </div>
+  </ng-template>
 </div>
-  

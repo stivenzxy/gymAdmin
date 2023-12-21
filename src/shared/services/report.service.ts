@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ReportService {
 
-  private apiUrl = 'http://172.17.212.196:8000/Reporte/'
+  private apiUrl = 'http://192.168.133.178:8000/Reporte/'
 
   constructor(private http: HttpClient) {}
 

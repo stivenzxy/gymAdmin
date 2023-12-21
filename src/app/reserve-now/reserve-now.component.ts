@@ -66,11 +66,15 @@ export class ReserveNowComponent implements OnInit, OnDestroy{
           },
           error: (error) => {
             Swal.fire({
-              title: "Error!",
-              text: "Ha ocurrido un error: " + error.error.message,
+              title: "Ups!...",
+              text: error.error.message,
               confirmButtonText: "Aceptar",
               icon: "warning"
-            });
+            }).then(resultError => {
+              if(resultError.isConfirmed){
+                window.location.reload();
+              }
+            })
           }
         });
       } else {
