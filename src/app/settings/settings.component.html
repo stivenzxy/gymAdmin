@@ -3,29 +3,33 @@
     
     <!-- Sección de Penalización de Usuarios -->
     <div class="mb-12">
-      <h2 class="text-xl font-semibold mb-3">Penalizar Reservas no asistidas</h2>
-      <div class="flex flex-col md:flex-row md:items-end gap-3">
-        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" (click)="penalizar()">
-          Penalizar
+      <h2 class="text-xl font-semibold mb-3">Penalizar o Confirmar Reservas</h2>
+
+        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" (click)="penalize()">
+          <i class="fa-solid fa-pen-to-square mr-2 text-white"></i>
+          Gestionar Reservas
         </button>
-      </div>
+
     </div>
   
     <!-- Sección de Descarga de Reportes -->
     <div class="mb-12">
-      <h2 class="text-xl font-semibold mb-3">Descargar Reportes</h2>
-      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" (click)="descargar()">
+      <h2 class="text-xl font-semibold mb-3">Visualizar y Descargar Reporte</h2>
+      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" (click)="downloadReport()">
         <i class="fa-solid fa-file mr-2 text-white"></i>
-        Descargar Reporte
+        Visualizar Reporte
+      </button>
+    </div>
+
+
+    <!-- Sección para Cambiar el Horario -->
+    <div class="mb-12">
+      <h2 class="text-xl font-semibold mb-3">Definir horario</h2>
+      <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" (click)="changeSchedule()">
+        <i class="fa-solid fa-calendar mr-2 text-white"></i>
+        Modificar horario
       </button>
     </div>
   
-    <!-- Tabla de Usuarios 
-    <div>
-      <h2 class="text-xl font-semibold mb-3">Usuarios</h2>
-      <table class="min-w-full">
-        Cabezera y Cuerpo de la Tabla 
-      </table>
-    </div>-->
   </div>
   

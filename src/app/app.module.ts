@@ -5,7 +5,7 @@ import { NgModule } from '@angular/core';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire/compat';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserModule } from '@angular/platform-browser';
@@ -29,6 +29,9 @@ import { SettingsComponent } from './settings/settings.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { TrainingComponent } from './training/training.component';
 import { PenalizarComponent } from './penalizar/penalizar.component';
+import { ScheduleComponent } from './schedule/schedule.component';
+import { DownloadReportComponent } from './download-report/download-report.component';
+import { KeysPipe } from './download-report/keys.pipe';
 
 export function playerFactory() {
   return player;
@@ -49,7 +52,10 @@ export function playerFactory() {
     HeaderComponent,
     LoginComponent,
     InitformComponent,
-    PenalizarComponent
+    PenalizarComponent,
+    ScheduleComponent,
+    DownloadReportComponent,
+    KeysPipe
   ],
   imports: [
     BrowserModule,
@@ -65,7 +71,8 @@ export function playerFactory() {
     provideAuth(() => getAuth()),
 
     AngularFireModule.initializeApp(environment.firebase),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
     
   ],
   providers: [CookieService],

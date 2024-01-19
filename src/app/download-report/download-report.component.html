@@ -1,0 +1,39 @@
+
+<button mat-icon-button class="close-button" [mat-dialog-close]="false">
+    <mat-icon>close</mat-icon>
+</button>
+
+<mat-dialog-content class="mat-typography modal-container">
+    <div class="container mx-auto p-4">
+        <div class="mb-12">
+            <h2 class="text-xl font-semibold mb-3">Visualización y Descarga de Reportes</h2>
+            <button class="bg-orange-500 hover:bg-orange-700 float-right mb-2 text-white font-bold py-2 px-4 rounded" (click)="downloadFile()" *ngIf="dataAvailable">
+              Descargar<i class="fa fas fa-download ml-2"></i>
+            </button>
+
+            <p *ngIf="!dataAvailable" class="text-red-500">No hay asistencias disponibles para generar un reporte. Por favor, asegúrate de tener usuarios confirmados.</p>
+          </div>
+      
+        <div *ngIf="excelData && excelData.length > 0">
+          <table class="min-w-full leading-normal">
+            <thead>
+              <tr>
+                <!-- Genera dinámicamente los encabezados de la tabla -->
+                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider" *ngFor="let key of excelData[0] | keys">
+                  {{ key }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Itera sobre los datos del Excel y los muestra en la tabla -->
+              <tr *ngFor="let row of excelData">
+                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm" *ngFor="let key of row | keys">
+                  {{ row[key] }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+</mat-dialog-content>

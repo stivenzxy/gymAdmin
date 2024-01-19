@@ -70,10 +70,6 @@ export class ReserveNowComponent implements OnInit, OnDestroy{
               text: error.error.message,
               confirmButtonText: "Aceptar",
               icon: "warning"
-            }).then(resultError => {
-              if(resultError.isConfirmed){
-                window.location.reload();
-              }
             })
           }
         });

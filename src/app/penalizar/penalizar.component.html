@@ -7,7 +7,7 @@
 </button>
 <mat-dialog-content class="mat-typography modal-container">
   <div class="overflow-x-auto p-4">
-    <table class="min-w-full table-auto">
+    <table *ngIf="reservas.length > 0; else noDataContent" class="min-w-full table-auto">
       <thead>
         <tr class="border-b">
           <th class="px-4 py-2 text-center">Código</th>
@@ -24,12 +24,23 @@
           <td class="px-4 py-2 text-center">{{ reserva.usuario.nombre }}</td>
           <td class="px-4 py-2 text-center">{{ reserva.fecha }}</td>
           <td class="px-4 py-2 text-center">
-            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" (click)="penalizarUsuario(i)">
-              Penalizar
-            </button>
+            <div class="inline-flex justify-center">
+              <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" title="Penalizar" (click)="penalizarUsuario(i)">
+               <i class="fa fas fa-skull"></i>
+              </button>
+              <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-2" title="Confirmar" (click)="confirmarAsistencia(i)">
+                <i class="fa fas fa-check"></i>
+              </button>
+            </div>
           </td>
         </tr>
       </tbody>
     </table>
+    <!-- Contenido alternativo para cuando no hay datos -->
+    <ng-template #noDataContent>
+      <div class="text-center p-4">
+        <p class="text-red-700 dark:text-red-400">Nadie ha realizado reservas aún!</p>
+      </div>
+    </ng-template>
   </div>
 </mat-dialog-content>

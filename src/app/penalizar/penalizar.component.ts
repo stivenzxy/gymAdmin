@@ -18,7 +18,7 @@ export class PenalizarComponent implements OnInit {
   obtenerReservas() {
     this.http
       .get<{ success: boolean; reservas: any[] }>(
-        'http://192.168.133.178:8000/GetReservas/'
+        'http://192.168.0.8:8000/GetReservas/'
       )
       .subscribe({
         next: (response) => {
@@ -57,7 +57,7 @@ export class PenalizarComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.http.post('http://192.168.133.178:8000/Penalizar/', body).subscribe({
+        this.http.post('http://192.168.0.8:8000/Penalizar/', body).subscribe({
           next: (response: any) => {
             // Manejo de la respuesta exitosa
             if (response.success) {
@@ -69,7 +69,8 @@ export class PenalizarComponent implements OnInit {
                 icon: 'success',
               }).then((result) => {
                 if (result.isConfirmed) {
-                  window.location.reload();
+                  //window.location.reload();
+                  this.reservas.splice(index, 1);
                 }
               });
             } else {
@@ -95,4 +96,59 @@ export class PenalizarComponent implements OnInit {
       }
     });
   }
+
+
+  confirmarAsistencia(index: number){
+    const reserva = this.reservas[index];
+    
+    console.log(reserva.id_reserva)
+    console.log(reserva)
+
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Esta acción no se puede deshacer, estas confirmando la asistencia del usuario ' + reserva.usuario.nombre,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Entendido',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if(result.isConfirmed) {
+        this.http.post('http://192.168.0.8:8000/Confirmar/', reserva.id_reserva).subscribe({
+          next: (response: any) => {
+            if(response.success) {
+              Swal.fire({
+                title: 'El usuario ha sido añadido a las asistencias confirmadas',
+                text: 'Esto podra visualizarlo en el reporte de asistencias',
+                confirmButtonText: 'Aceptar',
+                icon: 'success',
+              }).then((result) => {
+                if(result.isConfirmed){
+                  // actulizamos la tabla
+                  this.reservas.splice(index, 1);
+                }
+              });
+            } else {
+              Swal.fire({
+                title: 'Error',
+                text: response.message || 'Ha ocurrido un error',
+                icon: 'error',
+                confirmButtonText: 'Aceptar',
+              });
+            }
+          },
+          error: (error) => {
+            Swal.fire({
+              title: 'Algo ha salido mal al enviar los datos!',
+              text: error.message || 'Error desconocido',
+              icon: 'error',
+              confirmButtonText: 'Aceptar',
+            });
+          },
+        });
+      }
+    });
+  }
+
 }

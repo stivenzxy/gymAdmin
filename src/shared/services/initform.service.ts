@@ -8,7 +8,7 @@ import { SharedService } from './shared.service'; // Asegúrate de que la ruta s
   providedIn: 'root'
 })
 export class InitformService {
-  private apiUrl = 'http://192.168.133.178:8000/CreateUser/';
+  private apiUrl = 'http://192.168.0.8:8000/CreateUser/';
 
   constructor(
     private http: HttpClient,

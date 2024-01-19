@@ -22,7 +22,7 @@ export class ReserveHistoryComponent implements OnInit {
   }
 
   obtenerReservasPorUsuario(uid: string | undefined) {
-    const url = `http://192.168.133.178:8000/ReservasPerUser/?uid=${uid}`;
+    const url = `http://192.168.0.8:8000/ReservasPerUser/?uid=${uid}`;
     this.http.get<{success: boolean, reservas: any[]}>(url).subscribe({
       next: (response) => {
         if (response.success) {

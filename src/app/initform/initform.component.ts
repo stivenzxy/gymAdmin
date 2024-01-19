@@ -15,7 +15,7 @@ export class InitformComponent implements OnInit, OnDestroy{
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
+    //private authService: AuthService,
     private initform: InitformService
     ) { 
     this.extraDataForm = this.fb.group({

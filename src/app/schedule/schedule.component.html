@@ -1,0 +1,39 @@
+<h2 mat-dialog-title>
+    <h1 class="justify-center flex">Aqui puedes modificar el horario de servicio activo</h1>
+</h2>
+<button mat-icon-button class="close-button" [mat-dialog-close]="false">
+    <mat-icon>close</mat-icon>
+</button>
+
+<mat-dialog-content class="mat-typography modal-container">
+    <form [formGroup]="scheduleForm" class="space-y-4">
+        <div formArrayName="days">
+            <!-- Iterar para cada día de la semana -->
+            <div *ngFor="let dayForm of daysFormArray.controls; let i = index" [formGroupName]="i" class="flex flex-col">
+                <div class="flex items-center mb-4">
+                    <input formControlName="checkbox" type="checkbox" class="w-4 h-4" [id]="'closed' + i" 
+                    [ngClass]="{ 'border-red-500': dayForm.get('checkbox')!.invalid && dayForm.get('checkbox')!.touched }">
+                    <label [for]="'closed' + i" class="ml-2 text-sm font-medium text-gray-900">Cerrado el {{ weeklySchedule.schedules[i].day }}</label>
+                </div>
+                <div *ngIf="!dayForm.get('checkbox')!.value">
+                    <!-- Hora de apertura -->
+                    <label [for]="'openTime' + i" class="mb-2 text-sm font-medium text-gray-900">Hora de apertura ({{ weeklySchedule.schedules[i].day }})</label>
+                    <input formControlName="openTime" type="time" [id]="'openTime' + i" class="bg-gray-50 border text-gray-900 rounded-lg block w-full p-2.5"
+                    [ngClass]="{ 'border-red-500': dayForm.get('openTime')!.invalid && dayForm.get('openTime')!.touched }">
+                    <div *ngIf="dayForm.get('openTime')!.invalid && dayForm.get('openTime')!.touched" class="text-red-500 text-xs mt-2">
+                        Debes llenar todos los campos
+                    </div>
+                    <!-- Hora de cierre -->
+                    <label [for]="'closeTime' + i" class="mb-2 text-sm font-medium text-gray-900">Hora de cierre ({{ weeklySchedule.schedules[i].day }})</label>
+                    <input formControlName="closeTime" type="time" [id]="'closeTime' + i" class="bg-gray-50 border text-gray-900 rounded-lg block w-full p-2.5"
+                    [ngClass]="{ 'border-red-500': dayForm.get('closeTime')!.invalid && dayForm.get('closeTime')!.touched }">
+                    <div *ngIf="dayForm.get('closeTime')!.invalid && dayForm.get('closeTime')!.touched" class="text-red-500 text-xs mt-2">
+                        Debes llenar todos los campos
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Botón de envío -->
+        <button type="submit" class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center" (click)="submitNewSchedule()">Guardar Horario</button>
+    </form>
+</mat-dialog-content>

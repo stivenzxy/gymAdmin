@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { ReportService } from 'src/shared/services/report.service';
 import { PenalizarComponent } from '../penalizar/penalizar.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ScheduleComponent } from '../schedule/schedule.component';
+import { DownloadReportComponent } from '../download-report/download-report.component';
 
 @Component({
   selector: 'app-settings',
@@ -12,23 +14,40 @@ export class SettingsComponent {
 
   constructor(private reporteService : ReportService, private dialog : MatDialog){}
 
-  descargar() {
-    this.reporteService.descargarReporte().subscribe(data => {
-      const url = window.URL.createObjectURL(data);
-      const anchor = document.createElement('a');
-      anchor.href = url;
-      anchor.download = 'reservas.xlsx';
-      anchor.click();
-      window.URL.revokeObjectURL(url);
+  downloadReport() {
+    this.openReportDialog();
+  }
+
+  penalize() {
+    this.openPenalizeDialog();
+  }
+
+  openPenalizeDialog(): void {
+    const dialogRef = this.dialog.open(PenalizarComponent, {
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
     });
   }
 
-  penalizar() {
-    this.openLoginDialog();
+  changeSchedule() {
+    this.openScheduleDialog();
   }
 
-  openLoginDialog(): void {
-    const dialogRef = this.dialog.open(PenalizarComponent, {
+  openScheduleDialog(): void {
+    const dialogRef = this.dialog.open(ScheduleComponent, {
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  openReportDialog(): void {
+    const dialogRef = this.dialog.open(DownloadReportComponent, {
       disableClose: true
     });
 
