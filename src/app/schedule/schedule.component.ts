@@ -86,7 +86,7 @@ export class ScheduleComponent implements OnInit {
           allowOutsideClick: false
         }).then((result) => {
           if(result.isConfirmed){
-            this.http.post('http://192.168.0.8:8000/ActualizarHorario/', updatedSchedule).subscribe({
+            this.http.post('http://127.0.0.1:8000/gym/ActualizarHorario/', updatedSchedule).subscribe({
               next: (response: any) => {
                 if(response.success) {
                   Swal.fire({
