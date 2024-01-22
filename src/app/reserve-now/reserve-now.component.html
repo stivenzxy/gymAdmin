@@ -8,8 +8,14 @@
             <input formControlName="hora" type="time" step="1800" class="mt-1 p-2 block w-full rounded-md border"
             [ngClass]="{ 'border-red-500': reserveForm.get('hora')!.invalid && reserveForm.get('hora')!.touched }">
             <div class="text-red-500 text-xs mt-1 h-2">
-              <span *ngIf="reserveForm.get('hora')!.invalid && reserveForm.get('hora')!.touched">
+              <span *ngIf="reserveForm.get('hora')!.invalid && reserveForm.get('hora')!.touched && !reserveForm.get('hora')!.errors?.['pastTime'] && !reserveForm.get('hora')!.errors?.['invalidMinuteFormat']">
                 Ingrese la hora en la que desea entrenar
+              </span>
+              <span *ngIf="reserveForm.get('hora')!.errors?.['pastTime']">
+                La hora no puede ser inferior a la actual
+              </span>
+              <span *ngIf="reserveForm.get('hora')!.errors?.['invalidMinuteFormat']">
+                Los minutos deben ser en el formato HH:00 o HH:30
               </span>
             </div>
           </div>

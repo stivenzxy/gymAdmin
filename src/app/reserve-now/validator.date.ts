@@ -2,8 +2,6 @@ import { AbstractControl, ValidatorFn } from '@angular/forms';
 
 export function futureDateValidator(): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} | null => {
-    /*const forbidden = new Date(control.value) < new Date();
-    console.log(new Date())*/
     var currentDate = new Date();
 
     if (!control.value) {

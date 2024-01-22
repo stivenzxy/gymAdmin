@@ -7,6 +7,7 @@ import { recomendaciones } from './recomendaciones';
 import { ReservarService } from 'src/shared/services/reservar.service';
 import { futureDateValidator } from './validator.date';
 import  Swal from 'sweetalert2';
+import { futureHourValidator } from './validatorHour';
 @Component({
   selector: 'app-reserve-now',
   templateUrl: './reserve-now.component.html',
@@ -30,7 +31,7 @@ export class ReserveNowComponent implements OnInit, OnDestroy{
 
   constructor(private fb: FormBuilder, private recomendacionesService: RecomendacionesService, private reserveService: ReservarService) {
     this.reserveForm = this.fb.group({
-      hora: ['', [Validators.required]],
+      hora: ['', [Validators.required, futureHourValidator()]],
       cantHoras: ['', [Validators.required, Validators.max(2), Validators.min(1)]],
       fecha_reserva: ['', [Validators.required, futureDateValidator()]]
     });

@@ -1,6 +1,8 @@
 <h1 class="font-extrabold text-3xl animate__animated animate__fadeIn">
-    {{ !isLoggedIn ? '¡Tu Viaje de Fitness Comienza Aquí!' : ('Bienvenid@! ' + getDisplayName()) }}
-  </h1>
+    {{ !isLoggedIn && !loggedAdmin ? '¡Tu Viaje de Fitness Comienza Aquí!' : ('Bienvenid@! ' + (getDisplayName() || getAdminName())) }}
+</h1>
+
+
 <div class="card animate__animated animate__fadeIn">
     <div class="card-head">Hemos diseñado este sitio con el fin de que sea perfecto para ti. Reserva tu espacio, personaliza tu rutina y alcanza tus metas de salud y fitness con nuestra plataforma</div>
     <div class="card-body">

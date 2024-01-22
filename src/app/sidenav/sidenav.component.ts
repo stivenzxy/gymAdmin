@@ -2,6 +2,8 @@ import { Component, ElementRef, EventEmitter, HostListener, OnInit, Output, View
 import { navbarData } from './nav-data';
 import { animate, keyframes, style, transition, trigger } from '@angular/animations';
 import { INavbarData } from './helper';
+import { LoginAdminService } from 'src/shared/services/login-admin.service';
+import { AuthService } from 'src/shared/services/auth.service';
 
 interface SideNavToogle {
   screenWidth: number;
@@ -45,6 +47,8 @@ export class SidenavComponent implements OnInit {
   collapsed = false;
   screenWidth = 0;
   navData = navbarData;
+  isAdminLoggedIn: boolean = false;
+
 
   @ViewChild('sidenavContainer') sidenavContainer!: ElementRef;
 
@@ -52,6 +56,8 @@ export class SidenavComponent implements OnInit {
   onDocumentClick(event: MouseEvent): void {
           this.closeAllSubMenu();
   }
+
+  constructor(private authService : AuthService, private adminService : LoginAdminService){}
 
   closeAllSubMenus(): void {
     this.navData.forEach(navItem => navItem.expanded = false);
@@ -68,6 +74,7 @@ export class SidenavComponent implements OnInit {
 
   ngOnInit(): void {
       this.screenWidth = window.innerWidth;
+      this.isAdminLoggedIn = this.adminService.isLoggedIn();
   }
 
   toggleCollapse() : void {
@@ -96,4 +103,5 @@ export class SidenavComponent implements OnInit {
       }
     });
   }
+  
 }

@@ -18,7 +18,7 @@ export class PenalizarComponent implements OnInit {
   obtenerReservas() {
     this.http
       .get<{ success: boolean; reservas: any[] }>(
-        'http://192.168.0.8:8000/GetReservas/'
+        'http://192.168.0.8:8000/gym/GetReservas/'
       )
       .subscribe({
         next: (response) => {
@@ -57,7 +57,7 @@ export class PenalizarComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.http.post('http://192.168.0.8:8000/Penalizar/', body).subscribe({
+        this.http.post('http://192.168.0.8:8000/gym/Penalizar/', body).subscribe({
           next: (response: any) => {
             // Manejo de la respuesta exitosa
             if (response.success) {
@@ -87,7 +87,7 @@ export class PenalizarComponent implements OnInit {
             // Manejo de errores de conexión o del lado del cliente
             Swal.fire({
               title: 'Error al enviar los datos',
-              text: error.message || 'Error desconocido',
+              text: error.error.message || 'Error desconocido',
               icon: 'error',
               confirmButtonText: 'Aceptar',
             });
@@ -103,6 +103,7 @@ export class PenalizarComponent implements OnInit {
     
     console.log(reserva.id_reserva)
     console.log(reserva)
+    //let id_reserva = reserva.id_reserva;
 
     Swal.fire({
       title: '¿Estás seguro?',
@@ -115,7 +116,7 @@ export class PenalizarComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if(result.isConfirmed) {
-        this.http.post('http://192.168.0.8:8000/Confirmar/', reserva.id_reserva).subscribe({
+        this.http.post('http://192.168.0.8:8000/gym/CrearAsistencia/', { id_reserva: reserva.id_reserva }).subscribe({
           next: (response: any) => {
             if(response.success) {
               Swal.fire({
@@ -141,7 +142,7 @@ export class PenalizarComponent implements OnInit {
           error: (error) => {
             Swal.fire({
               title: 'Algo ha salido mal al enviar los datos!',
-              text: error.message || 'Error desconocido',
+              text: error.error.message || 'Error desconocido',
               icon: 'error',
               confirmButtonText: 'Aceptar',
             });

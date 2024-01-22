@@ -22,7 +22,7 @@ export const reserveHistoryGuard: CanActivateFn = (route: ActivatedRouteSnapshot
       try {
         Swal.fire({
           title: 'Acceso Denegado!',
-          text: 'Solo los clientes pueden visualizar sus historiales de reservas.',
+          text: 'Solo los clientes pueden visualizar su historial de reservas.',
           icon: 'warning',
           showCancelButton: false,
           confirmButtonText: 'Aceptar',

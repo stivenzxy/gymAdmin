@@ -16,7 +16,7 @@ export class AuthService {
 
   //////////////////////////////////////////
   // para enviar el Uid y el nombre de usuario al backend:
-  private apiUrl = 'http://192.168.0.8:8000/CheckUser/'
+  private apiUrl = 'http://192.168.0.8:8000/gym/CheckUser/'
  //////////////////////////////////////////
 
  
@@ -26,6 +26,7 @@ export class AuthService {
   //public onLogout = new EventEmitter<void>();
   private userSubject = new BehaviorSubject<any>(null);
   public user = this.userSubject.asObservable();
+  authStatusChanged: any;
 
   constructor(
     private http: HttpClient,

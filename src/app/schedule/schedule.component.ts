@@ -86,7 +86,7 @@ export class ScheduleComponent implements OnInit {
           allowOutsideClick: false
         }).then((result) => {
           if(result.isConfirmed){
-            this.http.post('http://192.168.0.8:8000/ActualizarHorario/', updatedSchedule).subscribe({
+            this.http.post('http://192.168.0.8:8000/gym/ActualizarHorario/', updatedSchedule).subscribe({
               next: (response: any) => {
                 if(response.success) {
                   Swal.fire({
@@ -113,7 +113,7 @@ export class ScheduleComponent implements OnInit {
               error: (error) => {
                 Swal.fire({
                   title: 'Error al enviar los datos',
-                  text: error.message || 'Error desconocido',
+                  text: error.error.message || 'Error desconocido',
                   icon: 'error',
                   confirmButtonText: 'Aceptar',
                   allowOutsideClick: false
@@ -129,7 +129,7 @@ export class ScheduleComponent implements OnInit {
     } else {
         this.markAllAsTouched(this.daysFormArray);
     }
-}
+  }
 
 
   private markAllAsTouched(formGroup: FormGroup | FormArray) {

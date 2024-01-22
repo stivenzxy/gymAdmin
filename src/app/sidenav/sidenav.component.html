@@ -20,12 +20,12 @@
                 <span class="sidenav-link-text font-medium w-1/3 ml-6 text-center items-center flex" @fadeInOut *ngIf="collapsed">
                     {{data.label}}
                     <div class="angle flex flex-col ml-6">
-                        <i *ngIf="data.items && collapsed" [ngClass]="data.expanded ? 'fas fa-angle-down' : 'fas fa-angle-right'"></i>
+                        <i *ngIf="data.items && collapsed && !isAdminLoggedIn" [ngClass]="data.expanded ? 'fas fa-angle-down' : 'fas fa-angle-right'"></i>
                     </div>
                 </span>
             </a>
              <!-- Contenedor para subelementos -->
-        <div *ngIf="data.items && data.expanded" class="submenu-container" (click)="closeSidenav()" [ngStyle]="{'margin-left': collapsed ? '200px' : '0'}">
+        <div *ngIf="data.items && data.expanded && !isAdminLoggedIn" class="submenu-container" (click)="closeSidenav()" [ngStyle]="{'margin-left': collapsed ? '200px' : '0'}">
             <ul class="submenu-list">
                 <li *ngFor="let subItem of data.items">
                     <a [routerLink]="[subItem.routeLink]">
