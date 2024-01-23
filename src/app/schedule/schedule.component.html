@@ -13,7 +13,7 @@
                 <div class="flex items-center mb-4">
                     <input formControlName="checkbox" type="checkbox" class="w-4 h-4" [id]="'closed' + i" 
                     [ngClass]="{ 'border-red-500': dayForm.get('checkbox')!.invalid && dayForm.get('checkbox')!.touched }">
-                    <label [for]="'closed' + i" class="ml-2 text-sm font-medium text-gray-900">Cerrado el {{ weeklySchedule.schedules[i].day }}</label>
+                    <label [for]="'closed' + i" class="ml-2 mt-2 text-sm font-medium text-gray-900">Cerrado el {{ weeklySchedule.schedules[i].day }}</label>
                 </div>
                 <div *ngIf="!dayForm.get('checkbox')!.value">
                     <!-- Hora de apertura -->

@@ -8,13 +8,14 @@ import { ReservarService } from 'src/shared/services/reservar.service';
 import { futureDateValidator } from './validator.date';
 import  Swal from 'sweetalert2';
 import { futureHourValidator } from './validatorHour';
+import { ScheduleService } from 'src/shared/services/schedule.service';
 @Component({
   selector: 'app-reserve-now',
   templateUrl: './reserve-now.component.html',
   styleUrls: ['./reserve-now.component.scss']
 })
 
-/// Animacion de lottie
+
 export class ReserveNowComponent implements OnInit, OnDestroy{
   public options: AnimationOptions = {
     path: '/assets/lottie-animations/reserve-recomendations.json',
@@ -23,19 +24,40 @@ export class ReserveNowComponent implements OnInit, OnDestroy{
       progressiveLoad: true
     }
   };
-//////
 
   reserveForm: FormGroup;
   recomendacionAleatoria: string = '';
   private intervalId: any;
+  horarios: any[] = [];
 
-  constructor(private fb: FormBuilder, private recomendacionesService: RecomendacionesService, private reserveService: ReservarService) {
+  constructor(private fb: FormBuilder, private recomendacionesService: RecomendacionesService, 
+    private reserveService: ReservarService, private schedule: ScheduleService) {
     this.reserveForm = this.fb.group({
-      hora: ['', [Validators.required, futureHourValidator()]],
+      hora: ['', [Validators.required]],
       cantHoras: ['', [Validators.required, Validators.max(2), Validators.min(1)]],
       fecha_reserva: ['', [Validators.required, futureDateValidator()]]
     });
+
+    this.initFormValidations();
+    /*this.reserveForm.get('hora')!.setValidators([Validators.required, futureHourValidator(this.reserveForm)]);
+    this.reserveForm.get('hora')!.updateValueAndValidity();*/
   }
+
+  private initFormValidations() {
+    const fechaReservaControl = this.reserveForm.get('fecha_reserva');
+    this.reserveForm.get('hora')!.setValidators([
+      Validators.required, 
+      futureHourValidator(fechaReservaControl!)
+    ]);
+
+    // Asegúrate de actualizar la validación de 'hora' cuando 'fecha_reserva' cambie
+    fechaReservaControl!.valueChanges.subscribe(() => {
+      this.reserveForm.get('hora')!.updateValueAndValidity();
+    });
+  }
+    // No es necesario suscribirse a los cambios de 'fecha_reserva' aquí,
+    // ya que el validador ahora tiene acceso directo al control
+  
 
   onSubmit() {
     if (this.reserveForm.valid) {
@@ -94,6 +116,7 @@ export class ReserveNowComponent implements OnInit, OnDestroy{
   ngOnInit() {
     this.intervalId = setInterval(() => this.cargarRecomendaciones(), 10000);
     this.cargarRecomendaciones();
+    this.getSchedule();
   }
 
   cargarRecomendaciones(): void {
@@ -108,4 +131,39 @@ export class ReserveNowComponent implements OnInit, OnDestroy{
   }
 
   animationCreated(animationItem: AnimationItem): void { }
+
+  getSchedule() {
+    this.schedule.obtenerHorarios().subscribe({
+      next: (response) => {
+        if (response.success) {
+          console.log(response.horarios);
+          this.horarios = response.horarios;
+        } else {
+          console.error('Error al obtener los horarios');
+        }
+      },
+      error: (error) => {
+        console.error('Error al obtener los horarios', error);
+      }
+    });
+  }
+
+  formatHour(hourWithSeconds: string): string {
+    // Extrae las horas y minutos
+    const parts = hourWithSeconds.split(':');
+    let hours = parseInt(parts[0], 10); // convierte en numero entero decimal (10)
+    const minutes = parts[1];
+    let suffix = 'AM';
+
+    if (hours >= 12) {
+      suffix = 'PM';
+      hours = hours - 12;
+    }
+    if (hours === 0) {
+      hours = 12; // La medianoche en formato 12h es 12 AM
+    }
+
+    // Devuelve el string formateado, asegurándose de que las horas sean dos dígitos. PadStart añade un '0' si es necesario.
+    return hours.toString().padStart(2, '0') + ':' + minutes + ' ' + suffix;
+  }
 }

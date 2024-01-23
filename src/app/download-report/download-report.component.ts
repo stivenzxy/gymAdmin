@@ -37,7 +37,12 @@ export class DownloadReportComponent implements OnInit {
 
   downloadFile() {
     const fechaActual = new Date();
-    const fecha = fechaActual.toISOString().split('T')[0];
+
+    var day = String(fechaActual.getDate()).padStart(2, '0');
+    var month = String(fechaActual.getMonth() + 1).padStart(2, '0');
+    var year = fechaActual.getFullYear();
+
+    const fecha = year + '-' + month + '-' + day;
 
     const url = window.URL.createObjectURL(this.fileData);
     const anchor = document.createElement('a');
@@ -46,17 +51,4 @@ export class DownloadReportComponent implements OnInit {
     anchor.click();
     window.URL.revokeObjectURL(url);
   }
-
-
-  // función original para descargar el reporte
-  /*downloadReport() {
-    this.reporteService.descargarReporte().subscribe(data => {
-      const url = window.URL.createObjectURL(data);
-      const anchor = document.createElement('a');
-      anchor.href = url;
-      anchor.download = 'reservas.xlsx';
-      anchor.click();
-      window.URL.revokeObjectURL(url);
-    });
-  }*/
 }

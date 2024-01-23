@@ -7,7 +7,7 @@ import { Subject } from 'rxjs'
   providedIn: 'root'
 })
 export class LoginAdminService {
-  private apiUrl = 'http://127.0.0.1:8000/gym/login/';
+  private apiUrl = 'http://192.168.0.8:8000/gym/login/';
   private closeLoginModalSubject = new Subject<void>();
   adminAuthStatusChanged: any;
 

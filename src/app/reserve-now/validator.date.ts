@@ -13,8 +13,8 @@ export function futureDateValidator(): ValidatorFn {
     var year = currentDate.getFullYear();
 
     const currentDateString = year + '-' + month + '-' + day;
-    console.log(currentDateString)
-    console.log(control.value)
+    //console.log(currentDateString)
+    //console.log(control.value)
 
     const isPastDate = control.value < currentDateString;
 

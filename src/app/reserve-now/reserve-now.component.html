@@ -61,10 +61,16 @@
         <img src="../../assets/calendar.png" alt="Calendario" class="w-32 h-32">
         <div class="containerHorario mt-6 p-8 rounded-lg w-full md:max-w-md">
           <h1 class="text-lg font-bold">Horario:</h1>
-          <p class="mt-2">Lunes y Viernes: 8am - 5pm</p>
-          <p>Martes a Jueves: 8am - 3pm</p>
+          <!-- Iterar sobre cada horario y mostrarlo -->
+          <div class="mt-2" *ngFor="let horario of horarios">
+            <span class="day-schedule font-medium">{{ horario.dia }}:</span>
+            <span class="day-schedule ml-1">
+              {{ (horario.openTime && horario.closeTime) ? (formatHour(horario.openTime) + ' - ' + formatHour(horario.closeTime)) : 'Cerrado' }}
+            </span>
+          </div>
         </div>
       </div>
+      
     </div>
 
     <div class="recomendations flex h-auto md:h-80 mt-20 w-full bg-slate-500 rounded-lg flex-col md:flex-row p-4">
