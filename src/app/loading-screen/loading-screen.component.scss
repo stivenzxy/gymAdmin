@@ -1,0 +1,20 @@
+:host {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    animation: fadeInOut 2s ease-out;
+}
+
+@keyframes fadeInOut {
+    0% { background-color: rgba(142, 151, 255, 0.664); } /* Transparente al inicio */
+    50% { background-color: rgba(230, 230, 230, 0.774); } /* Semi-transparente en el medio */
+    100% { background-color: rgba(255, 255, 255, 0); } /* Transparente al final */
+}
+
+ng-lottie {
+    max-width: 400px;
+    max-height: 400px;
+}
+  

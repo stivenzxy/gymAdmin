@@ -32,6 +32,7 @@ import { PenalizarComponent } from './penalizar/penalizar.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { DownloadReportComponent } from './download-report/download-report.component';
 import { KeysPipe } from './download-report/keys.pipe';
+import { LoadingScreenComponent } from './loading-screen/loading-screen.component';
 
 export function playerFactory() {
   return player;
@@ -55,7 +56,8 @@ export function playerFactory() {
     PenalizarComponent,
     ScheduleComponent,
     DownloadReportComponent,
-    KeysPipe
+    KeysPipe,
+    LoadingScreenComponent
   ],
   imports: [
     BrowserModule,

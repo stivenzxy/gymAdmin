@@ -12,6 +12,7 @@ import { SharedService } from './shared.service';
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService {
 
   //////////////////////////////////////////
@@ -52,9 +53,6 @@ export class AuthService {
         if (this.userData && this.userData.uid) {
           this.sharedService.changeUser(this.userData);
         }
-        /*console.log('Nombre del usuario:', user.displayName);
-        console.log('Email del usuario:', user.email);
-        console.log('Foto de perfil del usuario:', user.photoURL);*/
       } else {
         this.userData = null;
         this.sharedService.changeUser(null);
