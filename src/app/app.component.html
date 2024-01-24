@@ -1,27 +1,9 @@
-<!--<!doctype html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="/dist/output.scss" rel="stylesheet">
-</head>
-<body>
-  <h1 class="text-3xl font-bold underline">
-    Hello world!
-  </h1>
-  <fa-icon [icon]="icon"></fa-icon>
-  <ul>
-    <li *ngFor="let item of items">{{ item.name }}</li>
-  </ul>
-</body>
-</html>-->
-<app-sidenav (onToggleSideNav)="onToggleSideNav($event)"></app-sidenav>
-<app-header
-  [collapsed]="isSideNavCollapsed"
-  [screenWidth]="screenWidth"
-></app-header>
-<app-body>
-  [collapsed]="isSideNavCollapsed"
-  [screenWidth]="screenWidth"
-</app-body>
+<div *ngIf="isLoading">
+  <app-loading-screen></app-loading-screen> <!-- Pantalla de carga -->
+</div>
 
+<div *ngIf="!isLoading">
+  <app-sidenav (onToggleSideNav)="onToggleSideNav($event)"></app-sidenav>
+  <app-header [collapsed]="isSideNavCollapsed" [screenWidth]="screenWidth"></app-header>
+  <app-body [collapsed]="isSideNavCollapsed"[screenWidth]="screenWidth"></app-body>
+</div>

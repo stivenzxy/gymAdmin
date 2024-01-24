@@ -6,9 +6,6 @@ export function futureHourValidator(fechaReservaControl: AbstractControl): Valid
     console.log('Validador ejecutándose');
     const currentTime = new Date();
 
-    //console.log(form.value)
-    
-
     const hours = String(currentTime.getHours()).padStart(2, '0');
     const minutes = String(currentTime.getMinutes()).padStart(2, '0');
 
@@ -24,7 +21,6 @@ export function futureHourValidator(fechaReservaControl: AbstractControl): Valid
       return { 'invalidMinuteFormat': { value: control.value } };
     }
     
-    // Aquí accedemos al valor de 'fecha_reserva'
     const fechaReserva = fechaReservaControl.value;
     if (fechaReserva) {
       console.log('fecha de reserva en el validador de hora: ', fechaReserva)

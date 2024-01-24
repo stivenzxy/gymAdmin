@@ -48,7 +48,7 @@ export class SidenavComponent implements OnInit {
   screenWidth = 0;
   navData = navbarData;
   isAdminLoggedIn: boolean = false;
-
+  isUserLoggedIn: boolean = false;
 
   @ViewChild('sidenavContainer') sidenavContainer!: ElementRef;
 
@@ -75,6 +75,19 @@ export class SidenavComponent implements OnInit {
   ngOnInit(): void {
       this.screenWidth = window.innerWidth;
       this.isAdminLoggedIn = this.adminService.isLoggedIn();
+      this.isUserLoggedIn = this.authService.isLoggedIn;
+
+      this.navData = [...navbarData];
+
+      this.authService.user.subscribe(user => {
+        if (user) {
+          // Filtrar el ítem 'settings' si el usuario está logueado
+          this.navData = navbarData.filter(item => item.routeLink !== 'settings');
+        } else {
+          // Restaurar el arreglo original si no hay usuario logueado
+          this.navData = [...navbarData];
+        }
+      });
   }
 
   toggleCollapse() : void {

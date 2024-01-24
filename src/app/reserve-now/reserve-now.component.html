@@ -22,13 +22,16 @@
           <div class="input">
             <label class="inputLabel block text-sm font-medium">Fecha en la que desea reservar</label>
             <input formControlName="fecha_reserva" type="date" class="mt-1 p-2 block w-full rounded-md border" 
-            [ngClass]="{ 'border-red-500': reserveForm.get('fecha_reserva')!.invalid && reserveForm.get('fecha_reserva')!.touched && !reserveForm.get('fecha_reserva')!.errors?.['pastDate']}">
+            [ngClass]="{ 'border-red-500': reserveForm.get('fecha_reserva')!.invalid && reserveForm.get('fecha_reserva')!.touched && !reserveForm.get('fecha_reserva')!.errors?.['pastDate'] && !reserveForm.get('fecha_reserva')!.errors?.['dayLimit']}">
             <div class="text-red-500 text-xs mt-1 h-2">
-              <span *ngIf="reserveForm.get('fecha_reserva')!.invalid && reserveForm.get('fecha_reserva')!.touched && !reserveForm.get('fecha_reserva')!.errors?.['pastDate']">
+              <span *ngIf="reserveForm.get('fecha_reserva')!.invalid && reserveForm.get('fecha_reserva')!.touched && !reserveForm.get('fecha_reserva')!.errors?.['pastDate'] && !reserveForm.get('fecha_reserva')!.errors?.['dayLimit']">
                 Por favor seleccione la fecha
               </span>
               <span *ngIf="reserveForm.get('fecha_reserva')!.errors?.['pastDate']">
                 La fecha no puede ser inferior a la actual
+              </span>
+              <span *ngIf="reserveForm.get('fecha_reserva')!.errors?.['dayLimit']">
+                Solo puedes reservar para hoy mismo o mañana
               </span>
             </div>
           </div>
@@ -58,7 +61,7 @@
       </div>
 
       <div class="w-full md:w-1/2 md:mt-0 mt-16 flex flex-col items-center">
-        <img src="../../assets/calendar.png" alt="Calendario" class="w-32 h-32">
+        <img src="../../assets/calendar1.svg" alt="Calendario" class="w-32 h-32">
         <div class="containerHorario mt-6 p-8 rounded-lg w-full md:max-w-md">
           <h1 class="text-lg font-bold">Horario:</h1>
           <!-- Iterar sobre cada horario y mostrarlo -->
