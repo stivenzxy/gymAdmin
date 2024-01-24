@@ -18,7 +18,7 @@ export class PenalizarComponent implements OnInit {
   obtenerReservas() {
     this.http
       .get<{ success: boolean; reservas: any[] }>(
-        'http://192.168.0.8:8000/gym/GetReservas/'
+        'http://127.0.0.1:8000/gym/GetReservas/'
       )
       .subscribe({
         next: (response) => {
@@ -57,7 +57,7 @@ export class PenalizarComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.http.post('http://192.168.0.8:8000/gym/Penalizar/', body).subscribe({
+        this.http.post('http://127.0.0.1:8000/gym/Penalizar/', body).subscribe({
           next: (response: any) => {
             // Manejo de la respuesta exitosa
             if (response.success) {
@@ -117,7 +117,7 @@ export class PenalizarComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if(result.isConfirmed) {
-        this.http.post('http://192.168.0.8:8000/gym/CrearAsistencia/', body).subscribe({
+        this.http.post('http://127.0.0.1:8000/gym/CrearAsistencia/', body).subscribe({
           next: (response: any) => {
             if(response.success) {
               Swal.fire({
