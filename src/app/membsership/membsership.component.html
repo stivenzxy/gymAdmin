@@ -1,0 +1,39 @@
+<div mat-dialog-title>
+    <h1 class="justify-center flex">Agrega estudiantes al plan premium del establecimiento</h1>
+  </div>
+  <button mat-icon-button class="close-button" [mat-dialog-close]="false">
+    <mat-icon>close</mat-icon>
+  </button>
+  <div class="mat-typography modal-container mx-auto">
+    <div class="flex flex-wrap">
+      <!-- Formulario -->
+      <div class="w-full md:w-1/2">
+        <div class="m-4">
+          <form>
+            <div class="mb-4">
+              <label class="block text-sm font-medium mb-2" for="fechaInicio">Fecha inicio</label>
+              <input type="date" id="fechaInicio" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-transparent">
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium mb-2" for="fechaFin">Fecha fin</label>
+              <input type="date" id="fechaFin" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-transparent">
+            </div>
+            <div class="mb-4">
+              <label class="block text-sm font-medium mb-2" for="codigoEstudiantil">Código estudiantil</label>
+              <input type="text" id="codigoEstudiantil" placeholder="Ingresa el código" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-transparent">
+            </div>
+            <div class="flex items-center justify-between">
+              <button class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                Enviar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- Imagen -->
+      <div class="w-full md:mt-0 mt-10 md:w-1/2 flex items-center justify-center">
+        <img src="../../assets/fitnessMan.svg" alt="imgMembership" class="w-full h-auto p-4 object-cover">
+      </div>
+    </div>
+  </div>
+  

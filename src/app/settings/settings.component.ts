@@ -4,6 +4,7 @@ import { PenalizarComponent } from '../penalizar/penalizar.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ScheduleComponent } from '../schedule/schedule.component';
 import { DownloadReportComponent } from '../download-report/download-report.component';
+import { MembsershipComponent } from '../membsership/membsership.component';
 
 @Component({
   selector: 'app-settings',
@@ -36,6 +37,10 @@ export class SettingsComponent {
     this.openScheduleDialog();
   }
 
+  addMembership(){
+    this.openMembershipDialog();
+  }
+
   openScheduleDialog(): void {
     const dialogRef = this.dialog.open(ScheduleComponent, {
       disableClose: true
@@ -48,6 +53,16 @@ export class SettingsComponent {
 
   openReportDialog(): void {
     const dialogRef = this.dialog.open(DownloadReportComponent, {
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  openMembershipDialog(): void {
+    const dialogRef = this.dialog.open(MembsershipComponent, {
       disableClose: true
     });
 

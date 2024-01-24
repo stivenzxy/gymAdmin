@@ -33,6 +33,8 @@ import { ScheduleComponent } from './schedule/schedule.component';
 import { DownloadReportComponent } from './download-report/download-report.component';
 import { KeysPipe } from './download-report/keys.pipe';
 import { LoadingScreenComponent } from './loading-screen/loading-screen.component';
+import { MembsershipComponent } from './membsership/membsership.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 export function playerFactory() {
   return player;
@@ -57,7 +59,8 @@ export function playerFactory() {
     ScheduleComponent,
     DownloadReportComponent,
     KeysPipe,
-    LoadingScreenComponent
+    LoadingScreenComponent,
+    MembsershipComponent
   ],
   imports: [
     BrowserModule,
@@ -74,7 +77,8 @@ export function playerFactory() {
 
     AngularFireModule.initializeApp(environment.firebase),
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatTooltipModule
     
   ],
   providers: [CookieService],
