@@ -2,7 +2,20 @@ p {
     color: var(--card-text-color);
 }
 
+
+h2 {
+    color: var(--title-table);
+}
+
 .tab-head {
     background-color: var(--table-head-color);
     color: var(--thead-text-color);
+}
+
+.attendTable {
+    color: var(--tbody-text-color);
+}
+
+.tab-tr {
+    background-color: var(--tr-bg-color);
 }

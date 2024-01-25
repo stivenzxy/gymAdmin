@@ -1,25 +1,64 @@
 <div class="overflow-x-auto relative shadow-md rounded-lg">
-  <table *ngIf="historial.length > 0; else noDataContent" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-    <thead class="tab-head text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+  <h2 class="font-semibold">Listado de reservas activas</h2>
+  <table *ngIf="historialReservas.length > 0; else noDataContent" class="attendTable w-full text-sm text-left">
+    <thead class="tab-head text-xs uppercase">
       <tr>
         <th scope="col" class="py-3 px-6 text-center">Fecha</th>
         <th scope="col" class="py-3 px-6 text-center">Nombre</th>
-        <th scope="col" class="py-3 px-6 text-center">Hora de asistencia</th>
+        <th scope="col" class="py-3 px-6 text-center">Hora Reservada</th>
+        <th scope="col" class="py-3 px-6 text-center">N° de horas</th>
+        <th scope="col" class="py-3 px-6 text-center">Acciones</th>
       </tr>
     </thead>
     <tbody>
-      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" *ngFor="let historialActual of historial; let i = index">
-        <td class="px-4 py-2 text-center">{{ historialActual.fecha }}</td>
-        <td class="px-4 py-2 text-center">{{ historialActual.usuario.nombre }}</td>
-        <td class="px-4 py-2 text-center">{{ historialActual.hora }}</td>
+      <tr class="tab-tr border-b border-gray-700" *ngFor="let historial_reserv of historialReservas; let i = index">
+        <td class="px-4 py-2 text-center">{{ historial_reserv.fecha }}</td>
+        <td class="px-4 py-2 text-center">{{ historial_reserv.usuario.nombre }}</td>
+        <td class="px-4 py-2 text-center">{{ historial_reserv.hora }}</td>
+        <td class="px-4 py-2 text-center">{{ historial_reserv.cantidad_horas }}</td>
+        <td class="px-4 py-2 text-center">
+          <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" matTooltip="Cancelar reserva" matTooltipPosition="below" (click)="cancelReserve(i)">
+            <i class="fa fas fa-ban"></i>
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>
 
-  <!-- Contenido alternativo para cuando no hay datos -->
+  <!-- Contenido alternativo para cuando no hay datos en reservas -->
   <ng-template #noDataContent>
     <div class="text-center p-4">
-      <p class="text-gray-700 dark:text-gray-400">No hay datos en tu historial aún, ¡es un buen momento para hacer que empiece a crecer!</p>
+      <p class="text-gray-700 dark:text-gray-400">No tienes reservas sin confirmar actualmente</p>
+    </div>
+  </ng-template>
+</div>
+
+<!--Tabla de asistencias -->
+<div class="overflow-x-auto relative shadow-md rounded-lg mt-10">
+  <h2 class="font-semibold">Listado de asistencias confirmadas</h2>
+  <table *ngIf="historialAsistencias.length > 0; else noDataContentAsistencias" class="attendTable w-full text-sm text-left">
+    <thead class="tab-head text-xs uppercase">
+      <tr>
+        <th scope="col" class="py-3 px-6 text-center">Fecha</th>
+        <th scope="col" class="py-3 px-6 text-center">Nombre</th>
+        <th scope="col" class="py-3 px-6 text-center">Hora de asistencia</th>
+        <th scope="col" class="py-3 px-6 text-center">N° de horas</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="tab-tr border-b border-gray-700" *ngFor="let historial_asist of historialAsistencias; let i = index">
+        <td class="px-4 py-2 text-center">{{ historial_asist.fecha }}</td>
+        <td class="px-4 py-2 text-center">{{ historial_asist.usuario.nombre }}</td>
+        <td class="px-4 py-2 text-center">{{ historial_asist.hora }}</td>
+        <td class="px-4 py-2 text-center">{{ historial_asist.cantidad_horas }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Contenido alternativo para cuando no hay datos en asistencias -->
+  <ng-template #noDataContentAsistencias>
+    <div class="text-center p-4">
+      <p class="text-gray-700 dark:text-gray-400">Aun no hay asistencias confirmadas en tu historial</p>
     </div>
   </ng-template>
 </div>

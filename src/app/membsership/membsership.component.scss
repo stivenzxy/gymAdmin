@@ -1,0 +1,22 @@
+h1 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    color: #1f1e1e;
+    font-weight: 600;
+}
+  
+.p-text {
+    max-width: 350px;
+    color: #2d2d2d;
+    font-weight: 500;
+    margin-bottom: 10px;
+    //display: flex;
+    text-align: center;
+}
+
+.close-button {
+    display: flex;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
