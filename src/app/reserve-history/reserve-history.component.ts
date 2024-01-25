@@ -45,7 +45,7 @@ export class ReserveHistoryComponent implements OnInit {
     const reserva = this.historialReservas[index];
     console.log(reserva.id_reserva);
     
-    const body = {id: reserva.id_reserva};
+    const body = {id_reserva: reserva.id_reserva};
 
     Swal.fire({
       title: '¿Deseas cancelar la reserva?',
@@ -58,7 +58,7 @@ export class ReserveHistoryComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.http.post('http://192.168.0.6:8000/gym/CancelReserve/', body).subscribe({
+        this.http.post('http://192.168.0.6:8000/gym/CancelReserva/', body).subscribe({
           next: (response: any) => {
             if (response.success) {
               Swal.fire({
