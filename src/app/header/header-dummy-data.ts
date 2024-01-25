@@ -31,14 +31,10 @@ export const notifications = [
 
 export const userItems = [
     {
-        icon: 'fas fa-user',
-        label: 'Perfil',
-        routeLink: 'profile'
-    }, 
-    {
-        icon: 'fas fa-wrench',
-        label: 'Info',
-        routeLink: 'ajustes'
+        icon: 'fas fa-info',
+        label: 'Acerca de',
+        //routeLink: 'about'
+        action: 'about'
     },
     {
         icon: 'fas fa-power-off',

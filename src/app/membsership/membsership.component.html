@@ -9,21 +9,45 @@
       <!-- Formulario -->
       <div class="w-full md:w-1/2">
         <div class="m-4">
-          <form>
+          <form [formGroup]="membershipForm">
             <div class="mb-4">
               <label class="block text-sm font-medium mb-2" for="fechaInicio">Fecha inicio</label>
-              <input type="date" id="fechaInicio" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-transparent">
+              <input formControlName="fecha_inicio" type="date" id="fechaInicio" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-transparent"
+                required [ngClass]="{ 'border-red-500' : membershipForm.get('fecha_inicio')!.invalid && membershipForm.get('fecha_inicio')!.touched }"
+              >
+
+              <div class="text-red-500 text-xs mt-1 h-2">
+                <span *ngIf="membershipForm.get('fecha_inicio')!.invalid && membershipForm.get('fecha_inicio')!.touched">
+                  Ingrese la fecha de inicio
+                </span>
+              </div>
             </div>
             <div class="mb-4">
               <label class="block text-sm font-medium mb-2" for="fechaFin">Fecha fin</label>
-              <input type="date" id="fechaFin" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-transparent">
+              <input formControlName="fecha_fin" type="date" id="fechaFin" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-transparent"
+              required [ngClass]="{ 'border-red-500' : membershipForm.get('fecha_fin')!.invalid && membershipForm.get('fecha_fin')!.touched }"
+              >
+
+              <div class="text-red-500 text-xs mt-1 h-2">
+                <span *ngIf="membershipForm.get('fecha_fin')!.invalid && membershipForm.get('fecha_fin')!.touched">
+                  Ingrese la fecha de finalización
+                </span>
+              </div>
             </div>
             <div class="mb-4">
               <label class="block text-sm font-medium mb-2" for="codigoEstudiantil">Código estudiantil</label>
-              <input type="text" id="codigoEstudiantil" placeholder="Ingresa el código" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-transparent">
+              <input formControlName="cod_estudiante" type="text" id="codigoEstudiantil" placeholder="Ingresa el código" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-transparent"
+              required [ngClass]="{ 'border-red-500' : membershipForm.get('cod_estudiante')!.invalid && membershipForm.get('cod_estudiante')!.touched }"
+              >
+
+              <div class="text-red-500 text-xs mt-1 h-2">
+                <span *ngIf="membershipForm.get('cod_estudiante')!.invalid && membershipForm.get('cod_estudiante')!.touched">
+                  Ingrese el codigo de estudiante
+                </span>
+              </div>
             </div>
             <div class="flex items-center justify-between">
-              <button class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+              <button class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" (click)="submitMembership()">
                 Enviar
               </button>
             </div>

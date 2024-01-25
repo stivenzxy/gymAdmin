@@ -10,6 +10,8 @@ import { ReserveHistoryComponent } from './reserve-history/reserve-history.compo
 import { AuthGuard } from 'src/shared/guards/auth.guard';
 import { InitformComponent } from './initform/initform.component';
 import { reserveHistoryGuard } from 'src/shared/guards/reserve-history.guard';
+import { AboutComponent } from './about/about.component';
+
 
 
 const routes: Routes = [
@@ -28,7 +30,8 @@ const routes: Routes = [
   {path: 'products', component: ProductsComponent},
   {path: 'settings', component: SettingsComponent, canActivate: [AuthGuard]},
   {path: 'login', component: LoginComponent },
-  {path: 'initform', component: InitformComponent}
+  {path: 'initform', component: InitformComponent},
+  {path: 'about', component: AboutComponent},
 ];
 
 @NgModule({

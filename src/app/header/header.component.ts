@@ -8,6 +8,7 @@ import { AuthService } from 'src/shared/services/auth.service';
 import { LoginComponent } from '../login/login.component';
 import { notifications, redirectLogin, themes, userItems } from './header-dummy-data';
 import { LoginAdminService } from 'src/shared/services/login-admin.service';
+import { AboutComponent } from '../about/about.component';
 
 @Component({
   selector: 'app-header',
@@ -81,6 +82,10 @@ export class HeaderComponent implements OnInit, OnDestroy{
     if(itemProfile.action === 'logout') {
       this.authService.logOut();
       this.adminService.logout();
+    } 
+    
+    if (itemProfile.action === 'about') {
+      this.openAboutDialog();
     }
   }
 
@@ -99,6 +104,16 @@ export class HeaderComponent implements OnInit, OnDestroy{
 
   openLoginDialog() {
     const dialogRef = this.dialog.open(LoginComponent, {
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  openAboutDialog() {
+    const dialogRef = this.dialog.open(AboutComponent, {
       disableClose: true
     });
 
