@@ -24,13 +24,8 @@ export class ReserveHistoryComponent implements OnInit {
   }
 
   obtenerReservasPorUsuario(uid: string | undefined) {
-<<<<<<< HEAD
     const url = `http://127.0.0.1:8000/gym/AsistenciasPerUser/?uid=${uid}`;
-    this.http.get<{success: boolean, reservas: any[]}>(url).subscribe({
-=======
-    const url = `http://192.168.0.8:8000/gym/AsistenciasPerUser/?uid=${uid}`;
     this.http.get<{success: boolean, reservas: any[], asistencias: any[]}>(url).subscribe({
->>>>>>> c0db705f3a308b5f4eefdf5bfb8470fd2bfa27a3
       next: (response) => {
         if (response.success) {
           console.log(response.reservas)
@@ -50,7 +45,7 @@ export class ReserveHistoryComponent implements OnInit {
     const reserva = this.historialReservas[index];
     console.log(reserva.id_reserva);
     
-    const body = {id: reserva.id_reserva};
+    const body = {id_reserva: reserva.id_reserva}; //Tenia id nomás pndj
 
     Swal.fire({
       title: '¿Deseas cancelar la reserva?',
@@ -63,7 +58,7 @@ export class ReserveHistoryComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.http.post('http://192.168.0.8:8000/gym/CancelReserve/', body).subscribe({
+        this.http.post('http://127.0.0.1:8000/gym/CancelReserva/', body).subscribe({
           next: (response: any) => {
             if (response.success) {
               Swal.fire({
