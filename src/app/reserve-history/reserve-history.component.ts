@@ -45,7 +45,7 @@ export class ReserveHistoryComponent implements OnInit {
     const reserva = this.historialReservas[index];
     console.log(reserva.id_reserva);
     
-    const body = {id_reserva: reserva.id_reserva}; //Tenia id nomás pndj
+    const body = {id_reserva: reserva.id_reserva};
 
     Swal.fire({
       title: '¿Deseas cancelar la reserva?',
