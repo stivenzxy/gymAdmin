@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class GetUsersService {
 
-  private apiUrl = 'http://192.168.0.6:8000/gym/Users/'
+  private apiUrl = 'http://192.168.0.7:8000/gym/GetUsers/'
 
   constructor(private http: HttpClient){}
 
@@ -17,5 +17,9 @@ export class GetUsersService {
       params = params.append('cod_estudiante', codEstudiante);
     }
     return this.http.get(this.apiUrl, { params: params });
+  }
+
+  getUsersWithoutCod(): Observable<any> {
+    return this.http.get(this.apiUrl);
   }
 }

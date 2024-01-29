@@ -17,7 +17,7 @@ export class AuthService {
 
   //////////////////////////////////////////
   // para enviar el Uid y el nombre de usuario al backend:
-  private apiUrl = 'http://192.168.0.6:8000/gym/CheckUser/'
+  private apiUrl = 'http://192.168.0.7:8000/gym/CheckUser/'
  //////////////////////////////////////////
 
  

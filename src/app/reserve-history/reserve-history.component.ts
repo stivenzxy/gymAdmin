@@ -12,7 +12,20 @@ export class ReserveHistoryComponent implements OnInit {
   historialAsistencias: any[] = [];
   uid: string | undefined ;
 
+  page: number = 1; // Página actual
+  pageSize: number = 5; // Cantidad de elementos por página
+  collectionSize!: number; // Total de elementos en el historial
+
   constructor(private http : HttpClient, private authService: AuthService) {}
+
+
+  get totalPage() {
+    return Math.ceil(this.collectionSize / this.pageSize);
+  }
+
+  changePage(cambio: number) {
+    this.page += cambio;
+  }
 
   ngOnInit(): void {
     this.authService.user.subscribe(user => {
@@ -24,13 +37,14 @@ export class ReserveHistoryComponent implements OnInit {
   }
 
   obtenerReservasPorUsuario(uid: string | undefined) {
-    const url = `http://192.168.0.6:8000/gym/AsistenciasPerUser/?uid=${uid}`;
+    const url = `http://192.168.0.7:8000/gym/AsistenciasPerUser/?uid=${uid}`;
     this.http.get<{success: boolean, reservas: any[], asistencias: any[]}>(url).subscribe({
       next: (response) => {
         if (response.success) {
           console.log(response.reservas)
           this.historialReservas = response.reservas;
           this.historialAsistencias = response.asistencias;
+          this.collectionSize = this.historialAsistencias.length;
         } else {
           console.error('Error al obtener las reservas');
         }
@@ -58,7 +72,7 @@ export class ReserveHistoryComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.http.post('http://192.168.0.6:8000/gym/CancelReserva/', body).subscribe({
+        this.http.post('http://192.168.0.7:8000/gym/CancelReserva/', body).subscribe({
           next: (response: any) => {
             if (response.success) {
               Swal.fire({

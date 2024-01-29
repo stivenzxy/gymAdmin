@@ -3,6 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { GetUsersService } from 'src/shared/services/get-users.service';
 import { MembershipService } from 'src/shared/services/membership.service';
 import Swal from 'sweetalert2';
+import { dateValidator } from './validatorDateMembership';
+import { ActiveMembershipListComponent } from '../active-membership-list/active-membership-list.component';
+import { MatDialog } from '@angular/material/dialog';
+
 @Component({
   selector: 'app-membsership',
   templateUrl: './membsership.component.html',
@@ -11,13 +15,17 @@ import Swal from 'sweetalert2';
 export class MembsershipComponent implements OnInit{
   membershipForm: FormGroup;
 
-  constructor(private membershipService: MembershipService, private fb: FormBuilder, private getUserService: GetUsersService){
+  constructor(private membershipService: MembershipService, private fb: FormBuilder,
+    private getUserService: GetUsersService, private dialog : MatDialog){
     this.membershipForm = this.fb.group({
       fecha_inicio: ['', [Validators.required]],
       fecha_fin: ['', [Validators.required]],
       cod_estudiante: ['', [Validators.required]],
-    })
+    });
+
+    this.membershipForm.setValidators(dateValidator());
   }
+
 
   ngOnInit(): void {}  
 
@@ -99,13 +107,27 @@ export class MembsershipComponent implements OnInit{
             error: (error) => {
               Swal.fire({
                 title: 'Ups...!',
-                text: error.error.message || 'Error desconocido',
+                text: error.error.message,
                 icon: 'error',
                 confirmButtonText: 'Aceptar',
               });
             },
           });
         }
+      });
+    }
+
+    viewMembershipList() {
+      this.openViewMembershipListModal();
+    }
+
+    openViewMembershipListModal() {
+      const dialogRef = this.dialog.open(ActiveMembershipListComponent, {
+        disableClose: true
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        console.log(`Dialog result: ${result}`);
       });
     }
 }

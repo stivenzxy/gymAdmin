@@ -1,15 +1,16 @@
 <!-- login-dialog.component.html -->
-<h2 mat-dialog-title>
+<div mat-dialog-title>
   <h1 class="justify-center flex">Gestiona las reservas realizadas por los clientes</h1>
-</h2>
-<button mat-icon-button class="close-button" [mat-dialog-close]="false">
-  <mat-icon>close</mat-icon>
-</button>
+
+  <button mat-icon-button class="close-button" [mat-dialog-close]="false">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
 <mat-dialog-content class="mat-typography modal-container">
   <div class="overflow-x-auto p-4">
     <table *ngIf="reservas.length > 0; else noDataContent" class="min-w-full table-auto">
       <thead>
-        <tr class="border-b">
+        <tr class="border-b text-zinc-800">
           <th class="px-4 py-2 text-center">Código</th>
           <th class="px-4 py-2 text-center">Programa</th>
           <th class="px-4 py-2 text-center">Usuario</th>
@@ -18,7 +19,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr class="border-b" *ngFor="let reserva of reservas; let i = index">
+        <tr class="border-b text-zinc-700" *ngFor="let reserva of reservas; let i = index">
           <td class="px-4 py-2 text-center">{{ reserva.usuario.codigo_estudiantil }}</td>
           <td class="px-4 py-2 text-center">{{ reserva.usuario.programa }}</td>
           <td class="px-4 py-2 text-center">{{ reserva.usuario.nombre }}</td>

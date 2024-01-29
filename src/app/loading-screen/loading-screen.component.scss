@@ -8,9 +8,9 @@
 }
 
 @keyframes fadeInOut {
-    0% { background-color: rgba(142, 151, 255, 0.664); } /* Transparente al inicio */
-    50% { background-color: rgba(230, 230, 230, 0.774); } /* Semi-transparente en el medio */
-    100% { background-color: rgba(255, 255, 255, 0); } /* Transparente al final */
+    0% { background-color: rgba(1, 2, 15, 0.95); } /* Transparente al inicio */
+    50% { background-color: rgba(0, 0, 0, 0.929); } /* Semi-transparente en el medio */
+    100% { background-color: rgb(0, 0, 0); } /* Transparente al final */
 }
 
 ng-lottie {

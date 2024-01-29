@@ -21,11 +21,12 @@ h1 {
     right: 20px;
 }
 
-@media screen and (max-width: 768px) {
-    .active-membership {
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      max-width: 100px; /* Ajusta este valor según tus necesidades */
+.modal-container {
+    width: 700px; /* Ancho base */
+}
+  
+@media (max-width: 768px) {
+    .modal-container {
+      width: 100%; 
     }
-  }
+}

@@ -22,16 +22,25 @@
       </div>
     </div>
 
-  
-    <!-- Sección de Descarga de Reportes -->
-    <div class="mb-12">
-      <h2 class="text-xl font-semibold mb-3">Visualizar y Descargar Reporte</h2>
-      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" (click)="downloadReport()">
-        <i class="fa-solid fa-file mr-2 text-white"></i>
-        Visualizar Reporte
-      </button>
-    </div>
+    <div class="mb-12 flex flex-col md:flex-row">   
+      <!-- Contenedor para Descargar Reporte -->
+      <div class="mb-12 md:mb-0 md:mr-4">
+        <h2 class="text-xl font-semibold mb-3">Visualizar y Descargar Reporte</h2>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" (click)="downloadReport()">
+          <i class="fa-solid fa-pen-to-square mr-2 text-white"></i>
+          Visualizar Reporte
+        </button>
+      </div>
 
+      <!-- Contenedor para Visualizar Usuarios -->
+      <div class="ml-0 md:ml-24">
+        <h2 class="text-xl font-semibold mb-3">Visualizar Usuarios</h2>
+        <button class="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded" (click)="viewUsers()">
+          <i class="fa-solid fa-eye mr-2 text-white"></i>
+            Usuarios Registrados
+        </button>
+      </div>
+    </div>
 
     <!-- Sección para Cambiar el Horario -->
     <div class="mb-12">

@@ -3,6 +3,7 @@ import { AuthService } from 'src/shared/services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InitformService } from 'src/shared/services/initform.service';
 import Swal from 'sweetalert2';
+import { facultades } from './programs.helper';
 @Component({
   selector: 'app-initform',
   templateUrl: './initform.component.html',
@@ -10,7 +11,7 @@ import Swal from 'sweetalert2';
 })
 
 export class InitformComponent implements OnInit, OnDestroy{
-
+  facultades = facultades;
   extraDataForm: FormGroup;
 
   constructor(
