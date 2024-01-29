@@ -54,7 +54,7 @@
       </tr>
     </tbody>
   </table>
-  <div class="tab-head flex justify-between items-center text-base px-4">
+  <div *ngIf="historialAsistencias.length > 0;" class="tab-head flex justify-between items-center text-base px-4">
     <button (click)="changePage(-1)" [disabled]="page === 1"><i class="fa-solid fa-angle-left"></i></button>
     <span class="font-medium">Pag {{ page }} de {{ totalPage }}</span>
     <button (click)="changePage(1)" [disabled]="page === totalPage"><i class="fa-solid fa-angle-right"></i></button>

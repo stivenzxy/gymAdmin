@@ -43,6 +43,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { RegisteredUsersComponent } from './registered-users/registered-users.component';
 import { SearchPipe } from './registered-users/search.pipe';
+import { ComponenterandomComponent } from './componenterandom/componenterandom.component';
 
 
 export function playerFactory() {
@@ -74,6 +75,7 @@ export function playerFactory() {
     ActiveMembershipListComponent,
     RegisteredUsersComponent,
     SearchPipe,
+    ComponenterandomComponent,
   ],
 
   imports: [
