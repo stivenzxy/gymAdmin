@@ -33,21 +33,25 @@ export const userItems = [
     {
         icon: 'fas fa-info',
         label: 'Acerca de',
-        //routeLink: 'about'
         action: 'about'
     },
     {
         icon: 'fas fa-power-off',
         label: 'Salir',
-        //routeLink: 'signOut',
         action: 'logout'
     }
 ]
 
 export const redirectLogin = [
     {
+        icon: 'fas fa-info',
+        label: 'Acerca de',
+        action: 'about'
+    },
+    {
         icon: 'fas fa-right-to-bracket',
         label: 'Iniciar Sesion',
-        routeLink: 'singIn'
+        routeLink: 'singIn',
+        action:'login'
     }
 ]

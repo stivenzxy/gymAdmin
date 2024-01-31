@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http'
 import { InitformComponent } from 'src/app/initform/initform.component';
 import { MatDialog } from '@angular/material/dialog';
 import { SharedService } from './shared.service';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class AuthService {
 
   //////////////////////////////////////////
   // para enviar el Uid y el nombre de usuario al backend:
-  private apiUrl = 'http://192.168.0.7:8000/gym/CheckUser/'
+  private apiUrl = 'http://192.168.0.8:8000/gym/CheckUser/'
  //////////////////////////////////////////
 
  
@@ -48,7 +49,7 @@ export class AuthService {
         const usernameClient = user.displayName ?? '';
         const emailClient = user.email ?? '';
 
-        this.sendUserDataToBackend(uid, usernameClient);
+        this.sendUserDataToBackend(uid, usernameClient, emailClient);
 
         if (this.userData && this.userData.uid) {
           this.sharedService.changeUser(this.userData);
@@ -93,27 +94,43 @@ export class AuthService {
     })
   }
 
-
-
   /// enviar los datos al backend
-  sendUserDataToBackend(uid: string, usernameClient: string) {
-    console.log(uid, usernameClient);
-    const body = { uid: uid, displayName: usernameClient };
+  sendUserDataToBackend(uid: string, usernameClient: string, emailClient: string) {
+    console.log(uid, usernameClient, emailClient);
+    const body = { uid: uid, displayName: usernameClient, email: emailClient };
     return this.http.post<any>(this.apiUrl, body).subscribe({
       next: (response) => {
         console.log('Respuesta del servidor:', response);
         if (response.user_exists) {
-          console.log('El usuario existe');
+          console.log(response.message);
         } else {
-         // alert('El usuario no existe');
           this.openLoginDialog();
         }
       },
       error: (error) => {
         console.error('Error al enviar los datos', error);
+        let errorMessage = 'Error desconocido';
+        if (error.status === 401) {
+            errorMessage = error.error.message || 'Dirección de correo no compatible con la institución.';
+        } else if (error.status === 500) {
+            errorMessage = error.error.error || 'Error interno del servidor';
+        }
+    
+        console.log(errorMessage);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: errorMessage,
+            confirmButtonText: 'Aceptar'
+        }).then((result) => {
+            if (result.isConfirmed && error.status === 401) {
+                this.logOut();
+            }
+        });
       }
     });
   }
+  
 
   openLoginDialog(): void {
     const dialogRef = this.dialog.open(InitformComponent, {
@@ -124,7 +141,4 @@ export class AuthService {
       console.log(`Dialog result: ${result}`);
     });
   }
-
-
-  
 }

@@ -102,6 +102,16 @@ export class HeaderComponent implements OnInit, OnDestroy{
     localStorage.setItem('selectedTheme', JSON.stringify(this.selectedTheme));
   }
 
+  selectSignInOptions(logItem: any){
+    if (logItem.action === 'login') {
+      this.openLoginDialog();
+    } 
+
+    if (logItem.action === 'about') {
+      this.openAboutDialog();
+    }
+  }
+
   openLoginDialog() {
     const dialogRef = this.dialog.open(LoginComponent, {
       disableClose: true

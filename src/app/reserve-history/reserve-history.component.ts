@@ -37,7 +37,7 @@ export class ReserveHistoryComponent implements OnInit {
   }
 
   obtenerReservasPorUsuario(uid: string | undefined) {
-    const url = `http://192.168.0.7:8000/gym/AsistenciasPerUser/?uid=${uid}`;
+    const url = `http://192.168.0.8:8000/gym/AsistenciasPerUser/?uid=${uid}`;
     this.http.get<{success: boolean, reservas: any[], asistencias: any[]}>(url).subscribe({
       next: (response) => {
         if (response.success) {
@@ -72,7 +72,7 @@ export class ReserveHistoryComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.http.post('http://192.168.0.7:8000/gym/CancelReserva/', body).subscribe({
+        this.http.post('http://192.168.0.8:8000/gym/CancelReserva/', body).subscribe({
           next: (response: any) => {
             if (response.success) {
               Swal.fire({

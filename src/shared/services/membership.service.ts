@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class MembershipService {
 
-  private apiUrl = 'http://192.168.0.7:8000/gym/CreateMembresia/'
+  private apiUrl = 'http://192.168.0.8:8000/gym/CreateMembresia/'
 
   constructor(private http: HttpClient) { }
 

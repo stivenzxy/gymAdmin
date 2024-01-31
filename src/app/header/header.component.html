@@ -93,7 +93,7 @@
 <ng-template #notLoggedOverlay>
     <div class="overlay overlay-user overlay-fall" cdkMenu>
         <ul>
-            <li *ngFor="let log of loginItem" cdkMenuItem (click)="openLoginDialog()">
+            <li *ngFor="let log of loginItem" cdkMenuItem (click)="selectSignInOptions(log)">
                 <a>
                     <i class="icon" [ngClass]="log.icon"></i>
                     <span>{{log.label}}</span>

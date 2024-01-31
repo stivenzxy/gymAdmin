@@ -7,8 +7,8 @@ import { Observable } from 'rxjs';
 })
 export class GetUsersService {
 
-  private apiUrl = 'http://192.168.0.7:8000/gym/GetUsers/';
-  private apiUrlAttendance = 'http://192.168.0.7:8000/gym/CrearAsistenciaSinReserva/';
+  private apiUrl = 'http://192.168.0.8:8000/gym/GetUsers/';
+  private apiUrlAttendance = 'http://192.168.0.8:8000/gym/CrearAsistenciaSinReserva/';
   constructor(private http: HttpClient){}
 
   getUsers(codEstudiante?: string): Observable<any> {
