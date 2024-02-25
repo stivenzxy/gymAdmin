@@ -1,3 +1,61 @@
 h1 {
     color: var(--h1-title);
 }
+
+.input-field {
+    padding: .5rem;
+    border-radius: .5rem;
+    background-color: var(--dashboard-inputs-bg);
+}
+
+.input-group .flex {
+    display: flex;
+    align-items: center;
+}
+
+.input-group .input-field {
+    flex-grow: 1;
+    min-width: 50%;
+    margin-right: 0.5rem; /* Espacio entre el input y el botón */
+}
+
+.btn-edit {
+    padding: .5rem;
+    border-radius: .5rem;
+    color: #fff;
+    background-color: #d7cc68;
+}
+
+.btn-send {
+    margin-left: .5rem;
+    padding: .5rem;
+    border-radius: .5rem;
+    color: #fff;
+    background-color: #28773d;
+}
+
+.btn-cancel {
+    margin-left: .5rem;
+    padding: .5rem;
+    border-radius: .5rem;
+    color: #fff;
+    background-color: #b10b19;
+}
+
+.btn-edit:hover {
+    background-color: #605914;
+}
+
+.btn-send:hover {
+    background-color: #094408;
+}
+
+.btn-cancel:hover {
+    background-color: #5c0910;
+}
+
+.btn-edit:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+  

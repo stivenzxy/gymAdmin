@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { AuthService } from 'src/shared/services/auth.service';
 import Swal from 'sweetalert2';
+import { apiConfig } from 'src/environments/api-config';
 @Component({
   selector: 'app-reserve-history',
   templateUrl: './reserve-history.component.html',
@@ -37,7 +38,7 @@ export class ReserveHistoryComponent implements OnInit {
   }
 
   obtenerReservasPorUsuario(uid: string | undefined) {
-    const url = `http://192.168.0.8:8000/gym/AsistenciasPerUser/?uid=${uid}`;
+    const url = `${apiConfig.baseUrl}AsistenciasPerUser/?uid=${uid}`;
     this.http.get<{success: boolean, reservas: any[], asistencias: any[]}>(url).subscribe({
       next: (response) => {
         if (response.success) {
@@ -72,7 +73,7 @@ export class ReserveHistoryComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.http.post('http://192.168.0.8:8000/gym/CancelReserva/', body).subscribe({
+        this.http.post(`${apiConfig.baseUrl}CancelReserva/`, body).subscribe({
           next: (response: any) => {
             if (response.success) {
               Swal.fire({

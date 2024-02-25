@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { apiConfig } from 'src/environments/api-config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MembershipService {
-
-  private apiUrl = 'http://192.168.0.8:8000/gym/CreateMembresia/'
+  private apiUrl = `${apiConfig.baseUrl}CreateMembresia/`
 
   constructor(private http: HttpClient) { }
 

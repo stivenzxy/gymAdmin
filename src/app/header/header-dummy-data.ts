@@ -31,11 +31,6 @@ export const notifications = [
 
 export const userItems = [
     {
-        icon: 'fas fa-info',
-        label: 'Acerca de',
-        action: 'about'
-    },
-    {
         icon: 'fas fa-power-off',
         label: 'Salir',
         action: 'logout'

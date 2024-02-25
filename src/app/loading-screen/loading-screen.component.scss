@@ -4,13 +4,7 @@
     align-items: center;
     width: 100%;
     height: 100%;
-    animation: fadeInOut 2s ease-out;
-}
-
-@keyframes fadeInOut {
-    0% { background-color: rgba(1, 2, 15, 0.95); } /* Transparente al inicio */
-    50% { background-color: rgba(0, 0, 0, 0.929); } /* Semi-transparente en el medio */
-    100% { background-color: rgb(0, 0, 0); } /* Transparente al final */
+    background-color: #000;
 }
 
 ng-lottie {

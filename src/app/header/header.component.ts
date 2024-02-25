@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { ChangeDetectorRef, Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -24,9 +24,11 @@ export class HeaderComponent implements OnInit, OnDestroy{
   adminLogueado: boolean = false;
   userData: any;
   userSubscription!: Subscription;
+  private loginDialogRef: MatDialogRef<LoginComponent> | null = null;
+  private loginSuccessSubs!: Subscription;
 
   constructor(@Inject(DOCUMENT) private document :Document, private router: Router, public dialog: MatDialog,
-   private authService: AuthService, private adminService: LoginAdminService) {
+   private authService: AuthService, private adminService: LoginAdminService, private cdr: ChangeDetectorRef) {
     this.authService.onLogout.pipe(
       takeUntil(this.destroy$)
     ).subscribe(() => {
@@ -50,7 +52,6 @@ export class HeaderComponent implements OnInit, OnDestroy{
 
     if (savedTheme) {
         this.selectedTheme = JSON.parse(savedTheme);
-
         if (this.selectedTheme.class === 'dark-theme') {
             this.document.body.classList.add('dark-mode');
         } else {
@@ -59,14 +60,22 @@ export class HeaderComponent implements OnInit, OnDestroy{
     } else {
         this.selectedTheme = this.themes[0];
     }
-
     this.userSubscription = this.authService.user.subscribe(user => {
       this.userData = user;
+      this.cdr.detectChanges(); // garantiza que se detecten y apliquen los cambios que no son inmediatos
     });
-
     this.adminLogueado = this.adminService.isLoggedIn();
+
+    this.loginSuccessSubs = this.authService.loginObservable.subscribe(loggedIn => {
+      if (loggedIn && this.loginDialogRef) {
+        this.loginDialogRef.close();
+      }
+    });
   }
   
+  onImageLoad() {
+    console.log('Imagen de Google cargada con éxito!');
+  }  
 
   getHeadClass() : string {
     let styleClass = '';
@@ -83,10 +92,6 @@ export class HeaderComponent implements OnInit, OnDestroy{
       this.authService.logOut();
       this.adminService.logout();
     } 
-    
-    if (itemProfile.action === 'about') {
-      this.openAboutDialog();
-    }
   }
 
   toggleTheme(): void {
@@ -113,12 +118,13 @@ export class HeaderComponent implements OnInit, OnDestroy{
   }
 
   openLoginDialog() {
-    const dialogRef = this.dialog.open(LoginComponent, {
+    this.loginDialogRef = this.dialog.open(LoginComponent, {
       disableClose: true
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    this.loginDialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
+      this.loginDialogRef = null; // Reset referencia al dialog después de cerrarlo
     });
   }
 
@@ -144,6 +150,10 @@ export class HeaderComponent implements OnInit, OnDestroy{
     this.destroy$.next();
     this.destroy$.complete();
     this.userSubscription.unsubscribe();
+
+    if (this.loginSuccessSubs) {
+      this.loginSuccessSubs.unsubscribe();
+    }
   }
 }
 

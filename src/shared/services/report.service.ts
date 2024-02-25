@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { apiConfig } from 'src/environments/api-config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReportService {
-
-  private apiUrl = 'http://192.168.0.8:8000/gym/Reporte/'
+  private apiUrl = `${apiConfig.baseUrl}Reporte/`
 
   constructor(private http: HttpClient) {}
 

@@ -30,6 +30,10 @@ export const AuthGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: R
           icon: 'warning',
           showCancelButton: false,
           confirmButtonText: 'Aceptar',
+        }).then((result) => {
+          if(result.isConfirmed) {
+            window.location.reload();
+          }
         });
       } catch (error) {
         console.log('The process failed with error: ' + error);

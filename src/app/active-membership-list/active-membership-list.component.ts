@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { apiConfig } from 'src/environments/api-config';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -19,7 +20,7 @@ export class ActiveMembershipListComponent implements OnInit {
   obtenerMembresias() {
     this.http
       .get<{ success: boolean; membresias: any[] }>(
-        'http://192.168.0.8:8000/gym/GetMembresias/'
+        `${apiConfig.baseUrl}GetMembresias/`
       )
       .subscribe({
         next: (response) => {
@@ -53,7 +54,7 @@ export class ActiveMembershipListComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.http.post('http://192.168.0.8:8000/gym/CancelMembresia/', body).subscribe({
+        this.http.post(`${apiConfig.baseUrl}CancelMembresia/`, body).subscribe({
           next: (response: any) => {
             if (response.success) {
               Swal.fire({

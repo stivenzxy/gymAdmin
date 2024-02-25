@@ -1,14 +1,15 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { apiConfig } from 'src/environments/api-config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GetUsersService {
-
-  private apiUrl = 'http://192.168.0.8:8000/gym/GetUsers/';
-  private apiUrlAttendance = 'http://192.168.0.8:8000/gym/CrearAsistenciaSinReserva/';
+  private apiUrl = `${apiConfig.baseUrl}GetUsers/`;
+  private apiUrlAttendance = `${apiConfig.baseUrl}CrearAsistenciaSinReserva/`;
+  
   constructor(private http: HttpClient){}
 
   getUsers(codEstudiante?: string): Observable<any> {

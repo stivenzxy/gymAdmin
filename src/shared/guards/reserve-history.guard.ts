@@ -26,6 +26,10 @@ export const reserveHistoryGuard: CanActivateFn = (route: ActivatedRouteSnapshot
           icon: 'warning',
           showCancelButton: false,
           confirmButtonText: 'Aceptar',
+        }).then((result) => {
+          if(result.isConfirmed) {
+            window.location.reload();
+          }
         });
       } catch (error) {
         console.log('The process failed with error: ' + error);

@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SharedService } from './shared.service';
+import { apiConfig } from 'src/environments/api-config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReservarService {
-  private apiUrl = 'http://192.168.0.8:8000/gym/CreateReserva/';
+  private apiUrl = `${apiConfig.baseUrl}CreateReserva/`
+  
   private currentUser: string | null = null;
 
   constructor(

@@ -3,6 +3,7 @@ import { DailySchedule, WeeklySchedule } from './schedule-data';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { HttpClient } from '@angular/common/http';
+import { apiConfig } from 'src/environments/api-config';
 
 @Component({
   selector: 'app-schedule',
@@ -86,7 +87,7 @@ export class ScheduleComponent implements OnInit {
           allowOutsideClick: false
         }).then((result) => {
           if(result.isConfirmed){
-            this.http.post('http://192.168.0.8:8000/gym/ActualizarHorario/', updatedSchedule).subscribe({
+            this.http.post(`${apiConfig.baseUrl}ActualizarHorario/`, updatedSchedule).subscribe({
               next: (response: any) => {
                 if(response.success) {
                   Swal.fire({

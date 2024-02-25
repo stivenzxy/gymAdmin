@@ -11,6 +11,7 @@
           <tr class="border-b text-zinc-800">
             <th class="px-4 py-2 text-center">Código</th>
             <th class="px-4 py-2 text-center">Nombre</th>
+            <th class="px-4 py-2 text-center">Telefono</th>
             <th class="px-4 py-2 text-center">Programa</th>
             <th class="px-4 py-2 text-center">Acciones</th>
           </tr>
@@ -19,6 +20,7 @@
           <tr class="border-b text-zinc-700" *ngFor="let usuario of usuarios | search: searchText ; let i = index">
             <td class="px-4 py-2 text-center">{{ usuario.codigo_estudiantil }}</td>
             <td class="px-4 py-2 text-center">{{ usuario.nombre }}</td>
+            <td class="px-4 py-2 text-center">{{ !usuario.telefono ? 'No registra' : usuario.telefono }}</td>
             <td class="px-4 py-2 text-center">{{ usuario.programa }}</td>
             <td class="px-4 py-2 text-center">
               <div class="inline-flex justify-center">

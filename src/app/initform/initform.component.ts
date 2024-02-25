@@ -16,7 +16,6 @@ export class InitformComponent implements OnInit, OnDestroy{
 
   constructor(
     private fb: FormBuilder,
-    //private authService: AuthService,
     private initform: InitformService
     ) { 
     this.extraDataForm = this.fb.group({
@@ -40,7 +39,6 @@ export class InitformComponent implements OnInit, OnDestroy{
         if (result.isConfirmed) {
           this.initform.submitExtraData(this.extraDataForm.value).subscribe({
             next: (response: any) => {
-              // Manejo de la respuesta exitosa
               if (response.success) {
                 console.log('Datos enviados correctamente!');
                 Swal.fire({

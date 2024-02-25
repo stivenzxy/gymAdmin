@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { apiConfig } from 'src/environments/api-config';
 import Swal from 'sweetalert2';
 @Component({
   selector: 'app-penalizar',
@@ -18,7 +19,7 @@ export class PenalizarComponent implements OnInit {
   obtenerReservas() {
     this.http
       .get<{ success: boolean; reservas: any[] }>(
-        'http://192.168.0.8:8000/gym/GetReservas/'
+        `${apiConfig.baseUrl}GetReservas/`
       )
       .subscribe({
         next: (response) => {
@@ -57,7 +58,7 @@ export class PenalizarComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.http.post('http://192.168.0.8:8000/gym/Penalizar/', body).subscribe({
+        this.http.post(`${apiConfig.baseUrl}Penalizar/`, body).subscribe({
           next: (response: any) => {
             // Manejo de la respuesta exitosa
             if (response.success) {
@@ -117,7 +118,7 @@ export class PenalizarComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if(result.isConfirmed) {
-        this.http.post('http://192.168.0.8:8000/gym/CrearAsistencia/', body).subscribe({
+        this.http.post(`${apiConfig.baseUrl}CrearAsistencia/`, body).subscribe({
           next: (response: any) => {
             if(response.success) {
               Swal.fire({
