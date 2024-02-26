@@ -12,10 +12,10 @@ export class SetAndUpdateUserInfoService {
   constructor(private http: HttpClient) { }
 
   getUserData(uid: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${uid}/`);
+    return this.http.get(`${this.apiUrl}${uid}/`);
   }
 
   updateUserData(uid: string, data: any): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/${uid}/`, data);
+    return this.http.patch(`${this.apiUrl}${uid}/`, data);
   }
 }
