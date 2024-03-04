@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class GetUsersService {
 
-  private apiUrl = 'http://192.168.0.6:8000/gym/Users/'
+  private apiUrl = 'http://127.0.0.1:8000/gym/GetUsers/'
 
   constructor(private http: HttpClient){}
 
