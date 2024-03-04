@@ -2,13 +2,20 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CookieService, CookieOptions } from 'ngx-cookie-service';
 import { Subject } from 'rxjs'
+import { apiConfig } from 'src/environments/api-config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginAdminService {
+<<<<<<< HEAD
   private apiUrl = 'http://127.0.0.1:8000/gym/login/';
   private closeLoginModalSubject = new Subject<void>();
+=======
+  private apiUrl = `${apiConfig.baseUrl}login/`
+
+  //private closeLoginModalSubject = new Subject<void>();
+>>>>>>> 2a5b9b21f6e9fe112540b1fd7a767e1b73a07f83
   adminAuthStatusChanged: any;
 
   constructor(

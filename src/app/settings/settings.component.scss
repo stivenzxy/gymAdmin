@@ -5,3 +5,8 @@ h1, h2 {
 select {
     background-color: var(--body-primary);
 }
+
+.custom-shadow {
+    box-shadow: 0px 3px 7px rgba(57, 57, 57, 0.6); /* X-offset, Y-offset, blur radius, color */
+}
+

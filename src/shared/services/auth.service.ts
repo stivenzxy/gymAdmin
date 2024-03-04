@@ -8,26 +8,38 @@ import { HttpClient } from '@angular/common/http'
 import { InitformComponent } from 'src/app/initform/initform.component';
 import { MatDialog } from '@angular/material/dialog';
 import { SharedService } from './shared.service';
+import Swal from 'sweetalert2';
+import { apiConfig } from 'src/environments/api-config';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class AuthService {
+  private apiUrl = `${apiConfig.baseUrl}CheckUser/`;
 
+<<<<<<< HEAD
   //////////////////////////////////////////
   // para enviar el Uid y el nombre de usuario al backend:
   private apiUrl = 'http://127.0.0.1:8000/gym/CheckUser/'
  //////////////////////////////////////////
+=======
+  private loadingSubject = new BehaviorSubject<boolean>(true);
+  public loading = this.loadingSubject.asObservable();
 
- 
+  // Cerrar el modal de LoginComponent
+  private loginSubject = new BehaviorSubject<boolean>(false);
+  public loginObservable = this.loginSubject.asObservable();
+>>>>>>> 2a5b9b21f6e9fe112540b1fd7a767e1b73a07f83
+
   private logoutSubject = new Subject<void>();
   public onLogout = this.logoutSubject.asObservable();
-  userData: any;
-  //public onLogout = new EventEmitter<void>();
+
   private userSubject = new BehaviorSubject<any>(null);
   public user = this.userSubject.asObservable();
+
   authStatusChanged: any;
+  userData: any;
 
   constructor(
     private http: HttpClient,
@@ -38,17 +50,21 @@ export class AuthService {
     private dialog: MatDialog,
     private sharedService: SharedService
   ) {
+    this.loadingSubject.next(true);
+
     this.firebaseAuthenticationService.authState.subscribe((user) => {
       if(user) {
         this.userData = user;
         this.userSubject.next(this.userData);
-        this.cookieService.set('user', JSON.stringify(this.userData));
+        this.cookieService.set('user', JSON.stringify(this.userData), 1/96, '/');
 
         const uid = user.uid;
         const usernameClient = user.displayName ?? '';
         const emailClient = user.email ?? '';
 
-        this.sendUserDataToBackend(uid, usernameClient);
+        this.sendUserDataToBackend(uid, usernameClient, emailClient).add(() => {
+          this.loadingSubject.next(false);
+        });
 
         if (this.userData && this.userData.uid) {
           this.sharedService.changeUser(this.userData);
@@ -58,23 +74,41 @@ export class AuthService {
         this.sharedService.changeUser(null);
         this.userSubject.next(null);
         this.cookieService.delete('user');
+
+        this.loadingSubject.next(false);
       }
     });
   }
 
-   // log-in with google
-   logInWithGoogleProvider() {
-    return this.firebaseAuthenticationService.signInWithRedirect(new GoogleAuthProvider())
-      .then(() => this.observeUserState())
-      .catch((error: Error) => {
-        alert(error.message);
-      })
+  // log-in with google
+  async logInWithGoogleProvider() {
+    try {
+      await this.firebaseAuthenticationService.signInWithPopup(new GoogleAuthProvider());
+      this.observeUserState();
+      this.notifyLoginSuccess();
+      window.location.reload();
+    } catch (error: any) {
+      if (error.code === 'auth/popup-closed-by-user') {
+        console.log('El usuario cerró la ventana emergente antes de completar el inicio de sesión.');
+      } else {
+        console.error('Error de inicio de sesión:', error.message);
+      }
+    }
+  }
+
+  // emite si la sesión se cargó
+  notifyLoginSuccess() {
+    this.loginSubject.next(true);
   }
 
   observeUserState() {
     this.firebaseAuthenticationService.authState.subscribe((userState) => {
-      userState && this.ngZone.run(() => this.router.navigate(['dashboard']))
-    })
+      if (userState) {
+        this.ngZone.run(() => {
+          this.router.navigate(['dashboard']);
+        });
+      }
+    });
   }
 
   get isLoggedIn() : boolean {
@@ -88,34 +122,47 @@ export class AuthService {
       this.userSubject.next(null); // se establecen en null los datos al cerrar la sesion
       this.sharedService.changeUser(null);
       this.router.navigate(['dashboard']);
-      //this.onLogout.emit();
       this.logoutSubject.next();
     })
   }
 
-
-
   /// enviar los datos al backend
-  sendUserDataToBackend(uid: string, usernameClient: string) {
-    console.log(uid, usernameClient);
-    const body = { uid: uid, displayName: usernameClient };
+  sendUserDataToBackend(uid: string, usernameClient: string, emailClient: string) {
+    // console.log(uid, usernameClient, emailClient);
+    const body = { uid: uid, displayName: usernameClient, email: emailClient };
     return this.http.post<any>(this.apiUrl, body).subscribe({
       next: (response) => {
-        console.log('Respuesta del servidor:', response);
         if (response.user_exists) {
-          console.log('El usuario existe');
+          console.log('respuesta del servidor: ', response.message);
         } else {
-         // alert('El usuario no existe');
-          this.openLoginDialog();
+          this.openInitDialog();
         }
       },
       error: (error) => {
         console.error('Error al enviar los datos', error);
+        let errorMessage = 'Error desconocido';
+        if (error.status === 401) {
+            errorMessage = error.error.message || 'Dirección de correo no compatible con la institución.';
+        } else if (error.status === 500) {
+            errorMessage = error.error.error || 'Error interno del servidor';
+        }
+    
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: errorMessage,
+            confirmButtonText: 'Aceptar'
+        }).then((result) => {
+            if (result.isConfirmed && error.status === 401) {
+                this.logOut();
+            }
+        });
       }
     });
   }
+  
 
-  openLoginDialog(): void {
+  openInitDialog(): void {
     const dialogRef = this.dialog.open(InitformComponent, {
       disableClose: true
     });
@@ -124,7 +171,4 @@ export class AuthService {
       console.log(`Dialog result: ${result}`);
     });
   }
-
-
-  
 }

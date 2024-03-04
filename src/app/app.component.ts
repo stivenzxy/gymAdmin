@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/shared/services/auth.service';
+import { InactivityService } from 'src/shared/services/inactivity.service';
 
 interface SideNavToogle {
   screenWidth: number;
@@ -25,16 +26,18 @@ export class AppComponent implements OnInit{
     this.isSideNavCollapsed = data.collapsed;
   }
   
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, inactivityService: InactivityService, private cdRef: ChangeDetectorRef) {}
 
-  ngOnInit(): void {
-    this.authService.user.subscribe(user => {
-      // Simula la espera de carga
-      setTimeout(() => {
-        this.isLoading = false; // Oculta la pantalla de carga
-      }, 1200); // Espera 1 segundo antes de ocultar la pantalla de carga
+  ngOnInit(): void { 
+    this.authService.loading.subscribe(isLoading => {
+      this.isLoading = isLoading;
+      if (!isLoading) {
+        // Si no está cargando, espera 1 segundo antes de ocultar la pantalla de carga para asegurar una experiencia de usuario consistente
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+      this.cdRef.detectChanges();
     });
   }
-
-
 }

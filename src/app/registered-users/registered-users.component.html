@@ -1,0 +1,43 @@
+<div mat-dialog-title>
+    <button mat-icon-button class="close-button" [mat-dialog-close]="false">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+<mat-dialog-content class="mat-typography modal-container">
+    <div class="overflow-x-auto p-4">
+      <input type="text" class="form-control custom-input" placeholder="Buscar" [(ngModel)]="searchText" (ngModelChange)="onSearch()">
+      <table *ngIf="usuarios.length > 0 && hasSearchResults; else noDataContent" class="min-w-full table-auto mt-4">
+        <thead>
+          <tr class="border-b text-zinc-800">
+            <th class="px-4 py-2 text-center">Código</th>
+            <th class="px-4 py-2 text-center">Nombre</th>
+            <th class="px-4 py-2 text-center">Telefono</th>
+            <th class="px-4 py-2 text-center">Programa</th>
+            <th class="px-4 py-2 text-center">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b text-zinc-700" *ngFor="let usuario of usuarios | search: searchText ; let i = index">
+            <td class="px-4 py-2 text-center">{{ usuario.codigo_estudiantil }}</td>
+            <td class="px-4 py-2 text-center">{{ usuario.nombre }}</td>
+            <td class="px-4 py-2 text-center">{{ !usuario.telefono ? 'No registra' : usuario.telefono }}</td>
+            <td class="px-4 py-2 text-center">{{ usuario.programa }}</td>
+            <td class="px-4 py-2 text-center">
+              <div class="inline-flex justify-center">
+                <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" matTooltip="Agregar asistencia" matTooltipPosition="below" (click)="addAttendance(i)">
+                 <i class="fa fas fa-add"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- Contenido alternativo para cuando no hay datos -->
+      <ng-template #noDataContent>
+        <div class="text-center p-4 mt-10">
+          <p class="text-red-700 dark:text-red-400">No Hay Coincidencias!</p>
+        </div>
+      </ng-template>
+    </div>
+</mat-dialog-content>
+  

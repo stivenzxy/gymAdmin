@@ -28,6 +28,7 @@
     "@syncfusion/ej2-angular-splitbuttons": "^23.1.36",
     "@syncfusion/ej2-base": "^23.1.40",
     "angular-font-awesome": "^3.1.2",
+    "bootstrap": "^5.3.2",
     "firebase": "^10.5.2",
     "ngx-cookie-service": "^16.0.2",
     "ngx-lottie": "^10.0.0",

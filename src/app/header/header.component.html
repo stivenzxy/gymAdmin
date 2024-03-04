@@ -13,18 +13,15 @@
         <div class="head-content-right">
             <div class="head-menu" *ngIf="isLoggedIn || loggedAdmin">
                 <div class="head-menu-item">
-                    <button class="head-menu-item-btn ripple" [cdkMenuTriggerFor]="notificationOverlay">
-                        <i class="fas fa-bell menu-icon"></i>
+                    <button class="head-menu-item-btn ripple" matTooltip="Acerca de" matTooltipPosition="below" (click)="openAboutDialog()">
+                        <i class="fas fa-question menu-icon"></i>
                     </button>
                 </div>
             </div>
-           <!-- <img [src]="userData?.photoURL" alt="xd">-->
            <!-- Se muestra cuando el usuario está logueado -->
             <div class="head-user-avatar-container" *ngIf="isLoggedIn">
                 <div class="head-user-avatar" [cdkMenuTriggerFor]="userOverlay">
-                    <!--<img src="../../assets/user-example2.jpg" alt="user" class="user-avatar">-->
-                        <img [src]="userData?.photoURL" alt="user" class="user-avatar">
-                        <!---<span>{{ userData.displayName }}</span>-->
+                        <img [src]="userData?.photoURL" (load)="onImageLoad()" alt="user" class="user-avatar">
                     <div class="circle-indicator pulse"></div>
                 </div>
             </div>
@@ -39,9 +36,7 @@
             <!-- Se muestra cuando el admin esta logueado -->
             <div class="head-user-avatar-container" *ngIf="loggedAdmin">
                 <div class="head-user-avatar" [cdkMenuTriggerFor]="userOverlay">
-                    <!--<img src="../../assets/user-example2.jpg" alt="user" class="user-avatar">-->
                         <img src="../../assets/admin_icon.png" alt="user" class="user-avatar">
-                        <!---<span>{{ userData.displayName }}</span>-->
                     <div class="circle-indicator pulse"></div>
                 </div>
             </div>
@@ -49,33 +44,6 @@
         </div>
     </div>
 </div>
-
-<ng-template #notificationOverlay>
-    <div class="overlay overlay-notification overlay-fall" cdkMenu>
-        <ul>
-            <li class="notification-head-container">
-                <div class="notification-head">Notificaciones</div>
-                <span class="view-all-link">
-                    <a>Ver todo</a>
-                </span>
-            </li>
-            <li class="notification-message-container"
-                *ngFor="let notification of notifications"
-                cdkMenuItem
-            >
-                <i [class]="notification.icon"></i>
-                <div>
-                    <div class="notification-subject">
-                        {{notification.subject}}
-                    </div>
-                    <p class="notification-desc">
-                        {{notification.description}}
-                    </p>
-                </div>
-            </li>
-        </ul>
-    </div>
-</ng-template>
 
 <ng-template #userOverlay>
     <div class="overlay overlay-user overlay-fall" cdkMenu>
@@ -93,7 +61,7 @@
 <ng-template #notLoggedOverlay>
     <div class="overlay overlay-user overlay-fall" cdkMenu>
         <ul>
-            <li *ngFor="let log of loginItem" cdkMenuItem (click)="openLoginDialog()">
+            <li *ngFor="let log of loginItem" cdkMenuItem (click)="selectSignInOptions(log)">
                 <a>
                     <i class="icon" [ngClass]="log.icon"></i>
                     <span>{{log.label}}</span>

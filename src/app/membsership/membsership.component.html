@@ -1,10 +1,12 @@
 <div mat-dialog-title>
     <h1 class="justify-center flex">Agrega estudiantes al plan premium del establecimiento</h1>
-  </div>
-  <button mat-icon-button class="close-button" [mat-dialog-close]="false">
-    <mat-icon>close</mat-icon>
-  </button>
-  <mat-dialog-content class="mat-typography modal-container mx-auto">
+
+    <button mat-icon-button class="close-button" [mat-dialog-close]="false">
+      <mat-icon>close</mat-icon>
+    </button>
+</div>
+
+<mat-dialog-content class="mat-typography modal-container mx-auto">
     <div class="flex flex-wrap">
       <!-- Formulario -->
       <div class="w-full md:w-1/2">
@@ -13,12 +15,19 @@
             <div class="mb-4">
               <label class="block text-sm font-medium mb-2" for="fechaInicio">Fecha inicio</label>
               <input formControlName="fecha_inicio" type="date" id="fechaInicio" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-transparent"
-                required [ngClass]="{ 'border-red-500' : membershipForm.get('fecha_inicio')!.invalid && membershipForm.get('fecha_inicio')!.touched }"
+                required [ngClass]="{ 'border-red-500' : (membershipForm.get('fecha_inicio')!.invalid && membershipForm.get('fecha_inicio')!.touched) || membershipForm!.errors?.['startMoreThanEnd'] || membershipForm!.errors?.['startMoreThanCurrent']}"
               >
+              <div class="text-red-500 text-xs mt-1 h-4">
+                <span *ngIf="membershipForm.get('fecha_inicio')!.invalid && membershipForm.get('fecha_inicio')!.touched && !membershipForm!.errors?.['startMoreThanEnd'] && !membershipForm!.errors?.['startMoreThanCurrent']">
+                  Ingrese una fecha valida de inicio
+                </span>
 
-              <div class="text-red-500 text-xs mt-1 h-2">
-                <span *ngIf="membershipForm.get('fecha_inicio')!.invalid && membershipForm.get('fecha_inicio')!.touched">
-                  Ingrese la fecha de inicio
+                <span *ngIf="membershipForm!.errors?.['startMoreThanEnd']">
+                  La fecha inicial debe ser inferior a la final
+                </span>
+
+                <span *ngIf="membershipForm!.errors?.['startMoreThanCurrent']">
+                  La fecha inicial no puede ser inferior a la actual
                 </span>
               </div>
             </div>
@@ -28,9 +37,9 @@
               required [ngClass]="{ 'border-red-500' : membershipForm.get('fecha_fin')!.invalid && membershipForm.get('fecha_fin')!.touched }"
               >
 
-              <div class="text-red-500 text-xs mt-1 h-2">
+              <div class="text-red-500 text-xs mt-1 h-4">
                 <span *ngIf="membershipForm.get('fecha_fin')!.invalid && membershipForm.get('fecha_fin')!.touched">
-                  Ingrese la fecha de finalización
+                  Ingrese una fecha valida de finalización
                 </span>
               </div>
             </div>
@@ -40,7 +49,7 @@
               required [ngClass]="{ 'border-red-500' : membershipForm.get('cod_estudiante')!.invalid && membershipForm.get('cod_estudiante')!.touched }"
               >
 
-              <div class="text-red-500 text-xs mt-1 h-2">
+              <div class="text-red-500 text-xs mt-1 h-3">
                 <span *ngIf="membershipForm.get('cod_estudiante')!.invalid && membershipForm.get('cod_estudiante')!.touched">
                   Ingrese el codigo de estudiante
                 </span>
@@ -49,6 +58,10 @@
             <div class="flex items-center justify-between">
               <button class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" (click)="submitMembership()">
                 Enviar
+              </button>
+
+              <button class="active-membership ml-2 bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" (click)="viewMembershipList()">
+                Membresias Activas
               </button>
             </div>
           </form>

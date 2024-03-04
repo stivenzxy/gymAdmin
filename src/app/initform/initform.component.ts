@@ -3,6 +3,7 @@ import { AuthService } from 'src/shared/services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { InitformService } from 'src/shared/services/initform.service';
 import Swal from 'sweetalert2';
+import { facultades } from './programs.helper';
 @Component({
   selector: 'app-initform',
   templateUrl: './initform.component.html',
@@ -10,12 +11,11 @@ import Swal from 'sweetalert2';
 })
 
 export class InitformComponent implements OnInit, OnDestroy{
-
+  facultades = facultades;
   extraDataForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    //private authService: AuthService,
     private initform: InitformService
     ) { 
     this.extraDataForm = this.fb.group({
@@ -39,7 +39,6 @@ export class InitformComponent implements OnInit, OnDestroy{
         if (result.isConfirmed) {
           this.initform.submitExtraData(this.extraDataForm.value).subscribe({
             next: (response: any) => {
-              // Manejo de la respuesta exitosa
               if (response.success) {
                 console.log('Datos enviados correctamente!');
                 Swal.fire({

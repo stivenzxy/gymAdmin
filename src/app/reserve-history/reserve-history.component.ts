@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { AuthService } from 'src/shared/services/auth.service';
 import Swal from 'sweetalert2';
+import { apiConfig } from 'src/environments/api-config';
 @Component({
   selector: 'app-reserve-history',
   templateUrl: './reserve-history.component.html',
@@ -12,7 +13,20 @@ export class ReserveHistoryComponent implements OnInit {
   historialAsistencias: any[] = [];
   uid: string | undefined ;
 
+  page: number = 1; // Página actual
+  pageSize: number = 5; // Cantidad de elementos por página
+  collectionSize!: number; // Total de elementos en el historial
+
   constructor(private http : HttpClient, private authService: AuthService) {}
+
+
+  get totalPage() {
+    return Math.ceil(this.collectionSize / this.pageSize);
+  }
+
+  changePage(cambio: number) {
+    this.page += cambio;
+  }
 
   ngOnInit(): void {
     this.authService.user.subscribe(user => {
@@ -24,13 +38,18 @@ export class ReserveHistoryComponent implements OnInit {
   }
 
   obtenerReservasPorUsuario(uid: string | undefined) {
+<<<<<<< HEAD
     const url = `http://127.0.0.1:8000/gym/AsistenciasPerUser/?uid=${uid}`;
+=======
+    const url = `${apiConfig.baseUrl}AsistenciasPerUser/?uid=${uid}`;
+>>>>>>> 2a5b9b21f6e9fe112540b1fd7a767e1b73a07f83
     this.http.get<{success: boolean, reservas: any[], asistencias: any[]}>(url).subscribe({
       next: (response) => {
         if (response.success) {
           console.log(response.reservas)
           this.historialReservas = response.reservas;
           this.historialAsistencias = response.asistencias;
+          this.collectionSize = this.historialAsistencias.length;
         } else {
           console.error('Error al obtener las reservas');
         }
@@ -58,7 +77,11 @@ export class ReserveHistoryComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
+<<<<<<< HEAD
         this.http.post('http://127.0.0.1:8000/gym/CancelReserva/', body).subscribe({
+=======
+        this.http.post(`${apiConfig.baseUrl}CancelReserva/`, body).subscribe({
+>>>>>>> 2a5b9b21f6e9fe112540b1fd7a767e1b73a07f83
           next: (response: any) => {
             if (response.success) {
               Swal.fire({

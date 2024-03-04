@@ -10,7 +10,7 @@ import { AnimationOptions } from 'ngx-lottie';
 })
 export class LoadingScreenComponent implements OnInit {
   public options: AnimationOptions = {
-    path: '/assets/lottie-animations/loading-animation.json', 
+    path: '/assets/lottie-animations/loading-black.json', 
   };
 
   ngOnInit(): void {}

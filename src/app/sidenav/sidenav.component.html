@@ -11,9 +11,9 @@
         <i class="fas fa-times close-icon text-white text-2xl"  (click)="closeAllSubMenu()"></i>
     </button>
 
-    <ul class="sidenav-nav list-none flex flex-col items-center h-custom-calc max-h-screen cursor-pointer relative">
+    <ul class="sidenav-nav list-none flex flex-col items-center h-custom-calc max-h-screen relative">
         <li class="sidenav-nav-item w-full mb-2 rounded-md" *ngFor="let data of navData">
-            <a (click)="toggleSubMenu($event,data)" class="sidenav-nav-link flex justify-center items-center h-12 text-white no-underline rounded-md" [routerLink]="[data.routeLink]"
+            <a (click)="toggleSubMenu($event,data)" class="sidenav-nav-link flex justify-center cursor-pointer items-center h-12 text-white no-underline rounded-md" [routerLink]="[data.routeLink]"
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{exact: true}">
                 <i class="sidenav-link-icon text-white text-lg w-8 text-center" [class]="data.icon"></i>
