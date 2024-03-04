@@ -18,19 +18,12 @@ import { apiConfig } from 'src/environments/api-config';
 export class AuthService {
   private apiUrl = `${apiConfig.baseUrl}CheckUser/`;
 
-<<<<<<< HEAD
-  //////////////////////////////////////////
-  // para enviar el Uid y el nombre de usuario al backend:
-  private apiUrl = 'http://127.0.0.1:8000/gym/CheckUser/'
- //////////////////////////////////////////
-=======
   private loadingSubject = new BehaviorSubject<boolean>(true);
   public loading = this.loadingSubject.asObservable();
 
   // Cerrar el modal de LoginComponent
   private loginSubject = new BehaviorSubject<boolean>(false);
   public loginObservable = this.loginSubject.asObservable();
->>>>>>> 2a5b9b21f6e9fe112540b1fd7a767e1b73a07f83
 
   private logoutSubject = new Subject<void>();
   public onLogout = this.logoutSubject.asObservable();

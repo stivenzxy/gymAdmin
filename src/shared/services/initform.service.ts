@@ -9,11 +9,7 @@ import { apiConfig } from 'src/environments/api-config';
   providedIn: 'root'
 })
 export class InitformService {
-<<<<<<< HEAD
-  private apiUrl = 'http://127.0.0.1:8000/gym/CreateUser/';
-=======
   private apiUrl = `${apiConfig.baseUrl}CreateUser/`;
->>>>>>> 2a5b9b21f6e9fe112540b1fd7a767e1b73a07f83
 
   constructor(
     private http: HttpClient,
