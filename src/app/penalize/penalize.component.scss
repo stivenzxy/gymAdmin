@@ -1,0 +1,43 @@
+h1 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    color: #1f1e1e;
+    font-weight: 600;
+}
+  
+.p-text {
+    max-width: 350px;
+    color: #2d2d2d;
+    font-weight: 500;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.close-button {
+    display: flex;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+table {
+    width: 100%;
+}
+
+.mat-mdc-table {
+    table-layout: auto;
+}
+
+.mat-mdc-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+
+td,
+th {
+    width: 25%;
+}
+
+.shadow-top {
+    box-shadow: 0 -4px 4px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -1px rgba(0, 0, 0, 0.06);
+}

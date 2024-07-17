@@ -3,11 +3,11 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class RecomendacionesService {
+export class RecommendationService {
   constructor() { }
 
-  obtenerRecomendacionesAleatorias(recomendaciones: string[], cantidad: number): string[] {
-    const mezcladas = [...recomendaciones].sort(() => 0.5 - Math.random());
-    return mezcladas.slice(0, cantidad);
+  getRandomRecommendations(recommendations: string[], recommendationsPerView: number): string[] {
+    const mixRecommendations = [...recommendations].sort(() => 0.5 - Math.random());
+    return mixRecommendations.slice(0, recommendationsPerView);
   }
 }

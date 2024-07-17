@@ -1,6 +1,6 @@
 import { Component, Renderer2 } from '@angular/core';
 import { ReportService } from 'src/shared/services/report.service';
-import { PenalizarComponent } from '../penalizar/penalizar.component';
+import { PenalizeComponent } from '../penalize/penalize.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ScheduleComponent } from '../schedule/schedule.component';
 import { DownloadReportComponent } from '../download-report/download-report.component';
@@ -10,11 +10,13 @@ import { RegisteredUsersComponent } from '../registered-users/registered-users.c
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+  styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent {
-
-  constructor(private reporteService : ReportService, private dialog : MatDialog, private renderer: Renderer2){}
+  constructor(
+    private dialog: MatDialog,
+    private renderer: Renderer2
+  ) {}
 
   downloadReport() {
     this.openReportDialog();
@@ -25,39 +27,37 @@ export class SettingsComponent {
   }
 
   openPenalizeDialog(): void {
-    // Deshabilitar el scroll usando Renderer2
     this.renderer.setStyle(document.body, 'overflow', 'hidden');
-  
-    const dialogRef = this.dialog.open(PenalizarComponent, {
-      disableClose: true
+
+    const dialogRef = this.dialog.open(PenalizeComponent, {
+      disableClose: true,
     });
-  
-    dialogRef.afterClosed().subscribe(result => {
+
+    dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
       this.renderer.setStyle(document.body, 'overflow', '');
     });
   }
-  
 
   changeSchedule() {
     this.openScheduleDialog();
   }
 
-  addMembership(){
+  addMembership() {
     this.openMembershipDialog();
   }
 
-  viewUsers(){
+  viewUsers() {
     this.openViewUsersDialog();
   }
 
   openScheduleDialog(): void {
     this.renderer.setStyle(document.body, 'overflow', 'hidden');
     const dialogRef = this.dialog.open(ScheduleComponent, {
-      disableClose: true
+      disableClose: true,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
       this.renderer.setStyle(document.body, 'overflow', '');
     });
@@ -66,10 +66,10 @@ export class SettingsComponent {
   openReportDialog(): void {
     this.renderer.setStyle(document.body, 'overflow', 'hidden');
     const dialogRef = this.dialog.open(DownloadReportComponent, {
-      disableClose: true
+      disableClose: true,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       this.renderer.setStyle(document.body, 'overflow', '');
       console.log(`Dialog result: ${result}`);
     });
@@ -78,10 +78,10 @@ export class SettingsComponent {
   openMembershipDialog(): void {
     this.renderer.setStyle(document.body, 'overflow', 'hidden');
     const dialogRef = this.dialog.open(MembsershipComponent, {
-      disableClose: true
+      disableClose: true,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       this.renderer.setStyle(document.body, 'overflow', '');
       console.log(`Dialog result: ${result}`);
     });
@@ -90,13 +90,12 @@ export class SettingsComponent {
   openViewUsersDialog(): void {
     this.renderer.setStyle(document.body, 'overflow', 'hidden');
     const dialogRef = this.dialog.open(RegisteredUsersComponent, {
-      disableClose: true
+      disableClose: true,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       this.renderer.setStyle(document.body, 'overflow', '');
       console.log(`Dialog result: ${result}`);
     });
   }
-
 }

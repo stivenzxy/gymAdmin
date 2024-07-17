@@ -3,8 +3,8 @@ import { AbstractControl, FormGroup, ValidatorFn } from '@angular/forms';
 export function dateValidator(): ValidatorFn {
   return (form: AbstractControl): { [key: string]: any } | null => {
     if (form instanceof FormGroup) {
-      const fecha_inicio = form.get('fecha_inicio')?.value;
-      const fecha_fin = form.get('fecha_fin')?.value;
+      const startDate = form.get('startDate')?.value;
+      const endDate = form.get('endDate')?.value;
       const currentDate = new Date();
 
       const formatDate = (date: Date) => {
@@ -16,23 +16,21 @@ export function dateValidator(): ValidatorFn {
 
       const currentDateString = formatDate(currentDate);
 
-      // Si fecha_inicio está definida, comprobar si es anterior a la fecha actual.
-      if (fecha_inicio) {
-        console.log('fecha actual: ', currentDateString);
-        console.log('fecha inicio: ', fecha_inicio);
+      if (startDate) {
+        console.log('current date: ', currentDateString);
+        console.log('start date: ', startDate);
 
-        if (fecha_inicio < currentDateString) {
-          console.log('fecha inicial inferior a la actual');
-          return { 'startMoreThanCurrent': { value: fecha_inicio } };
+        if (startDate < currentDateString) {
+          console.log('start date less than current date');
+          return { startMoreThanCurrent: { value: startDate } };
         }
       }
 
-      // Si tanto fecha_inicio como fecha_fin están definidas, comprobar si fecha_inicio es posterior a fecha_fin.
-      if (fecha_inicio && fecha_fin) {
-        console.log('fecha fin: ', fecha_fin);
-        
-        if (fecha_inicio > fecha_fin) {
-          return { 'startMoreThanEnd': { value: fecha_inicio } };
+      if (startDate && endDate) {
+        console.log('end date: ', endDate);
+
+        if (startDate > endDate) {
+          return { startMoreThanEnd: { value: startDate } };
         }
       }
     }

@@ -1,6 +1,6 @@
 export class DailySchedule {
     day: string;
-    openTime: string | null; // Puede ser null al igual que closeTime
+    openTime: string | null;
     closeTime: string | null; 
     closed: boolean;
 

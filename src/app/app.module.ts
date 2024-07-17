@@ -1,6 +1,6 @@
 import { CdkMenuModule } from '@angular/cdk/menu';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
@@ -29,7 +29,7 @@ import { InitformComponent } from './initform/initform.component';
 import { LoadingScreenComponent } from './loading-screen/loading-screen.component';
 import { LoginComponent } from './login/login.component';
 import { MembsershipComponent } from './membsership/membsership.component';
-import { PenalizarComponent } from './penalizar/penalizar.component';
+import { PenalizeComponent } from './penalize/penalize.component';
 import { ProductsComponent } from './products/products.component';
 import { ReserveHistoryComponent } from './reserve-history/reserve-history.component';
 import { ReserveNowComponent } from './reserve-now/reserve-now.component';
@@ -42,8 +42,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { RegisteredUsersComponent } from './registered-users/registered-users.component';
-import { SearchPipe } from './registered-users/search.pipe';
-
+import {MatInputModule} from '@angular/material/input';
+import { MatSortModule } from '@angular/material/sort';
+import { JwtInterceptorService } from 'src/shared/services/jwt/jwt-interceptor.service';
+import { ErrorInterceptorService } from 'src/shared/services/jwt/error-interceptor.service';
 
 export function playerFactory() {
   return player;
@@ -64,7 +66,7 @@ export function playerFactory() {
     HeaderComponent,
     LoginComponent,
     InitformComponent,
-    PenalizarComponent,
+    PenalizeComponent,
     ScheduleComponent,
     DownloadReportComponent,
     KeysPipe,
@@ -73,7 +75,6 @@ export function playerFactory() {
     AboutComponent,
     ActiveMembershipListComponent,
     RegisteredUsersComponent,
-    SearchPipe,
   ],
 
   imports: [
@@ -95,8 +96,16 @@ export function playerFactory() {
     MatTooltipModule,
     MatFormFieldModule,
     MatSelectModule,
+
+    MatTableModule,
+    MatInputModule,
+    MatSortModule,
+    MatPaginatorModule
   ],
-  providers: [CookieService],
-  bootstrap: [AppComponent]
+  providers: [CookieService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

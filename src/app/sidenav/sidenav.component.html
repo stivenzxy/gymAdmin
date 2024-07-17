@@ -1,39 +1,46 @@
 <div class="overlay" *ngIf="collapsed" (click)="closeSidenav()"></div>
 
 <div class="sidenav fixed z-10 top-0 w-16 h-screen" #sidenavContainer [ngClass]="collapsed ? 'sidenav-collapsed' : ''">
-    <div class="logo-container flex items-center justify-center pt-8 pr-4 w-full" [ngStyle]="{ 'padding-left': !collapsed ? '1rem' : '0' }">
-        <button class="logo text-black p-1 rounded-md text-center w-12 min-w-12 text-2xl font-extrabold cursor-pointer border-none" @fadeInOut (click)="toggleCollapse()" (click)="closeAllSubMenu()">
-            <img src="../../assets/sidenavIconLynxBgGray.png" style="border-radius: inherit;">
+    <div class="logo-container flex items-center justify-center pt-8 pr-4 w-full"
+        [ngStyle]="{ 'padding-left': !collapsed ? '1rem' : '0' }">
+        <button
+            class="logo text-black p-1 rounded-md text-center w-12 min-w-12 text-2xl font-extrabold cursor-pointer border-none"
+            @fadeInOut (click)="toggleCollapse()" (click)="closeAllSubMenu()">
+            <img src="assets/FitlynxLogo.png" style="border-radius: inherit;">
         </button>
         <div class="logo-text font-bold ml-4 text-2xl text-white" @fadeInOut *ngIf="collapsed">FitLynx</div>
     </div>
-    <button class="btn-close cursor-pointer w-4 rounded-full border-none absolute top-[2.8rem] right-4" @rotate *ngIf="collapsed" (click)="closeSidenav()">
-        <i class="fas fa-times close-icon text-white text-2xl"  (click)="closeAllSubMenu()"></i>
+    <button class="btn-close cursor-pointer w-4 rounded-full border-none absolute top-[2.8rem] right-4" @rotate
+        *ngIf="collapsed" (click)="closeSidenav()">
+        <i class="fas fa-times close-icon text-white text-2xl" (click)="closeAllSubMenu()"></i>
     </button>
 
     <ul class="sidenav-nav list-none flex flex-col items-center h-custom-calc max-h-screen relative">
         <li class="sidenav-nav-item w-full mb-2 rounded-md" *ngFor="let data of navData">
-            <a (click)="toggleSubMenu($event,data)" class="sidenav-nav-link flex justify-center cursor-pointer items-center h-12 text-white no-underline rounded-md" [routerLink]="[data.routeLink]"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{exact: true}">
+            <a (click)="toggleSubMenu($event,data)"
+                class="sidenav-nav-link flex justify-center cursor-pointer items-center h-12 text-white no-underline rounded-md"
+                [routerLink]="[data.routeLink]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <i class="sidenav-link-icon text-white text-lg w-8 text-center" [class]="data.icon"></i>
-                <span class="sidenav-link-text font-medium w-1/3 ml-6 text-center items-center flex" @fadeInOut *ngIf="collapsed">
+                <span class="sidenav-link-text font-medium w-1/3 ml-6 text-center items-center flex" @fadeInOut
+                    *ngIf="collapsed">
                     {{data.label}}
                     <div class="angle flex flex-col ml-6">
-                        <i *ngIf="data.items && collapsed && !isAdminLoggedIn" [ngClass]="data.expanded ? 'fas fa-angle-down' : 'fas fa-angle-right'"></i>
+                        <i *ngIf="data.items && collapsed && isUserLoggedIn"
+                            [ngClass]="data.expanded ? 'fas fa-angle-down' : 'fas fa-angle-right'"></i>
                     </div>
                 </span>
             </a>
-             <!-- Contenedor para subelementos -->
-        <div *ngIf="data.items && data.expanded && !isAdminLoggedIn" class="submenu-container" (click)="closeSidenav()" [ngStyle]="{'margin-left': collapsed ? '200px' : '0'}">
-            <ul class="submenu-list">
-                <li *ngFor="let subItem of data.items">
-                    <a [routerLink]="[subItem.routeLink]">
-                        {{subItem.label}}
-                    </a>
-                </li>
-            </ul>
-        </div>
+            <!-- Container for sub-items -->
+            <div *ngIf="data.items && data.expanded && isUserLoggedIn" class="submenu-container"
+                (click)="closeSidenav()" [ngStyle]="{'margin-left': collapsed ? '200px' : '0'}">
+                <ul class="submenu-list">
+                    <li *ngFor="let subItem of data.items">
+                        <a [routerLink]="[subItem.routeLink]">
+                            {{subItem.label}}
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </li>
     </ul>
 </div>

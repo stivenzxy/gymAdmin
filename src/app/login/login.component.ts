@@ -1,81 +1,95 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthService } from '../../shared/services/auth.service';
-import { LoginAdminService } from 'src/shared/services/login-admin.service';
+import { GoogleAuthService } from '../../shared/services/googleAuth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { LoginService } from 'src/shared/services/login.service';
+import { MatDialogRef } from '@angular/material/dialog';
+import { LoginResponse } from 'src/shared/models/responses/loginResponse';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit, OnDestroy{
+export class LoginComponent implements OnInit, OnDestroy {
+  loginForm: FormGroup;
+  hidePassword: boolean = true;
 
-  adminForm: FormGroup;
-
-  constructor(private router: Router,private fb: FormBuilder,private authService: AuthService, private loginAdmin: LoginAdminService) { 
-    this.adminForm = this.fb.group({
-      username: ['', [Validators.required]],
-      password: ['', [Validators.required]]
-    })
+  constructor(
+    private fb: FormBuilder,
+    private preRegisterService: GoogleAuthService,
+    private loginService: LoginService,
+    private dialogRef: MatDialogRef<LoginComponent>
+  ) {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
+    });
   }
 
   ngOnInit(): void {}
   ngOnDestroy(): void {}
 
-  logInWithGoogle() {
-    this.authService.logInWithGoogleProvider();
+  registerWithGoogle() {
+    this.preRegisterService.registerWithGoogleProvider();
   }
 
-  submitDataAdmin(){
-    if(this.adminForm.valid) {
-      //alert('Datos enviados!');
-      this.loginAdmin.submitDataAdmin(this.adminForm.value).subscribe({
-        next: (response: any) => {
-          if(response.success) {
-            //alert('Inicio de sesión exitoso: ' + response.message);
-            this.loginAdmin.saveUserData(response.data);
+  submitLoginInfo() {
+    if (this.loginForm.valid) {
+      this.loginService.submitLoginData(this.loginForm.value).subscribe({
+        next: (response: LoginResponse) => {
+          if (response.success) {
+            const userRoleMessage = response.data.is_admin
+              ? 'Bienvenido!, usted ha ingresado con privilegios de administrador'
+              : 'Bienvenido!, usted ha ingresado como estudiante';
+            this.dialogRef.close();
             Swal.fire({
               title: response.message,
-              text: 'Bienvenido!, usted ha ingresado con privilegios de administrador',
-              confirmButtonText: "Aceptar",
-              icon: "success"
-            }).then((result) => {
-              if(result.isConfirmed) {
-                window.location.reload();
-              }
+              text: userRoleMessage,
+              confirmButtonText: 'Aceptar',
+              icon: 'success',
             });
           } else {
-            alert('Error: ' + response.message);
-          }
-        },
-        error: (error) => {
-          if(error.error && error.error.message) {
             Swal.fire({
               toast: true,
               position: 'top-end',
               showConfirmButton: false,
-              timer: 3000, // Duración del toast en milisegundos
+              timer: 3000,
               timerProgressBar: true,
               icon: 'error',
-              title: error.error.message,
+              title: response.message,
               didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-              }
-            });            
+                toast.addEventListener('mouseenter', Swal.stopTimer);
+                toast.addEventListener('mouseleave', Swal.resumeTimer);
+              },
+            });
+          }
+        },
+        error: (error: LoginResponse) => {
+          if (!error.success) {
+            Swal.fire({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              icon: 'error',
+              title: 'Usuario no encontrado.',
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer);
+                toast.addEventListener('mouseleave', Swal.resumeTimer);
+              },
+            });
           } else {
             alert('Error de conexión con el servidor: ' + error.message);
           }
-        }
-      })
-    } else {
-      Object.keys(this.adminForm.controls).forEach(field => {
-        const control = this.adminForm.get(field);
-        control?.markAsTouched({ onlySelf: true });
+        },
       });
+    } else {
+      this.loginForm.markAllAsTouched();
     }
   }
-  
-}
 
+  togglePasswordVisibility() {
+    this.hidePassword = !this.hidePassword;
+  }
+}

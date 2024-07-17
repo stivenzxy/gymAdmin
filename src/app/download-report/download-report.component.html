@@ -6,12 +6,12 @@
 <mat-dialog-content class="mat-typography modal-container">
     <div class="container mx-auto p-4">
         <div class="mb-12">
-            <h2 class="text-xl font-semibold mb-3">Visualización y Descarga de Reportes</h2>
+            <h2 class="text-xl font-semibold mb-3">Reporte de Asistencias</h2>
             <button class="bg-orange-500 hover:bg-orange-700 float-right mb-2 text-white font-bold py-2 px-4 rounded" (click)="downloadFile()" *ngIf="dataAvailable" matTooltip="Descargar" matTooltipPosition="below">
               Descargar<i class="fa fas fa-download ml-2"></i>
             </button>
 
-            <p *ngIf="!dataAvailable" class="text-red-500">No hay asistencias disponibles para generar un reporte. Por favor, asegúrate de tener usuarios confirmados.</p>
+            <p *ngIf="!dataAvailable" class="text-red-500 font-medium">No hay asistencias disponibles para generar un reporte. Por favor, asegúrate de tener usuarios confirmados.</p>
           </div>
       
         <div *ngIf="excelData && excelData.length > 0">
@@ -25,13 +25,12 @@
             </thead>
             <tbody>
               <tr *ngFor="let row of excelData">
-                <td class="px-5 py-5 border-b border-gray-200 text-gray-700 font-medium bg-white text-sm" *ngFor="let key of row | keys">
-                  {{ row[key] }}
+                <td class="px-5 py-5 border-b border-gray-200 text-center text-gray-700 font-medium bg-white text-sm" *ngFor="let key of row | keys">
+                  {{ getFieldValue(row, key) }}
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-      
 </mat-dialog-content>

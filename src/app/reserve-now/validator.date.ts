@@ -2,10 +2,9 @@ import { AbstractControl, ValidatorFn } from '@angular/forms';
 
 export function futureDateValidator(): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} | null => {
-    var currentDate = new Date();
+    const currentDate = new Date();
     const tomorrowDate = new Date();
     tomorrowDate.setDate(currentDate.getDate() + 1);
-
 
     if (!control.value) {
       return null;

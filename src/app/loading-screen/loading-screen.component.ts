@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AnimationItem } from 'lottie-web';
 import { AnimationOptions } from 'ngx-lottie';
 
-
 @Component({
   selector: 'app-loading-screen',
   templateUrl: './loading-screen.component.html',
@@ -13,10 +12,11 @@ export class LoadingScreenComponent implements OnInit {
     path: '/assets/lottie-animations/loading-black.json', 
   };
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log('Loading Screen Component is running!');
+  }
 
   animationCreated(animationItem: AnimationItem): void {
-    // Acciones adicionales
-    console.log('Animación cargada', animationItem);
+    console.log('Loaded animation', animationItem);
   }
 }

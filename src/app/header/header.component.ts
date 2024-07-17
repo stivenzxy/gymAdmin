@@ -4,11 +4,13 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AuthService } from 'src/shared/services/auth.service';
+import { GoogleAuthService } from 'src/shared/services/googleAuth.service';
 import { LoginComponent } from '../login/login.component';
-import { notifications, redirectLogin, themes, userItems } from './header-dummy-data';
-import { LoginAdminService } from 'src/shared/services/login-admin.service';
+import { redirectLogin, themes, userItems } from './header-dummy-data';
 import { AboutComponent } from '../about/about.component';
+import { LoginService } from 'src/shared/services/login.service';
+import { UserData } from 'src/shared/models/entities/userData';
+import { GoogleAuthData } from 'src/shared/models/entities/googleAuthData';
 
 @Component({
   selector: 'app-header',
@@ -20,16 +22,16 @@ export class HeaderComponent implements OnInit, OnDestroy{
   @Input() screenWidth = 0;
   private destroy$ = new Subject<void>();
 
-  // datos del usuario
-  adminLogueado: boolean = false;
-  userData: any;
+  preRegisterUserData: GoogleAuthData | undefined;
+  loggedUserData!: UserData;
   userSubscription!: Subscription;
-  private loginDialogRef: MatDialogRef<LoginComponent> | null = null;
-  private loginSuccessSubs!: Subscription;
+  loginDialogRef: MatDialogRef<LoginComponent> | null = null;
+  userInRegisterSubs!: Subscription;
+  loggedUserSubs!: Subscription;
 
   constructor(@Inject(DOCUMENT) private document :Document, private router: Router, public dialog: MatDialog,
-   private authService: AuthService, private adminService: LoginAdminService, private cdr: ChangeDetectorRef) {
-    this.authService.onLogout.pipe(
+   private preRegisterService: GoogleAuthService, private loginService: LoginService, private cdr: ChangeDetectorRef) {
+    this.preRegisterService.onLogout.pipe(
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.openLoginDialog();
@@ -38,14 +40,10 @@ export class HeaderComponent implements OnInit, OnDestroy{
 
   canShowSearchAsOverlay = false; 
   selectedTheme: any;
-  //isLoggedIn:boolean = false;
 
   themes = themes;
-  notifications = notifications;
   userItems = userItems;
   loginItem = redirectLogin;
-
-  //@HostListener('window:resize', ['$event']) // Escucha eventos del DOM
 
   ngOnInit(): void { 
     const savedTheme = localStorage.getItem('selectedTheme');
@@ -60,17 +58,28 @@ export class HeaderComponent implements OnInit, OnDestroy{
     } else {
         this.selectedTheme = this.themes[0];
     }
-    this.userSubscription = this.authService.user.subscribe(user => {
-      this.userData = user;
+
+    // Register section info
+    this.userSubscription = this.preRegisterService.user.subscribe(googleUserData => {
+      this.preRegisterUserData = googleUserData;
       this.cdr.detectChanges(); // garantiza que se detecten y apliquen los cambios que no son inmediatos
     });
-    this.adminLogueado = this.adminService.isLoggedIn();
-
-    this.loginSuccessSubs = this.authService.loginObservable.subscribe(loggedIn => {
+  
+    // Register section status (for specific actions)
+    this.userInRegisterSubs = this.preRegisterService.loginObservable.subscribe(loggedIn => {
       if (loggedIn && this.loginDialogRef) {
         this.loginDialogRef.close();
       }
     });
+
+    // Logged User info
+    this.loggedUserSubs = this.loginService.getLoggedUserData().subscribe(userData => {
+      if(userData) {
+        this.loggedUserData = userData;
+      }
+    })
+
+    console.log(this.loggedUserData)
   }
   
   onImageLoad() {
@@ -89,8 +98,13 @@ export class HeaderComponent implements OnInit, OnDestroy{
 
   selectOptionProfile(itemProfile: any) : void {
     if(itemProfile.action === 'logout') {
-      this.authService.logOut();
-      this.adminService.logout();
+      if(this.loggedUser === true || this.loggedAdmin === true) {
+        console.log('logged Exit!');
+        this.loginService.logOut();
+      } else {
+        console.log('preRegister Exit!');
+        this.preRegisterService.logOut();
+      }
     } 
   }
 
@@ -103,7 +117,6 @@ export class HeaderComponent implements OnInit, OnDestroy{
       this.document.body.classList.add('dark-mode');
     }
   
-    // Guardar en LocalStorage el tema seleccionado
     localStorage.setItem('selectedTheme', JSON.stringify(this.selectedTheme));
   }
 
@@ -139,11 +152,15 @@ export class HeaderComponent implements OnInit, OnDestroy{
   }
 
   get loggedAdmin() : boolean {
-    return this.adminService.isLoggedIn();
+    return this.loginService.isAdminLoggedIn();
   }
 
-  get isLoggedIn(): boolean {
-    return this.authService.isLoggedIn;
+  get loggedUser(): boolean {
+    return this.loginService.isUserLoggedIn();
+  }
+
+  get isUserInRegister(): boolean {
+    return this.preRegisterService.isLoggedIn();
   }
 
   ngOnDestroy() {
@@ -151,9 +168,8 @@ export class HeaderComponent implements OnInit, OnDestroy{
     this.destroy$.complete();
     this.userSubscription.unsubscribe();
 
-    if (this.loginSuccessSubs) {
-      this.loginSuccessSubs.unsubscribe();
+    if (this.userInRegisterSubs) {
+      this.userInRegisterSubs.unsubscribe();
     }
   }
 }
-

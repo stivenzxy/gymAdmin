@@ -1,43 +1,68 @@
 <div mat-dialog-title>
-    <button mat-icon-button class="close-button" [mat-dialog-close]="false">
-      <mat-icon>close</mat-icon>
-    </button>
-  </div>
+  <button mat-icon-button class="close-button" [mat-dialog-close]="false">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
 <mat-dialog-content class="mat-typography modal-container">
-    <div class="overflow-x-auto p-4">
-      <input type="text" class="form-control custom-input" placeholder="Buscar" [(ngModel)]="searchText" (ngModelChange)="onSearch()">
-      <table *ngIf="usuarios.length > 0 && hasSearchResults; else noDataContent" class="min-w-full table-auto mt-4">
-        <thead>
-          <tr class="border-b text-zinc-800">
-            <th class="px-4 py-2 text-center">Código</th>
-            <th class="px-4 py-2 text-center">Nombre</th>
-            <th class="px-4 py-2 text-center">Telefono</th>
-            <th class="px-4 py-2 text-center">Programa</th>
-            <th class="px-4 py-2 text-center">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="border-b text-zinc-700" *ngFor="let usuario of usuarios | search: searchText ; let i = index">
-            <td class="px-4 py-2 text-center">{{ usuario.codigo_estudiantil }}</td>
-            <td class="px-4 py-2 text-center">{{ usuario.nombre }}</td>
-            <td class="px-4 py-2 text-center">{{ !usuario.telefono ? 'No registra' : usuario.telefono }}</td>
-            <td class="px-4 py-2 text-center">{{ usuario.programa }}</td>
-            <td class="px-4 py-2 text-center">
-              <div class="inline-flex justify-center">
-                <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" matTooltip="Agregar asistencia" matTooltipPosition="below" (click)="addAttendance(i)">
-                 <i class="fa fas fa-add"></i>
+  <div class="overflow-x-auto">
+    <mat-form-field class="mt-2">
+      <mat-label class="font-semibold">Buscar Usuario</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ingrese código, nombre o teléfono" #input>
+    </mat-form-field>
+
+    <div class="shadow-top">
+      <div class="table-container">
+        <table mat-table [dataSource]="dataSource" matSort>
+
+          <!-- stuentCode Column -->
+          <ng-container matColumnDef="studentCode">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center">Código</th>
+            <td mat-cell *matCellDef="let row">{{row.student_code}}</td>
+          </ng-container>
+
+          <!-- username Column -->
+          <ng-container matColumnDef="username">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+            <td mat-cell *matCellDef="let row">{{row.username}}</td>
+          </ng-container>
+
+          <!-- startDate Column -->
+          <ng-container matColumnDef="phone">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Teléfono</th>
+            <td mat-cell *matCellDef="let row">{{!row.phone ? 'No registra' : row.phone }}</td>
+          </ng-container>
+
+          <!-- endDate Column -->
+          <ng-container matColumnDef="program">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Programa</th>
+            <td mat-cell *matCellDef="let row">{{row.program}}</td>
+          </ng-container>
+
+          <!-- Action Column -->
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>Acción</th>
+            <td mat-cell *matCellDef="let row">
+              <div class="flex justify-center ">
+                <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 mr-2 rounded"
+                  matTooltip="Agregar asistencia" matTooltipPosition="below" (click)="addAttendance(row)">
+                  <i class="fa fas fa-add"></i>
                 </button>
+                <!-- Button to view user licence (next version)-->
               </div>
             </td>
+          </ng-container>
+
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <!-- Row shown when there is no matching data. -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell pl-10 pt-2 text-orange-600 font-semibold" colspan="4">No hay datos disponibles</td>
           </tr>
-        </tbody>
-      </table>
-      <!-- Contenido alternativo para cuando no hay datos -->
-      <ng-template #noDataContent>
-        <div class="text-center p-4 mt-10">
-          <p class="text-red-700 dark:text-red-400">No Hay Coincidencias!</p>
-        </div>
-      </ng-template>
+        </table>
+      </div>
+      <mat-paginator [pageSizeOptions]="[1,2]" aria-label="Select page of users"></mat-paginator>
     </div>
+  </div>
 </mat-dialog-content>
-  

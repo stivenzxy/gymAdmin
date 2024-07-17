@@ -2,40 +2,44 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { apiConfig } from 'src/environments/api-config';
+import { UserListResponse } from '../models/responses/userListResponse';
+import { HttpDjangoResponse } from '../models/responses/httpDjangoResponse';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GetUsersService {
-  private apiUrl = `${apiConfig.baseUrl}GetUsers/`;
-  private apiUrlAttendance = `${apiConfig.baseUrl}CrearAsistenciaSinReserva/`;
+  private apiUrlAttendance = `${apiConfig.baseUrl}CreateAttnNoReserve/`;
   
   constructor(private http: HttpClient){}
 
-  getUsers(codEstudiante?: string): Observable<any> {
+  getUserWithStudentCode(studentCode?: string): Observable<UserListResponse> {
+    const requestUrl = `${apiConfig.baseUrl}GetUsers/`;
+
     let params = new HttpParams();
-    if (codEstudiante) {
-      params = params.append('cod_estudiante', codEstudiante);
+    if (studentCode) {
+      params = params.append('student_code', studentCode);
     }
-    return this.http.get(this.apiUrl, { params: params });
+    return this.http.get<UserListResponse>(requestUrl, { params: params });
   }
 
-  getUsersWithoutCod(): Observable<any> {
-    return this.http.get(this.apiUrl);
+  getAllUsers(): Observable<UserListResponse> {
+    const requestUrl = `${apiConfig.baseUrl}GetUsers/`;
+    return this.http.get<UserListResponse>(requestUrl);
   }
 
-  sendUserAttendanceData(dataForm : any): Observable<any> {
-    var currentDate = new Date();
+  sendUserAttendanceData(dataForm : any): Observable<HttpDjangoResponse> {
+    const requestUrl = `${apiConfig.baseUrl}CreateAttnNoReserve/`;
+    const currentDate = new Date();
 
-    var day = String(currentDate.getDate()).padStart(2, '0');
-    var month = String(currentDate.getMonth() + 1).padStart(2, '0');
-    var year = currentDate.getFullYear();
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const year = currentDate.getFullYear();
 
     const currentDateString = year + '-' + month + '-' + day;
 
-    //console.log(dataForm);
     const body = {...dataForm, fecha: currentDateString};
     console.log(body);
-    return this.http.post(this.apiUrlAttendance, body);
+    return this.http.post<HttpDjangoResponse>(requestUrl, body);
   }
 }

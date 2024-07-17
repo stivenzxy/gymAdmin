@@ -10,7 +10,6 @@ h1 {
     color: #2d2d2d;
     font-weight: 500;
     margin-bottom: 10px;
-    //display: flex;
     text-align: center;
 }
 
@@ -21,3 +20,11 @@ h1 {
     right: 10px;
 }
 
+/* form status control */
+.ng-valid:not(form):not(.no-validate).ng-touched {
+    border-left: 5px solid #4242a9;
+}
+
+.ng-invalid:not(form):not(.no-validate).ng-touched {
+    border-left: 5px solid #a94442;
+}

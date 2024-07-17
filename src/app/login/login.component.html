@@ -1,43 +1,54 @@
-<h2 mat-dialog-title><h1>Inicio de sesión</h1></h2>
+<h2 mat-dialog-title><h1>Acceder</h1></h2>
 <button mat-icon-button class="close-button" [mat-dialog-close]="false">
     <mat-icon>close</mat-icon>
   </button>
 <mat-dialog-content class="mat-typography modal-container">
-  <form [formGroup]="adminForm" class="space-y-4" (ngSubmit)="submitDataAdmin()">
-    <div class="p-text">Si eres administrador ingresa los datos de acceso:</div>
+  <form [formGroup]="loginForm" class="space-y-4" (ngSubmit)="submitLoginInfo()">
+    <div class="p-text">Ingresa tu correo institucional y contraseña para iniciar sesión</div>
     <div class="input">
-      <input formControlName="username" type="text" name="username" placeholder="Usuario" class="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500" required
-      [ngClass]="{ 'border-red-500' : adminForm.get('username')!.invalid && adminForm.get('username')!.touched }">
+      <input formControlName="email" type="text" name="email" placeholder="Correo institucional" class="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500" required
+      [ngClass]="{ 'border-red-500' : loginForm.get('email')!.invalid && loginForm.get('email')!.touched }">
       <div class="text-red-500 text-xs mt-1 h-2">
-        <span *ngIf="adminForm.get('username')!.invalid && adminForm.get('username')!.touched">
-          Ingrese el nombre de usuario
+        <span *ngIf="loginForm.get('email')!.invalid && loginForm.get('email')!.touched && !loginForm.get('email')?.errors?.['email']">
+          Ingrese su email
+        </span>
+        <span *ngIf="loginForm.get('email')?.errors?.['email']">
+          Ingrese un email con formato válido
         </span>
       </div>
     </div>
-    <div class="input">
-      <input formControlName="password" type="password" name="password" placeholder="Contraseña" class="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500" required
-      [ngClass]="{ 'border-red-500' : adminForm.get('password')!.invalid && adminForm.get('password')!.touched }">
+    <div class="input relative w-full">
+      <input formControlName="password" [type]="hidePassword ? 'password' : 'text'" name="password" placeholder="Contraseña" class="w-full px-4 py-2 border rounded-md text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500" required
+      [ngClass]="{ 'border-red-500' : loginForm.get('password')!.invalid && loginForm.get('password')!.touched }">
       <div class="text-red-500 text-xs mt-1 h-2">
-        <span *ngIf="adminForm.get('username')!.invalid && adminForm.get('username')!.touched">
+        <span *ngIf="loginForm.get('password')!.invalid && loginForm.get('password')!.touched">
           Ingrese la contraseña
         </span>
       </div>
+
+      <div class="absolute top-[10px] right-0 flex items-center pr-3">
+        <button class="text-slate-400" type="button" (click)="togglePasswordVisibility()"
+                aria-label="Mostrar Contraseña">
+          <i [class]="hidePassword ? 'far fa-eye' : 'far fa-eye-slash'"></i>
+        </button>
+      </div>
     </div>
     <div>
-      <button type="submit" class="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500">Iniciar Sesión</button>
+      <button type="submit" class="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-sky-500">Iniciar sesión</button>
     </div>
   </form>
-  <!--O si eres cliente inicia sesion con google-->
-  <div class="relative my-6">
+  <!--Registrarse usando google-->
+  <div class="relative my-5">
     <div class="absolute inset-0 flex items-center" aria-hidden="true">
       <div class="w-full border-t border-gray-300"></div>
     </div>
     <div class="relative flex justify-center text-sm">
-      <span class="px-2 bg-white text-gray-500">o</span>
+      <span class="px-2 bg-white text-gray-500">¿No tienes una cuenta?</span>
     </div>
   </div>
-  <div class="p-text">Si eres cliente Crea tu cuenta con tu correo Institucional:</div>
-  <button mat-raised-button class="google-btn mt-4" (click)="logInWithGoogle()">
-    <img src="../../assets/google.png" alt="Google Icon" class="google-icon"> Continuar con Google
+  <div class="p-text">Continua eligiendo tu correo institucional</div>
+  <button mat-raised-button class="google-btn mt-2" (click)="registerWithGoogle()">
+    <!--<img src="assets/unillanos.png" alt="Unillanos Icon" class="unillanos-icon">-->
+    <img src="assets/google.png" alt="Google Icon" class="google-icon"> Registrarse con Google
   </button>
 </mat-dialog-content>
