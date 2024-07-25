@@ -1,20 +1,18 @@
 import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
-import { AuthService } from '../services/auth.service';
 import { inject } from '@angular/core';
 import Swal from 'sweetalert2';
+import { LoginService } from '../services/login.service';
 
 export const reserveHistoryGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
   console.log('AuthGuard is running');
-  const authService = inject(AuthService);
   const router = inject(Router);
+  const loginService = inject(LoginService);
 
-  const isClientLogin = authService.isLoggedIn;
+  const isClientLogin = loginService.isUserLoggedIn();
 
-  // El guard debe activarse si no hay un administrador logueado.
   if (!isClientLogin) {
     guardAlert();
-    //router.navigate(['dashboard']);
-    return false; // Previene la navegación porque no hay un administrador logueado
+    return false;
   }
   return true;
     
@@ -28,7 +26,7 @@ export const reserveHistoryGuard: CanActivateFn = (route: ActivatedRouteSnapshot
           confirmButtonText: 'Aceptar',
         }).then((result) => {
           if(result.isConfirmed) {
-            window.location.reload();
+            router.navigate(['dashboard'], {replaceUrl: true});
           }
         });
       } catch (error) {

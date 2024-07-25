@@ -5,15 +5,6 @@ h1 {
     font-weight: 600;
 }
   
-.p-text {
-    max-width: 350px;
-    color: #2d2d2d;
-    font-weight: 500;
-    margin-bottom: 10px;
-    //display: flex;
-    text-align: center;
-}
-
 .close-button {
     display: flex;
     position: absolute;
@@ -21,11 +12,8 @@ h1 {
     right: 20px;
 }
 
-@media screen and (max-width: 768px) {
-    .active-membership {
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      max-width: 100px; /* Ajusta este valor según tus necesidades */
+@media (max-width: 768px) {
+    .modal-container {
+        width: 100%;
     }
-  }
+}

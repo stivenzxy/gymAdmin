@@ -3,7 +3,6 @@
     color: #2d2d2d;
     font-weight: 500;
     margin-bottom: 10px;
-    //display: flex;
     text-align: center;
 }
 
@@ -15,16 +14,14 @@
 }
 
 .modal-container {
-    max-height: 80vh; /* O el máximo alto que prefieras */
-    overflow-y: auto; /* Permite el desplazamiento vertical cuando el contenido excede el alto máximo */
+    max-height: 80vh;
+    overflow-y: auto;
 }
   
-  /* Ocultar las barras de desplazamiento en navegadores WebKit */
 .modal-container::-webkit-scrollbar {
     display: none;
 }
   
-  /* Asegúrate de que el desplazamiento siga siendo posible aunque las barras de desplazamiento estén ocultas */
 .modal-container {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */

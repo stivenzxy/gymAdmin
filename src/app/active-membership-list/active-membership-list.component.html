@@ -1,43 +1,66 @@
-<!-- login-dialog.component.html -->
 <div mat-dialog-title>
-    <button mat-icon-button class="close-button" [mat-dialog-close]="false">
-      <mat-icon>close</mat-icon>
-    </button>
-  </div>
+  <button mat-icon-button class="close-button" (click)="openPreviousDialog()" [mat-dialog-close]="false">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
 <mat-dialog-content class="mat-typography modal-container">
-    <div class="overflow-x-auto p-4">
-      <table *ngIf="membresias.length > 0; else noDataContent" class="min-w-full table-auto">
-        <thead>
-          <tr class="border-b">
-            <th class="px-4 py-2 text-center">Código</th>
-            <th class="px-4 py-2 text-center">Nombre</th>
-            <th class="px-4 py-2 text-center">Fecha Inicio</th>
-            <th class="px-4 py-2 text-center">Fecha Fin</th>
-            <th class="px-4 py-2 text-center">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="border-b" *ngFor="let membresia of membresias; let i = index">
-            <td class="px-4 py-2 text-center">{{ membresia.usuario.codigo_estudiantil }}</td>
-            <td class="px-4 py-2 text-center">{{ membresia.usuario.nombre }}</td>
-            <td class="px-4 py-2 text-center">{{ membresia.fecha_inicio }}</td>
-            <td class="px-4 py-2 text-center">{{ membresia.fecha_fin }}</td>
-            <td class="px-4 py-2 text-center">
-              <div class="inline-flex justify-center">
-                <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" matTooltip="Cancelar Membresia" matTooltipPosition="below" (click)="cancelMembership(i)">
-                 <i class="fa fas fa-x"></i>
-                </button>
-              </div>
+  <div class="overflow-x-auto">
+    <mat-form-field class="mt-2">
+      <mat-label class="font-semibold">Buscar Membresia</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ingrese código o nombre" #input>
+    </mat-form-field>
+
+    <div class="shadow-top">
+      <div class="table-container">
+        <table mat-table [dataSource]="dataSource" matSort>
+
+          <!-- stuentCode Column -->
+          <ng-container matColumnDef="studentCode">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center">Código</th>
+            <td mat-cell *matCellDef="let row">{{row.user.student_code}}</td>
+          </ng-container>
+
+          <!-- username Column -->
+          <ng-container matColumnDef="username">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+            <td mat-cell *matCellDef="let row">{{row.user.username}}</td>
+          </ng-container>
+
+          <!-- startDate Column -->
+          <ng-container matColumnDef="startDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Inicio</th>
+            <td mat-cell *matCellDef="let row">{{row.start_date}}</td>
+          </ng-container>
+
+          <!-- endDate Column -->
+          <ng-container matColumnDef="endDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Fin</th>
+            <td mat-cell *matCellDef="let row">{{row.end_date}}</td>
+          </ng-container>
+
+          <!-- Action Column -->
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>Acción</th>
+            <td mat-cell *matCellDef="let row">
+              <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                matTooltip="Cancelar Membresia" matTooltipPosition="below" (click)="cancelMembership(row)">
+                <i class="fa fas fa-x"></i>
+              </button>
             </td>
+          </ng-container>
+
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <!-- Row shown when there is no matching data. -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell pl-10 pt-2 text-orange-600 font-semibold" colspan="4">No hay datos disponibles</td>
           </tr>
-        </tbody>
-      </table>
-      <!-- Contenido alternativo para cuando no hay datos -->
-      <ng-template #noDataContent>
-        <div class="text-center p-4">
-          <p class="text-red-700 dark:text-red-400">No Hay membresias activas!</p>
-        </div>
-      </ng-template>
+        </table>
+      </div>
+
+      <mat-paginator [pageSizeOptions]="[2,3]" aria-label="Select page of users"></mat-paginator>
     </div>
+  </div>
 </mat-dialog-content>
-  

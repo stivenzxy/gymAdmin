@@ -1,138 +1,241 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { AuthService } from '../../shared/services/auth.service';
+import { GoogleAuthService } from '../../shared/services/googleAuth.service';
 import { Subscription } from 'rxjs';
-import { LoginAdminService } from 'src/shared/services/login-admin.service';
 import { SetAndUpdateUserInfoService } from 'src/shared/services/set-and-update-user-info.service';
-import { facultades } from '../initform/programs.helper';
+import { Schools } from '../initform/programs.helper';
 import Swal from 'sweetalert2';
+import { LoginService } from 'src/shared/services/login.service';
+import { School } from 'src/shared/models/entities/school';
+import { UserData } from 'src/shared/models/entities/userData';
+import { GoogleAuthData } from 'src/shared/models/entities/googleAuthData';
+import { SetAndUpdateGymInfoService } from 'src/shared/services/set-and-update-gym-info.service';
+import { GymData } from 'src/shared/models/entities/gymData';
 
-
-type EditableFields = 'field1' | 'field2' | 'field3';
+type EditableFields = 'field1' | 'field2' | 'field3' | 'field4' | 'field5';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit, OnDestroy{
+export class DashboardComponent implements OnInit, OnDestroy {
+  registerUserData!: GoogleAuthData; // data from google auth
+  userSubscription!: Subscription; // subscription from google auth service (register section)
 
-  userData: any;
-  userSubscription!: Subscription;
-  adminUsername!: string;
-  user: any = {};
-  facultades = facultades;
+  loggedUsername!: string; // username from database in backend
+  userDataToUpdate: UserData = {};
+  schools: School[] = Schools; // array of School[] type {...systems engineering, maths, etc}
 
+  loggedUserDataSubscription!: Subscription; //subscription from database info (login info)
+  loggedUserData!: UserData; // data form database (login info)
+
+  gymData: GymData = {};
+  gymIdToUpdate: number | null = 1;
 
   field1!: string;
   field2!: string;
   field3!: string;
-  isEditable = {
-      field1: false,
-      field2: false,
-      field3: false,
-  };
+  field4!: string;
+  field5!: number;
 
-  permanentEditDisabled = { // hay que almacenar este estado en la db para asegurarse de que solo se edite una vez
+  isEditable = {
     field1: false,
     field2: false,
     field3: false,
-  };  
+    field4: false,
+    field5: false,
+  };
 
-  constructor(private authService: AuthService, private adminService: LoginAdminService, 
-    private updateService: SetAndUpdateUserInfoService, private cdRef: ChangeDetectorRef) { }
+  // The status value is stored in postgres database
+  permanentEditDisabled = {
+    field1: false,
+    field2: false,
+    field3: false,
+    field4: false,
+    field5: false,
+  };
+
+  intervalId!: number;
+
+  constructor(
+    private preRegisterService: GoogleAuthService,
+    private loginService: LoginService,
+    private updateUserService: SetAndUpdateUserInfoService,
+    private cdRef: ChangeDetectorRef,
+    private updateGymService: SetAndUpdateGymInfoService
+  ) {}
 
   ngOnInit(): void {
-    this.userSubscription = this.authService.user.subscribe(user => {
-      this.userData = user;
-      this.cdRef.detectChanges();
+    // Only in Pre-Register Section
+    this.userSubscription = this.preRegisterService.user.subscribe(
+      (user: GoogleAuthData) => {
+        if (user) {
+          this.registerUserData = user;
+          console.log('Data from google auth: ', this.registerUserData);
+          this.cdRef.detectChanges();
+        }
+      }
+    );
+
+    this.loggedUserDataSubscription = this.loginService
+      .getLoggedUserData()
+      .subscribe((loggedUserData: UserData) => {
+        if (loggedUserData) {
+          this.loggedUserData = loggedUserData;
+          this.loggedUsername = loggedUserData.username ?? '';
+          this.cdRef.detectChanges();
+
+          /*this.intervalId = window.setInterval(() => {
+            console.log(this.loginService.getAccessToken());
+          }, 1000);*/
+        }
+
+        if (loggedUserData && !loggedUserData?.is_admin) {
+          this.getUserDataToUpdate();
+          this.cdRef.detectChanges();
+        } else if (loggedUserData && loggedUserData?.is_admin) {
+          this.updateGymService.getGyms().subscribe((response: GymData[]) => {
+            if (response[0].gym_id !== null) {
+              this.gymIdToUpdate = response[0].gym_id ?? null;
+              this.getGymData(this.gymIdToUpdate);
+              console.log('gym: ', response);
+            }
+          });
+        }
+        console.log('Session Data: ', loggedUserData);
+      });
+
+    console.log('google Data: ', this.registerUserData);
+  }
+
+  getUserDataToUpdate() {
+    const uid: string | undefined = this.loggedUserData?.uid;
+
+    this.updateUserService.getUserData(uid).subscribe((data) => {
+      this.userDataToUpdate = data;
+
+      this.permanentEditDisabled.field1 = data.student_code_edited ?? false;
+      this.permanentEditDisabled.field2 = data.program_edited ?? false;
+      this.permanentEditDisabled.field3 = data.phone_edited ?? false;
+
+      console.log('field1', this.permanentEditDisabled.field1);
+      console.log('field2', this.permanentEditDisabled.field2);
+      console.log('field3', this.permanentEditDisabled.field3);
+      console.log(this.userDataToUpdate.program);
     });
+  }
 
-    const adminData = this.adminService.getUserData();
-    if(adminData) {
-      this.adminUsername = adminData.username;
-    }
-
-    if(this.userData){
-      this.getUserDataToUpdate();
+  private getGymData(gym_id: number | null) {
+    if (gym_id !== null) {
+      this.updateGymService.getGym(gym_id).subscribe((data: GymData) => {
+        this.gymData = data;
+        console.log(this.gymData);
+      });
     }
   }
 
-  getUserDataToUpdate(){
-    const uid = this.userData?.uid;
-    this.updateService.getUserData(uid).subscribe(data => {
-      this.user = data;
-
-      this.permanentEditDisabled.field1 = data.codigo_estudiantil_editado;
-      this.permanentEditDisabled.field2 = data.programa_editado;
-      this.permanentEditDisabled.field3 = data.telefono_editado;
-      console.log('field1',this.permanentEditDisabled.field1)
-      console.log('field2',this.permanentEditDisabled.field2)
-      console.log('field3',this.permanentEditDisabled.field3)
-    });
-  }
-
-  get isLoggedUser(): boolean {
-    return this.authService.isLoggedIn;
+  get isUserInRegister(): boolean {
+    return this.preRegisterService.isLoggedIn();
   }
 
   ngOnDestroy(): void {
+    if (this.userSubscription) {
       this.userSubscription.unsubscribe();
+    }
+
+    if (this.loggedUserDataSubscription) {
+      this.loggedUserDataSubscription.unsubscribe();
+    }
   }
 
-  get loggedAdmin() : boolean {
-    return this.adminService.isLoggedIn();
+  get loggedAdmin(): boolean {
+    return this.loginService.isAdminLoggedIn();
+  }
+
+  get loggedUser(): boolean {
+    return this.loginService.isUserLoggedIn();
   }
 
   getDisplayName(): string {
-    return this.userData?.displayName ?? '';
+    return this.registerUserData?.displayName ?? '';
   }
 
-  getAdminName(): string {
-    return this.adminUsername ?? '';
+  getUsername(): string {
+    return this.loggedUsername ?? '';
   }
 
   enableEdit(field: EditableFields) {
     this.isEditable[field] = true;
   }
 
-  disableEdit(field: EditableFields){
+  disableEdit(field: EditableFields) {
     this.isEditable[field] = false;
   }
 
   updateData(field: EditableFields) {
-    const uid = this.userData?.uid;
-    let dataToUpdate = {};
+    const uid = this.loggedUserData?.uid;
+    let dataToUpdate: UserData = {};
 
     switch (field) {
       case 'field1':
-        dataToUpdate = { codigo_estudiantil: this.user.codigo_estudiantil };
+        dataToUpdate = { student_code: this.userDataToUpdate.student_code };
         break;
-      case 'field2': 
-        dataToUpdate = { programa: this.user.programa };
-        break; 
+      case 'field2':
+        dataToUpdate = { program: this.userDataToUpdate.program };
+        break;
       case 'field3':
-        dataToUpdate = { telefono: this.user.telefono };
+        dataToUpdate = { phone: this.userDataToUpdate.phone };
         break;
     }
 
-  this.updateService.updateUserData(uid, dataToUpdate).subscribe({
+    this.updateUserService.updateUserData(uid, dataToUpdate).subscribe({
       next: (response) => {
-        ///console.log(response.codigo_estudiantil_editado);
-        this.permanentEditDisabled.field1 = response.codigo_estudiantil_editado;
-        this.permanentEditDisabled.field2 = response.programa_editado;
-        this.permanentEditDisabled.field3 = response.telefono_editado;
+        this.permanentEditDisabled.field1 =
+          response.student_code_edited ?? false;
+        this.permanentEditDisabled.field2 = response.program_edited ?? false;
+        this.permanentEditDisabled.field3 = response.phone_edited ?? false;
         Swal.fire({
           title: 'Dato actualizado correctamente!',
           text: 'Recordatorio: ya no podras volver a actualizar este campo',
-          icon: 'success'
+          icon: 'success',
         });
-        console.log(response.message);
+
         this.disableEdit(field);
-        //this.permanentEditDisabled[field] = true;
       },
       error: (error) => {
-        console.error('Error al actualizar el item seleccionado', error);
-      }
-    })
+        console.error('Error updating selected item', error);
+      },
+    });
+  }
+
+  updateGymData(field: EditableFields) {
+    const gymId = this.gymIdToUpdate;
+    let dataToUpdate: GymData = {};
+
+    switch (field) {
+      case 'field4':
+        dataToUpdate = { name: this.gymData.name };
+        break;
+      case 'field5':
+        dataToUpdate = { max_capacity: this.gymData.max_capacity };
+        break;
+    }
+
+    if (gymId !== null) {
+      this.updateGymService.updateGym(gymId, dataToUpdate).subscribe({
+        next: (response) => {
+          Swal.fire({
+            title: 'Dato actualizado correctamente!',
+            text: 'Recordatorio: ya no podrás volver a actualizar este campo',
+            icon: 'success',
+          });
+
+          this.disableEdit(field);
+        },
+        error: (error) => {
+          console.error('Error actualizando el campo seleccionado', error);
+        },
+      });
+    }
   }
 }

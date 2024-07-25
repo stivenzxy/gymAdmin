@@ -6,19 +6,18 @@
     </button>
 </div>
 
-<mat-dialog-content class="mat-typography modal-container mx-auto">
+<mat-dialog-content class="mat-typography modal-container">
     <div class="flex flex-wrap">
-      <!-- Formulario -->
       <div class="w-full md:w-1/2">
-        <div class="m-4">
+        <div class="form-container m-1">
           <form [formGroup]="membershipForm">
             <div class="mb-4">
-              <label class="block text-sm font-medium mb-2" for="fechaInicio">Fecha inicio</label>
-              <input formControlName="fecha_inicio" type="date" id="fechaInicio" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-transparent"
-                required [ngClass]="{ 'border-red-500' : (membershipForm.get('fecha_inicio')!.invalid && membershipForm.get('fecha_inicio')!.touched) || membershipForm!.errors?.['startMoreThanEnd'] || membershipForm!.errors?.['startMoreThanCurrent']}"
+              <label class="block text-sm font-medium mb-1" for="startDate">Fecha inicio</label>
+              <input formControlName="startDate" type="date" id="startDate" class="shadow appearance-none border rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-transparent"
+                required [ngClass]="{ 'border-red-500' : (membershipForm.get('startDate')!.invalid && membershipForm.get('startDate')!.touched) || membershipForm!.errors?.['startMoreThanEnd'] || membershipForm!.errors?.['startMoreThanCurrent']}"
               >
               <div class="text-red-500 text-xs mt-1 h-4">
-                <span *ngIf="membershipForm.get('fecha_inicio')!.invalid && membershipForm.get('fecha_inicio')!.touched && !membershipForm!.errors?.['startMoreThanEnd'] && !membershipForm!.errors?.['startMoreThanCurrent']">
+                <span *ngIf="membershipForm.get('startDate')!.invalid && membershipForm.get('startDate')!.touched && !membershipForm!.errors?.['startMoreThanEnd'] && !membershipForm!.errors?.['startMoreThanCurrent']">
                   Ingrese una fecha valida de inicio
                 </span>
 
@@ -32,44 +31,44 @@
               </div>
             </div>
             <div class="mb-4">
-              <label class="block text-sm font-medium mb-2" for="fechaFin">Fecha fin</label>
-              <input formControlName="fecha_fin" type="date" id="fechaFin" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-transparent"
-              required [ngClass]="{ 'border-red-500' : membershipForm.get('fecha_fin')!.invalid && membershipForm.get('fecha_fin')!.touched }"
+              <label class="block text-sm font-medium mb-1" for="">Fecha fin</label>
+              <input formControlName="endDate" type="date" id="endDate" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-transparent"
+              required [ngClass]="{ 'border-red-500' : membershipForm.get('endDate')!.invalid && membershipForm.get('endDate')!.touched }"
               >
 
               <div class="text-red-500 text-xs mt-1 h-4">
-                <span *ngIf="membershipForm.get('fecha_fin')!.invalid && membershipForm.get('fecha_fin')!.touched">
+                <span *ngIf="membershipForm.get('endDate')!.invalid && membershipForm.get('endDate')!.touched">
                   Ingrese una fecha valida de finalización
                 </span>
               </div>
             </div>
             <div class="mb-4">
-              <label class="block text-sm font-medium mb-2" for="codigoEstudiantil">Código estudiantil</label>
-              <input formControlName="cod_estudiante" type="text" id="codigoEstudiantil" placeholder="Ingresa el código" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-transparent"
-              required [ngClass]="{ 'border-red-500' : membershipForm.get('cod_estudiante')!.invalid && membershipForm.get('cod_estudiante')!.touched }"
+              <label class="block text-sm font-medium mb-1" for="studentCode">Código estudiantil</label>
+              <input formControlName="studentCode" type="text" id="studentCode" placeholder="Ingresa el código" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-transparent"
+              required [ngClass]="{ 'border-red-500' : membershipForm.get('studentCode')!.invalid && membershipForm.get('studentCode')!.touched }"
               >
 
               <div class="text-red-500 text-xs mt-1 h-3">
-                <span *ngIf="membershipForm.get('cod_estudiante')!.invalid && membershipForm.get('cod_estudiante')!.touched">
+                <span *ngIf="membershipForm.get('studentCode')!.invalid && membershipForm.get('studentCode')!.touched">
                   Ingrese el codigo de estudiante
                 </span>
               </div>
             </div>
             <div class="flex items-center justify-between">
-              <button class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" (click)="submitMembership()">
+              <button class="bg-orange-500 hover:bg-orange-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" (click)="createMembership()">
                 Enviar
               </button>
 
-              <button class="active-membership ml-2 bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" (click)="viewMembershipList()">
-                Membresias Activas
+              <button class="truncate ml-2 bg-purple-500 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" (click)="viewMembershipList()">
+                Ver Membresias
               </button>
             </div>
           </form>
         </div>
       </div>
-      <!-- Imagen -->
-      <div class="w-full md:mt-0 mt-10 md:w-1/2 flex items-center justify-center">
-        <img src="../../assets/fitnessMan.svg" alt="imgMembership" class="w-full h-auto p-4 object-cover">
+      <!-- Img -->
+      <div class="w-full md:mt-0 mt-4 md:w-1/2 flex items-center justify-center">
+        <img src="assets/membershipIcon.svg" alt="imgMembership" class="w-full h-auto p-4 object-cover">
       </div>
     </div>
   </mat-dialog-content>

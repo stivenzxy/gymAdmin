@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { apiConfig } from 'src/environments/api-config';
+import { ScheduleResponse } from '../models/responses/scheduleResponse';
+import { HttpDjangoResponse } from '../models/responses/httpDjangoResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +11,14 @@ import { apiConfig } from 'src/environments/api-config';
 export class ScheduleService {
   constructor(private http: HttpClient) { }
 
-  obtenerHorarios(): Observable<{success: boolean, horarios: any[]}> {
-    const url = `${apiConfig.baseUrl}GetHorarios/`;
-    return this.http.get<{success: boolean, horarios: any[]}>(url);
+  getSchedule(): Observable<ScheduleResponse> {
+    const requestUrl = `${apiConfig.baseUrl}GetSchedule/`;
+    return this.http.get<ScheduleResponse>(requestUrl);
+  }
+
+  updateSchedule(updatedSchedule: any): Observable<HttpDjangoResponse> {
+    console.log("Schedule in Service", updatedSchedule);
+    const requestUrl = `${apiConfig.baseUrl}UpdateSchedule/`;
+    return this.http.post<HttpDjangoResponse>(requestUrl, updatedSchedule);
   }
 }

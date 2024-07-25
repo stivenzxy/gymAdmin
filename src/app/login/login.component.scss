@@ -7,10 +7,9 @@ h1 {
   
 .p-text {
     max-width: 350px;
-    color: #2d2d2d;
+    color: #3f3f3f;
     font-weight: 500;
     margin-bottom: 10px;
-    //display: flex;
     text-align: center;
 }
 
@@ -44,4 +43,18 @@ h1 {
 .google-icon {
     width: 20px;
     margin-right: 10px;
+}
+
+.unillanos-icon {
+    width: 30px;
+    margin-right: 5px;
+}
+
+/* form status control */
+.ng-valid:not(form).ng-touched {
+    border-left: 5px solid #4242a9;
+}
+
+.ng-invalid:not(form).ng-touched {
+    border-left: 5px solid #a94442;
 }

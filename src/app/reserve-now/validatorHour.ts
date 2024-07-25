@@ -1,9 +1,9 @@
 import { FormGroup, ValidatorFn, AbstractControl } from '@angular/forms';
 
-export function futureHourValidator(fechaReservaControl: AbstractControl): ValidatorFn {
+export function futureHourValidator(reservationDateControl: AbstractControl): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
 
-    console.log('Validador ejecutándose');
+    console.log('Hour Validator is running!');
     const currentTime = new Date();
 
     const hours = String(currentTime.getHours()).padStart(2, '0');
@@ -15,15 +15,15 @@ export function futureHourValidator(fechaReservaControl: AbstractControl): Valid
       return null;
     }
 
-    // Validar que sean horas con minutos HH:00 || HH:30
+    // Validate that they are hours with minutes HH:00 || HH:30
     const validMinutesFormat = control.value.endsWith(':00') || control.value.endsWith(':30');
     if (!validMinutesFormat) {
       return { 'invalidMinuteFormat': { value: control.value } };
     }
     
-    const fechaReserva = fechaReservaControl.value;
-    if (fechaReserva) {
-      console.log('fecha de reserva en el validador de hora: ', fechaReserva)
+    const reservationDate = reservationDateControl.value;
+    if (reservationDate) {
+      console.log('Reservation date in hour validator: ', reservationDate)
     }
 
     var day = String(currentTime.getDate()).padStart(2, '0');
@@ -32,7 +32,7 @@ export function futureHourValidator(fechaReservaControl: AbstractControl): Valid
 
     const currentDateString = year + '-' + month + '-' + day;
 
-    const isPastTime = fechaReserva <= currentDateString && control.value < currentTimeString;
+    const isPastTime = reservationDate <= currentDateString && control.value < currentTimeString;
 
     return isPastTime ? { 'pastTime': { value: control.value } } : null;
   };

@@ -1,66 +1,68 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
-import { AuthService } from 'src/shared/services/auth.service';
 import Swal from 'sweetalert2';
-import { apiConfig } from 'src/environments/api-config';
+import { ReservationService } from 'src/shared/services/reservation.service';
+import { LoginService } from 'src/shared/services/login.service';
+import { HttpDjangoResponse } from 'src/shared/models/responses/httpDjangoResponse';
+import { UserData } from 'src/shared/models/entities/userData';
+import { ReservationData } from 'src/shared/models/entities/reservationData';
+import { AttendanceData } from 'src/shared/models/entities/attendanceData';
 @Component({
   selector: 'app-reserve-history',
   templateUrl: './reserve-history.component.html',
-  styleUrls: ['./reserve-history.component.scss']
+  styleUrls: ['./reserve-history.component.scss'],
 })
 export class ReserveHistoryComponent implements OnInit {
-  historialReservas: any[] = [];
-  historialAsistencias: any[] = [];
-  uid: string | undefined ;
+  reservationHistory: ReservationData[] = [];
+  attendanceHistory: AttendanceData[] = [];
+  uid: string | undefined;
 
-  page: number = 1; // Página actual
-  pageSize: number = 5; // Cantidad de elementos por página
-  collectionSize!: number; // Total de elementos en el historial
+  page: number = 1; // Current page
+  pageSize: number = 5; // Items per page
+  collectionSize!: number; // All history items
 
-  constructor(private http : HttpClient, private authService: AuthService) {}
-
+  constructor(
+    private reservationService: ReservationService,
+    private loginService: LoginService,
+  ) {}
 
   get totalPage() {
     return Math.ceil(this.collectionSize / this.pageSize);
   }
 
-  changePage(cambio: number) {
-    this.page += cambio;
+  changePage(interval: number) {
+    this.page += interval;
   }
 
   ngOnInit(): void {
-    this.authService.user.subscribe(user => {
-      if (user) {
-        this.uid = user.uid;
-        this.obtenerReservasPorUsuario(this.uid);
+    this.loginService.getLoggedUserData().subscribe((loggedUser: UserData) => {
+      if (loggedUser) {
+        this.uid = loggedUser.uid;
+        this.getReservesPerUser(this.uid);
       }
     });
   }
 
-  obtenerReservasPorUsuario(uid: string | undefined) {
-    const url = `${apiConfig.baseUrl}AsistenciasPerUser/?uid=${uid}`;
-    this.http.get<{success: boolean, reservas: any[], asistencias: any[]}>(url).subscribe({
+  getReservesPerUser(uid: string | undefined) {
+    this.reservationService.getAttendancesPerUser(uid).subscribe({
       next: (response) => {
         if (response.success) {
-          console.log(response.reservas)
-          this.historialReservas = response.reservas;
-          this.historialAsistencias = response.asistencias;
-          this.collectionSize = this.historialAsistencias.length;
+          console.log(response.attendances);
+          this.reservationHistory = response.reservations;
+          this.attendanceHistory = response.attendances;
+          this.collectionSize = this.attendanceHistory.length;
         } else {
           console.error('Error al obtener las reservas');
         }
       },
       error: (error) => {
         console.error('Error al obtener las reservas', error);
-      }
+      },
     });
   }
-  
-  cancelReserve(index: number){
-    const reserva = this.historialReservas[index];
-    console.log(reserva.id_reserva);
-    
-    const body = {id_reserva: reserva.id_reserva};
+
+  cancelReserve(index: number) {
+    const reserva = this.reservationHistory[index];
+    console.log(reserva.reservation_id);
 
     Swal.fire({
       title: '¿Deseas cancelar la reserva?',
@@ -73,8 +75,8 @@ export class ReserveHistoryComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.http.post(`${apiConfig.baseUrl}CancelReserva/`, body).subscribe({
-          next: (response: any) => {
+        this.reservationService.cancelReserve(reserva.reservation_id).subscribe({
+          next: (response: HttpDjangoResponse) => {
             if (response.success) {
               Swal.fire({
                 title: 'Reserva cancelada con exito!',
@@ -83,7 +85,7 @@ export class ReserveHistoryComponent implements OnInit {
                 icon: 'success',
               }).then((result) => {
                 if (result.isConfirmed) {
-                  this.historialReservas.splice(index, 1);
+                  this.reservationHistory.splice(index, 1);
                 }
               });
             } else {
@@ -95,10 +97,10 @@ export class ReserveHistoryComponent implements OnInit {
               });
             }
           },
-          error: (error) => {
+          error: (error: HttpDjangoResponse) => {
             Swal.fire({
               title: 'Error al enviar los datos',
-              text: error.error.message || 'Error desconocido',
+              text: error.message || 'Error desconocido',
               icon: 'error',
               confirmButtonText: 'Aceptar',
             });
@@ -107,5 +109,4 @@ export class ReserveHistoryComponent implements OnInit {
       }
     });
   }
-
 }
