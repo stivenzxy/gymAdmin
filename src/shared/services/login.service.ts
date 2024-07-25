@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CookieService, CookieOptions } from 'ngx-cookie-service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { apiConfig } from 'src/environments/api-config';
 import { UserData } from '../models/entities/userData';
@@ -22,6 +22,7 @@ export class LoginService {
   private userDataSubject = new BehaviorSubject<any>(this.getUserDataFromCookies());
 
   private tokenCheckInterval: any;
+  tokenExpired = new Subject<void>();
 
   currentAccessTkn: BehaviorSubject<string> = new BehaviorSubject<string>('');
   currentRefreshTkn: BehaviorSubject<string> = new BehaviorSubject<string>('');
@@ -101,16 +102,22 @@ export class LoginService {
     return this.userAuthStatus.asObservable();
   }
 
-  logOut() {
+  logOut(): void {
+    this.logOutWithoutReload();
+    window.location.reload();
+  }
+
+  private logOutWithoutReload(): void {
     this.cookieService.delete('admin', '/');
     this.cookieService.delete('user', '/');
     this.cookieService.delete('access_token', '/');
     this.cookieService.delete('refresh_token', '/');
+    localStorage.removeItem('register');
     this.adminAuthStatus.next(false);
     this.userAuthStatus.next(false);
     this.userDataSubject.next(null);
     this.stopTokenCheck(); // Stop checking tokens on logout
-    window.location.reload();
+    // Optional: Trigger any state updates or events needed to reflect the logout in the UI.
   }
 
   submitLoginData(loginDataForm: LoginData): Observable<LoginResponse> {
@@ -153,7 +160,7 @@ export class LoginService {
           error: () => this.logOut(), // Log out if the refresh fails
         });
       }
-    }, 60000); // Check every minute
+    }, 30000); // Check every minute
   }
 
   private stopTokenCheck(): void {
@@ -163,11 +170,19 @@ export class LoginService {
     }
   }
 
-  isTokenExpired(accessToken: string | null): boolean {
-    if (accessToken) {
-      const decoded = jwtDecode<any>(accessToken);
+  isTokenExpired(token: string | null): boolean {
+    if (token) {
+      const decoded = jwtDecode<any>(token);
       return Date.now() >= decoded.exp * 1000;
     }
     return true;
+  }
+
+  checkTokenValidity(): void {
+    const refreshToken = this.cookieService.get('refresh_token');
+    if (this.isTokenExpired(refreshToken)) {
+      this.logOutWithoutReload();
+      this.tokenExpired.next();
+    }
   }
 }

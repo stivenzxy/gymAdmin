@@ -9,8 +9,6 @@ import { HttpDjangoResponse } from '../models/responses/httpDjangoResponse';
   providedIn: 'root'
 })
 export class GetUsersService {
-  private apiUrlAttendance = `${apiConfig.baseUrl}CreateAttnNoReserve/`;
-  
   constructor(private http: HttpClient){}
 
   getUserWithStudentCode(studentCode?: string): Observable<UserListResponse> {

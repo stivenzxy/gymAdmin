@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { GoogleAuthService } from 'src/shared/services/googleAuth.service';
 import { InactivityService } from 'src/shared/services/inactivity.service';
+import { LoginService } from 'src/shared/services/login.service';
 import Swal from 'sweetalert2';
 
 interface SideNavToogle {
@@ -26,7 +27,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private preRegisterService: GoogleAuthService,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private loginService: LoginService
   ) {}
 
   ngOnInit(): void {
@@ -41,6 +43,12 @@ export class AppComponent implements OnInit {
     });
 
     this.verifyCanceledRegister();
+
+    this.loginService.checkTokenValidity();
+
+    this.loginService.tokenExpired.subscribe(() => {
+      window.location.reload();
+    });
   }
 
   verifyCanceledRegister() {

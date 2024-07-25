@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AnimationItem } from 'lottie-web';
+import { AnimationItem } from '@esm-bundle/lottie-web/esm/lottie';
 import { AnimationOptions } from 'ngx-lottie';
 
 @Component({

@@ -12,7 +12,6 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import player from 'lottie-web';
 import { CookieService } from 'ngx-cookie-service';
 import { LottieModule } from 'ngx-lottie';
 import { environment } from 'src/environments/environment';
@@ -46,9 +45,12 @@ import {MatInputModule} from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
 import { JwtInterceptorService } from 'src/shared/services/jwt/jwt-interceptor.service';
 import { ErrorInterceptorService } from 'src/shared/services/jwt/error-interceptor.service';
+import { NotFoundComponent } from './not-found/not-found.component';
+//import lottie from '@esm-bundle/lottie-web';
+import lottie from '@esm-bundle/lottie-web/esm/lottie.js';
 
 export function playerFactory() {
-  return player;
+  return lottie;
 }
 
 @NgModule({
@@ -75,6 +77,7 @@ export function playerFactory() {
     AboutComponent,
     ActiveMembershipListComponent,
     RegisteredUsersComponent,
+    NotFoundComponent,
   ],
 
   imports: [
