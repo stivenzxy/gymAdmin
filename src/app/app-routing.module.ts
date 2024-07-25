@@ -12,6 +12,7 @@ import { AuthGuard } from 'src/shared/guards/auth.guard';
 import { InitformComponent } from './initform/initform.component';
 import { reserveHistoryGuard } from 'src/shared/guards/reserve-history.guard';
 import { AboutComponent } from './about/about.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -35,6 +36,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'initform', component: InitformComponent },
   { path: 'about', component: AboutComponent },
+  { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({

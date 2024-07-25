@@ -4,7 +4,7 @@
             <div class="head-menu-left">
                 <div class="head-menu-item">
                     <button class="head-menu-item-btn ripple" (click)="toggleTheme()">
-                        <img [src]="'assets/themes/' + selectedTheme.icon + '.png' "
+                        <img [src]="'assets/themes/' + selectedTheme.icon + '.png' " loading="lazy"
                             class="theme" alt="icon">
                     </button>
                 </div>
@@ -22,8 +22,8 @@
            <!-- Displayed when the user is logged in -->
             <div class="head-user-avatar-container" *ngIf="loggedUser || isUserInRegister">
                 <div class="head-user-avatar" [cdkMenuTriggerFor]="userOverlay">
-                        <img *ngIf="preRegisterUserData" [src]="preRegisterUserData.photoURL" (load)="onImageLoad()" alt="avatar" class="user-avatar">
-                        <img *ngIf="loggedUserData && !loggedUserData.photo_url" src="assets/avatar-signIn2.png" alt="avatar" class="user-avatar">
+                        <img *ngIf="preRegisterUserData" [src]="preRegisterUserData.photoURL" loading="lazy" (load)="onImageLoad()" alt="avatar" class="user-avatar">
+                        <img *ngIf="loggedUserData && !loggedUserData.photo_url" loading="lazy" src="assets/auth-images/user-icon.png" alt="avatar" class="user-avatar">
                         <img *ngIf="loggedUserData && loggedUserData.photo_url" [src]="loggedUserData.photo_url" alt="avatar" class="user-avatar">
                     <div class="circle-indicator pulse"></div>
                 </div>
@@ -32,14 +32,14 @@
             <!-- Displayed when the user is NOT logged in -->
             <div class="head-user-avatar-container" *ngIf="!isUserInRegister && !loggedAdmin && !loggedUser">
                 <div class="head-user-avatar" [cdkMenuTriggerFor]="notLoggedOverlay">
-                    <img src="assets/avatar-signIn2.png" alt="user" class="user-avatar">
+                    <img src="assets/auth-images/user-icon.png" loading="lazy" alt="user" class="user-avatar">
                 </div>
             </div>
 
             <!-- Displayed when the admin is logged in -->
             <div class="head-user-avatar-container" *ngIf="loggedAdmin">
                 <div class="head-user-avatar" [cdkMenuTriggerFor]="userOverlay">
-                        <img src="assets/admin_icon.png" alt="user" class="user-avatar">
+                        <img src="assets/auth-images/admin_icon.png" loading="lazy" alt="user" class="user-avatar">
                     <div class="circle-indicator pulse"></div>
                 </div>
             </div>

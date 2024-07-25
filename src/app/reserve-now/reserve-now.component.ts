@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AnimationItem } from 'lottie-web';
+import { AnimationItem } from '@esm-bundle/lottie-web/esm/lottie';
 import { AnimationOptions } from 'ngx-lottie';
 import { RecommendationService } from '../../shared/services/recomendations.service';
 import { recommendations } from './recommendations';

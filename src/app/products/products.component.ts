@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AnimationOptions } from 'ngx-lottie';
-import { AnimationItem } from 'lottie-web';
+import { AnimationItem } from '@esm-bundle/lottie-web/esm/lottie';
 
 @Component({
   selector: 'app-products',

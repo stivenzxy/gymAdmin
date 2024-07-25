@@ -15,7 +15,7 @@ export class JwtInterceptorService implements HttpInterceptor {
     return this.loginService.currentAccessTkn.pipe(
       take(1), // Take the most recent token and complete
       switchMap(accessToken => {
-        if (accessToken) {
+        if (accessToken && !this.loginService.isTokenExpired(accessToken)) {
           req = req.clone({
             setHeaders: {
               'Authorization': `Bearer ${accessToken}`,
