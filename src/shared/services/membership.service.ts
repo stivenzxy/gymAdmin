@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { apiConfig } from 'src/environments/api-config';
+import { environment } from 'src/environments/environment.api';
 import { MembershipResponse } from '../models/responses/membershipResponse';
 import { Observable } from 'rxjs';
 import { NewMembership } from '../models/entities/newMembership';
@@ -15,7 +15,7 @@ export class MembershipService {
   constructor(private http: HttpClient) { }
 
   createNewMembership(membershipData : NewMembership): Observable<HttpDjangoResponse>{
-    const requestUrl = `${apiConfig.baseUrl}CreateMembership/`;
+    const requestUrl = `${environment.baseUrl}CreateMembership/`;
     const currentDate = new Date();
 
     const day = String(currentDate.getDate()).padStart(2, '0');
@@ -29,12 +29,12 @@ export class MembershipService {
   }
 
   getMemberships(): Observable<MembershipResponse> {
-    const requestUrl = `${apiConfig.baseUrl}GetMemberships/`;
+    const requestUrl = `${environment.baseUrl}GetMemberships/`;
     return this.http.get<MembershipResponse>(requestUrl);
   }
 
   cancelMembership(body: MembershipIdRequest): Observable<HttpDjangoResponse> {
-    const requestUrl = `${apiConfig.baseUrl}CancelMembership/`;
+    const requestUrl = `${environment.baseUrl}CancelMembership/`;
     return this.http.post<HttpDjangoResponse>(requestUrl, body);
   }
 }

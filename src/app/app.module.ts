@@ -14,7 +14,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CookieService } from 'ngx-cookie-service';
 import { LottieModule } from 'ngx-lottie';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.firebase';
 import { AboutComponent } from './about/about.component';
 import { ActiveMembershipListComponent } from './active-membership-list/active-membership-list.component';
 import { AppRoutingModule } from './app-routing.module';

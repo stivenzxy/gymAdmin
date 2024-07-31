@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { apiConfig } from 'src/environments/api-config';
+import { environment } from 'src/environments/environment.api';
 import { GymData } from '../models/entities/gymData';
 import {
   CreateGymResponse,
@@ -12,7 +12,7 @@ import {
   providedIn: 'root',
 })
 export class SetAndUpdateGymInfoService {
-  private requestUrl = `${apiConfig.baseUrl}gyms/`;
+  private requestUrl = `${environment.baseUrl}gyms/`;
 
   constructor(private http: HttpClient) {}
 

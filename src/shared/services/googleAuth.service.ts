@@ -9,14 +9,14 @@ import { InitformComponent } from 'src/app/initform/initform.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SharedService } from './shared.service';
 import Swal from 'sweetalert2';
-import { apiConfig } from 'src/environments/api-config';
+import { environment } from 'src/environments/environment.api';
 import { GoogleAuthData } from '../models/entities/googleAuthData';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GoogleAuthService {
-  private apiUrl = `${apiConfig.baseUrl}CheckUser/`;
+  private apiUrl = `${environment.baseUrl}CheckUser/`;
 
   private loadingSubject = new BehaviorSubject<boolean>(true);
   public loading = this.loadingSubject.asObservable();

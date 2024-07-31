@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaderResponse } from '@angular/common/http';
 import { SharedService } from './shared.service';
-import { apiConfig } from 'src/environments/api-config';
+import { environment } from 'src/environments/environment.api';
 import { LoginService } from './login.service';
 import { ReservationResponse } from '../models/responses/reservationResponse';
 import { Observable, throwError } from 'rxjs';
@@ -32,7 +32,7 @@ export class ReservationService {
 
   /** This is for the user, the method sends the data to make a new reserve */
   submitDataReserve(reservationFormData: NewReservation): Observable<HttpDjangoResponse> {
-    const requestUrl = `${apiConfig.baseUrl}CreateReserve/`;
+    const requestUrl = `${environment.baseUrl}CreateReserve/`;
     const currentDate = new Date();
 
     const day = String(currentDate.getDate()).padStart(2, '0');
@@ -52,30 +52,30 @@ export class ReservationService {
 
   /** This is for the user (Requests made by the user) */
   getAttendancesPerUser(uid: string | undefined): Observable<AttendancesPerUserResponse> { 
-    const requestUrl = `${apiConfig.baseUrl}AttendancesPerUser/?uid=${uid}`;
+    const requestUrl = `${environment.baseUrl}AttendancesPerUser/?uid=${uid}`;
     return this.http.get<AttendancesPerUserResponse>(requestUrl);
   }
 
   cancelReserve(reserveId: number): Observable<HttpDjangoResponse> {
-    const requestUrl = `${apiConfig.baseUrl}CancelReserve/`;
+    const requestUrl = `${environment.baseUrl}CancelReserve/`;
     const body = { reservation_id: reserveId };
     return this.http.post<HttpDjangoResponse>(requestUrl, body);
   }
 
   /** This is for the administrator (Requests made by the admin) */
   getAllReserves(): Observable<ReservationResponse> {
-    const requestUrl = `${apiConfig.baseUrl}GetReserveList/`;
+    const requestUrl = `${environment.baseUrl}GetReserveList/`;
     return this.http.get<ReservationResponse>(requestUrl);
   }
 
   penalizeUser(reserveId: number, date: string): Observable<HttpDjangoResponse> {
-    const requestUrl = `${apiConfig.baseUrl}PenalizeUser/`;
+    const requestUrl = `${environment.baseUrl}PenalizeUser/`;
     const body = {id: reserveId, date: date};
     return this.http.post<HttpDjangoResponse>(requestUrl, body);
   }
 
   confirmAttendance(reserveId: number): Observable<HttpDjangoResponse> { 
-    const requestUrl = `${apiConfig.baseUrl}CreateAttendance/`;
+    const requestUrl = `${environment.baseUrl}CreateAttendance/`;
     const body = {reservation_id: reserveId};
     return this.http.post<HttpDjangoResponse>(requestUrl, body);
   }
