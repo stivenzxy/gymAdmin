@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { CookieService, CookieOptions } from 'ngx-cookie-service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { apiConfig } from 'src/environments/api-config';
+import { environment } from 'src/environments/environment.api';
 import { UserData } from '../models/entities/userData';
 import { LoginResponse } from '../models/responses/loginResponse';
 import {jwtDecode} from 'jwt-decode';
@@ -14,8 +14,8 @@ import { LoginData } from '../models/entities/loginData';
   providedIn: 'root',
 })
 export class LoginService {
-  private apiUrl = `${apiConfig.baseUrl}Login/`;
-  private refreshUrl = `${apiConfig.baseUrl}token/refresh/`;
+  private apiUrl = `${environment.baseUrl}Login/`;
+  private refreshUrl = `${environment.baseUrl}token/refresh/`;
 
   private adminAuthStatus = new BehaviorSubject<boolean>(this.isAdminLoggedIn());
   private userAuthStatus = new BehaviorSubject<boolean>(this.isUserLoggedIn());
@@ -129,7 +129,7 @@ export class LoginService {
   }
 
   private saveTokens(accessToken: string, refreshToken: string) {
-    const cookieOptions: CookieOptions = { secure: true, path: '/' };
+    const cookieOptions: CookieOptions = {path: '/' };
     this.cookieService.set('access_token', accessToken, cookieOptions);
     this.cookieService.set('refresh_token', refreshToken, cookieOptions);
     this.currentAccessTkn.next(accessToken);

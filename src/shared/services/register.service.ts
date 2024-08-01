@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EMPTY, Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { apiConfig } from 'src/environments/api-config';
+import { environment } from 'src/environments/environment.api';
 import { RegisterUserData } from '../models/entities/register.extraData';
 import { HttpDjangoResponse } from '../models/responses/httpDjangoResponse';
 import { SharedService } from './shared.service';
@@ -11,7 +11,7 @@ import { SharedService } from './shared.service';
   providedIn: 'root',
 })
 export class RegisterService {
-  private requestUrl = `${apiConfig.baseUrl}CreateUser/`;
+  private requestUrl = `${environment.baseUrl}CreateUser/`;
 
   constructor(private http: HttpClient, private sharedService: SharedService) {}
 
