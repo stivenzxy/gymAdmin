@@ -3,14 +3,13 @@ import { GoogleAuthProvider } from '@angular/fire/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { InitformComponent } from 'src/app/initform/initform.component';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { SharedService } from './shared.service';
 import Swal from 'sweetalert2';
 import { environment } from 'src/environments/environment.api';
-import { GoogleAuthData } from '../models/entities/googleAuthData';
 
 @Injectable({
   providedIn: 'root',

@@ -42,7 +42,7 @@ export class LoginService {
   saveUserData(data: UserData) {
     try {
       const userData = JSON.stringify(data);
-      const cookieOptions: CookieOptions = { secure: true, path: '/' };
+      const cookieOptions: CookieOptions = { secure: false, path: '/' };
 
       if (data.is_admin) {
         this.cookieService.set('admin', userData, cookieOptions);
@@ -108,10 +108,7 @@ export class LoginService {
   }
 
   private logOutWithoutReload(): void {
-    this.cookieService.delete('admin', '/');
-    this.cookieService.delete('user', '/');
-    this.cookieService.delete('access_token', '/');
-    this.cookieService.delete('refresh_token', '/');
+    this.cookieService.deleteAll();
     localStorage.removeItem('register');
     this.adminAuthStatus.next(false);
     this.userAuthStatus.next(false);
