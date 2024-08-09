@@ -13,6 +13,7 @@ import { InitformComponent } from './initform/initform.component';
 import { reserveHistoryGuard } from 'src/shared/guards/reserve-history.guard';
 import { AboutComponent } from './about/about.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -36,6 +37,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'initform', component: InitformComponent },
   { path: 'about', component: AboutComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
   { path: '**', component: NotFoundComponent },
 ];
 

@@ -21,7 +21,7 @@ export const navbarData: INavbarData[] = [
       },
     ],
   },
-  {
+  /*{
     routeLink: 'training',
     icon: 'fas fa-dumbbell',
     label: 'Rutina',
@@ -31,6 +31,7 @@ export const navbarData: INavbarData[] = [
     icon: 'fas fa-tag',
     label: 'Productos',
   },
+  */
   {
     routeLink: 'settings',
     icon: 'fas fa-gear',

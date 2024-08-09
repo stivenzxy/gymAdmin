@@ -92,3 +92,22 @@ li a span.sidenav-link-text {
     background-color: rgba(0, 0, 0, 0.5); 
     z-index: 9; 
 }
+
+.sidenav-nav-item > a.active,
+.sidenav-nav-item > a.active-parent {
+    background-color: white;
+}
+
+.active .sidenav-link-icon,
+.active .sidenav-link-text,
+.active-parent .sidenav-link-icon,
+.active-parent .sidenav-link-text {
+    color: black;
+    border-radius: 0.375rem;
+}
+
+.active-subitem {
+    background-color: white;
+    color: black;
+    border-radius: 0.375rem;
+}

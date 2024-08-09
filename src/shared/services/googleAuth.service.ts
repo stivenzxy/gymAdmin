@@ -30,7 +30,7 @@ export class GoogleAuthService {
   private userSubject = new BehaviorSubject<any>(null);
   public user = this.userSubject.asObservable();
 
-  private isLoggedInSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
+  private isLoggedInSubject = new BehaviorSubject<boolean>(this.isGoogleInfoAvaliable());
   public isLoggedInObservable = this.isLoggedInSubject.asObservable();
 
   userData: any;
@@ -112,7 +112,7 @@ export class GoogleAuthService {
     });
   }
 
-  isLoggedIn(): boolean {
+  isGoogleInfoAvaliable(): boolean {
     const user = this.cookieService.get('userInRegister');
     return user !== '' && user !== null && user !== 'null';
   }

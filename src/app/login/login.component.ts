@@ -3,8 +3,9 @@ import { GoogleAuthService } from '../../shared/services/googleAuth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { LoginService } from 'src/shared/services/login.service';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { LoginResponse } from 'src/shared/models/responses/loginResponse';
+import { ResetPasswordEmailService } from 'src/shared/services/reset-password-email.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -18,7 +19,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private preRegisterService: GoogleAuthService,
     private loginService: LoginService,
-    private dialogRef: MatDialogRef<LoginComponent>
+    private resetPasswordService: ResetPasswordEmailService,
+    private dialogRef: MatDialogRef<LoginComponent>,
+    private dialog: MatDialog
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -91,5 +94,48 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   togglePasswordVisibility() {
     this.hidePassword = !this.hidePassword;
+  }
+
+  sendRecoveryPasswordEmail() {
+    this.dialogRef.close();
+
+    Swal.fire({
+      title: 'Ingrese su correo electrónico',
+      input: 'email',
+      inputPlaceholder: 'usuario@unillanos.com',
+      showCancelButton: true,
+      confirmButtonColor: '#2563eb',
+      confirmButtonText: 'Enviar',
+      cancelButtonText: 'Cancelar',
+      showLoaderOnConfirm: true,
+      preConfirm: (email) => {
+        Swal.showLoading();
+        return new Promise((resolve, reject) => {
+          this.resetPasswordService.requestResetPasswordCode(email).subscribe({
+            next: (response) => {
+              Swal.hideLoading();
+              resolve(response);
+            },
+            error: (error) => {
+              Swal.hideLoading();
+              reject(new Error(error.error.message));
+            }
+          });
+        }).then((response: any) => {
+          Swal.fire('Correo Enviado Exitosamente!', `${response.message}`, 'success');
+        }).catch(error => {
+          Swal.fire('Error', error.message, 'error');
+        });
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+      if (result.dismiss === Swal.DismissReason.cancel) {
+        this.openLoginDialog();
+      }
+    });
+  }
+
+  openLoginDialog() {
+    this.dialog.open(LoginComponent);
   }
 }

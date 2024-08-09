@@ -11,7 +11,6 @@ import { futureHourValidator } from './validatorHour';
 import { ScheduleService } from 'src/shared/services/schedule.service';
 import { ScheduleResponse } from 'src/shared/models/responses/scheduleResponse';
 import { Schedule } from 'src/shared/models/entities/scheduleData';
-import { ReservationData } from 'src/shared/models/entities/reservationData';
 import { NewReservation } from 'src/shared/models/entities/newReservation';
 import { HttpDjangoResponse } from 'src/shared/models/responses/httpDjangoResponse';
 @Component({
@@ -46,7 +45,7 @@ export class ReserveNowComponent implements OnInit, OnDestroy {
         '',
         [Validators.required, Validators.max(2), Validators.min(1)],
       ],
-      reservationDate: ['', [Validators.required, futureDateValidator()]],
+      reservationDate: ['', [Validators.required]],
     });
 
     this.initFormValidations();

@@ -9,3 +9,9 @@ select {
 .custom-shadow {
     box-shadow: 0px 3px 7px rgba(57, 57, 57, 0.6);
 }
+
+.no-scroll {
+    touch-action: none;
+    overflow: hidden; /* Esto evita el desplazamiento en dispositivos táctiles */
+  }
+  

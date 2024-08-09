@@ -48,6 +48,8 @@ import { ErrorInterceptorService } from 'src/shared/services/jwt/error-intercept
 import { NotFoundComponent } from './not-found/not-found.component';
 //import lottie from '@esm-bundle/lottie-web';
 import lottie from '@esm-bundle/lottie-web/esm/lottie.js';
+import { ChangePasswordComponent } from './change-password/change-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 export function playerFactory() {
   return lottie;
@@ -78,6 +80,8 @@ export function playerFactory() {
     ActiveMembershipListComponent,
     RegisteredUsersComponent,
     NotFoundComponent,
+    ChangePasswordComponent,
+    ResetPasswordComponent,
   ],
 
   imports: [

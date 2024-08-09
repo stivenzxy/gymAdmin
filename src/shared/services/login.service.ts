@@ -6,9 +6,11 @@ import { tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment.api';
 import { UserData } from '../models/entities/userData';
 import { LoginResponse } from '../models/responses/loginResponse';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { TokenResponse } from '../models/responses/tokenResponse';
 import { LoginData } from '../models/entities/loginData';
+import { ChangePasswordResponse } from '../models/responses/changePasswordResponse';
+import { ChangePasswordData } from '../models/entities/changePasswordData';
 
 @Injectable({
   providedIn: 'root',
@@ -17,9 +19,13 @@ export class LoginService {
   private apiUrl = `${environment.baseUrl}Login/`;
   private refreshUrl = `${environment.baseUrl}token/refresh/`;
 
-  private adminAuthStatus = new BehaviorSubject<boolean>(this.isAdminLoggedIn());
+  private adminAuthStatus = new BehaviorSubject<boolean>(
+    this.isAdminLoggedIn()
+  );
   private userAuthStatus = new BehaviorSubject<boolean>(this.isUserLoggedIn());
-  private userDataSubject = new BehaviorSubject<any>(this.getUserDataFromCookies());
+  private userDataSubject = new BehaviorSubject<any>(
+    this.getUserDataFromCookies()
+  );
 
   private tokenCheckInterval: any;
   tokenExpired = new Subject<void>();
@@ -46,10 +52,10 @@ export class LoginService {
 
       if (data.is_admin) {
         this.cookieService.set('admin', userData, cookieOptions);
-        this.saveTokens(data.access ?? "", data.refresh ?? "");
+        this.saveTokens(data.access ?? '', data.refresh ?? '');
       } else {
         this.cookieService.set('user', userData, cookieOptions);
-        this.saveTokens(data.access ?? "", data.refresh ?? "");
+        this.saveTokens(data.access ?? '', data.refresh ?? '');
       }
       this.userDataSubject.next(data);
     } catch (error) {
@@ -126,13 +132,13 @@ export class LoginService {
   }
 
   private saveTokens(accessToken: string, refreshToken: string) {
-    const cookieOptions: CookieOptions = {path: '/' };
+    const cookieOptions: CookieOptions = { path: '/' };
     this.cookieService.set('access_token', accessToken, cookieOptions);
     this.cookieService.set('refresh_token', refreshToken, cookieOptions);
     this.currentAccessTkn.next(accessToken);
     this.currentRefreshTkn.next(refreshToken);
     this.startTokenCheck(); // Start token check when tokens are saved
-    console.log("Token de acceso guardado: ", accessToken);
+    console.log('Token de acceso guardado: ', accessToken);
   }
 
   getAccessToken(): string {
@@ -141,11 +147,13 @@ export class LoginService {
 
   refreshAccessToken(): Observable<TokenResponse> {
     const refreshToken = this.cookieService.get('refresh_token');
-    return this.http.post<TokenResponse>(this.refreshUrl, { refresh: refreshToken }).pipe(
-      tap((tokens: TokenResponse) => {
-        this.saveTokens(tokens.access, refreshToken);
-      })
-    );
+    return this.http
+      .post<TokenResponse>(this.refreshUrl, { refresh: refreshToken })
+      .pipe(
+        tap((tokens: TokenResponse) => {
+          this.saveTokens(tokens.access, refreshToken);
+        })
+      );
   }
 
   private startTokenCheck(): void {
@@ -181,5 +189,17 @@ export class LoginService {
       this.logOutWithoutReload();
       this.tokenExpired.next();
     }
+  }
+
+  changePassword(data: ChangePasswordData): Observable<ChangePasswordResponse> {
+    const requestUrl = `${environment.baseUrl}ChangePassword/`;
+
+    return this.http.post<ChangePasswordResponse>(requestUrl, data).pipe(
+      tap((response: ChangePasswordResponse) => {
+        if (response.success && response.access && response.refresh) {
+          this.saveTokens(response.access, response.refresh);
+        }
+      })
+    );
   }
 }

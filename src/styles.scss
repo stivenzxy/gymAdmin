@@ -1,7 +1,6 @@
-
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
-@use '@angular/material' as mat;
+@use '@angular/material'as mat;
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -20,13 +19,10 @@ $gymAdmin-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$gymAdmin-theme: mat.define-light-theme((
-  color: (
-    primary: $gymAdmin-primary,
-    accent: $gymAdmin-accent,
-    warn: $gymAdmin-warn,
-  )
-));
+$gymAdmin-theme: mat.define-light-theme((color: (primary: $gymAdmin-primary,
+      accent: $gymAdmin-accent,
+      warn: $gymAdmin-warn,
+    )));
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -42,17 +38,22 @@ $gymAdmin-theme: mat.define-light-theme((
 
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    position: relative;
+  position: relative;
 }
-html, body { height: 100%; }
-body { 
-  margin: 0; 
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background: var(--body-primary);
 }
@@ -97,4 +98,50 @@ body {
 /* Estilo para ocultar la barra de desplazamiento en Firefox */
 .sidenav-nav {
   scrollbar-width: none;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-button {
+  background-color: transparent;
+  display: block;
+  border-radius: 8px;
+  height: 16px;
+  width: 16px;
+  margin: 2px;
+}
+
+::-webkit-scrollbar-button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-button:single-button:vertical:decrement {
+  background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="rgba(0, 0, 0, 0.7)"><path d="M7 14l5-5 5 5z"/></svg>');
+  background-size: 12px 12px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+::-webkit-scrollbar-button:single-button:vertical:increment {
+  background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="rgba(0, 0, 0, 0.7)"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-size: 12px 12px;
+  background-repeat: no-repeat;
+  background-position: center;
 }

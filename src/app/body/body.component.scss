@@ -1,6 +1,7 @@
 .body {
     width: calc(100% - 4rem);
-    height: 100vh;
+    height: 100%;
+    min-height: 100vh;
     margin-top: 5.75rem;
     background: var(--background-color-body-app);
 }

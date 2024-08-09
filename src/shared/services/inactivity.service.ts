@@ -51,7 +51,7 @@ export class InactivityService {
     clearTimeout(this.timeoutId);
     clearTimeout(this.alertTimeoutId);
 
-    if (this.preRegisterService.isLoggedIn() !== false) {
+    if (this.preRegisterService.isGoogleInfoAvaliable() !== false) {
       this.timeoutId = setTimeout(
         () => this.checkActivity(),
         this.inactivityLimit
@@ -78,7 +78,7 @@ export class InactivityService {
   }
 
   private showKeepAliveAlert() {
-    if (this.preRegisterService.isLoggedIn()) {
+    if (this.preRegisterService.isGoogleInfoAvaliable()) {
       let timeLeft = this.alertBefore / 1000;
       const timerInterval = setInterval(() => {
         timeLeft -= 1;

@@ -1,7 +1,6 @@
-<h2 mat-dialog-title><h1>Acceder</h1></h2>
-<button mat-icon-button class="close-button" [mat-dialog-close]="false">
-    <mat-icon>close</mat-icon>
-  </button>
+<h2 class="flex items-center justify-center font-semibold py-4">
+  Acceder a Fitlynx
+</h2>
 <mat-dialog-content class="mat-typography modal-container">
   <form [formGroup]="loginForm" class="space-y-4" (ngSubmit)="submitLoginInfo()">
     <div class="p-text">Ingresa tu correo institucional y contraseña para iniciar sesión</div>
@@ -37,18 +36,25 @@
       <button type="submit" class="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-sky-500">Iniciar sesión</button>
     </div>
   </form>
-  <!--Registrarse usando google-->
-  <div class="relative my-5">
+  <div class="forget-password text-sm text-center mt-2">
+    <a (click)="sendRecoveryPasswordEmail()" class="text-indigo-700 hover:text-indigo-900 font-medium cursor-pointer">¿Olvidaste tu contraseña?</a>
+  </div>
+  <!--Register with google -->
+  <div class="relative my-4">
     <div class="absolute inset-0 flex items-center" aria-hidden="true">
       <div class="w-full border-t border-gray-300"></div>
     </div>
     <div class="relative flex justify-center text-sm">
-      <span class="px-2 bg-white text-gray-500">¿No tienes una cuenta?</span>
+      <span class="px-2 bg-white text-gray-400">o</span>
     </div>
   </div>
-  <div class="p-text">Continua eligiendo tu correo institucional</div>
+  <div class="p-text">Registrate eligiendo tu correo institucional</div>
   <button mat-raised-button class="google-btn mt-2" (click)="registerWithGoogle()">
-    <!--<img src="assets/unillanos.png" alt="Unillanos Icon" class="unillanos-icon">-->
     <img src="assets/svg-images/google.png" alt="Google Icon" class="google-icon"> Registrarse con Google
   </button>
+
+  <button cdkFocusInitial style="display: none;"></button>
 </mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button class="mr-6 hover:bg-zinc-200 py-1.5 px-1.5 text-slate-800 rounded-md" mat-dialog-close> Cerrar </button>
+</mat-dialog-actions>

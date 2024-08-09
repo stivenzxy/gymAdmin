@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { GoogleAuthService } from '../../shared/services/googleAuth.service';
 import { Subscription } from 'rxjs';
 import { SetAndUpdateUserInfoService } from 'src/shared/services/set-and-update-user-info.service';
@@ -10,6 +10,8 @@ import { UserData } from 'src/shared/models/entities/userData';
 import { GoogleAuthData } from 'src/shared/models/entities/googleAuthData';
 import { SetAndUpdateGymInfoService } from 'src/shared/services/set-and-update-gym-info.service';
 import { GymData } from 'src/shared/models/entities/gymData';
+import { LoginComponent } from '../login/login.component';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 type EditableFields = 'field1' | 'field2' | 'field3' | 'field4' | 'field5';
 
@@ -21,6 +23,7 @@ type EditableFields = 'field1' | 'field2' | 'field3' | 'field4' | 'field5';
 export class DashboardComponent implements OnInit, OnDestroy {
   registerUserData!: GoogleAuthData; // data from google auth
   userSubscription!: Subscription; // subscription from google auth service (register section)
+  loginDialogRef: MatDialogRef<LoginComponent> | null = null;
 
   loggedUsername!: string; // username from database in backend
   userDataToUpdate: UserData = {};
@@ -62,7 +65,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private loginService: LoginService,
     private updateUserService: SetAndUpdateUserInfoService,
     private cdRef: ChangeDetectorRef,
-    private updateGymService: SetAndUpdateGymInfoService
+    private updateGymService: SetAndUpdateGymInfoService,
+    private dialog: MatDialog,
+    private renderer: Renderer2
   ) {}
 
   ngOnInit(): void {
@@ -135,7 +140,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   get isUserInRegister(): boolean {
-    return this.preRegisterService.isLoggedIn();
+    return this.preRegisterService.isGoogleInfoAvaliable();
   }
 
   ngOnDestroy(): void {
@@ -237,5 +242,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
         },
       });
     }
+  }
+
+  openLoginDialog() {
+    this.renderer.setStyle(document.body, 'overflow', 'hidden');
+    this.loginDialogRef = this.dialog.open(LoginComponent, {
+      disableClose: true
+    });
+
+    this.loginDialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      this.loginDialogRef = null;
+      this.renderer.setStyle(document.body, 'overflow', '');
+    });
   }
 }

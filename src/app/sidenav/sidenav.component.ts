@@ -78,8 +78,6 @@ export class SidenavComponent implements OnInit, OnDestroy {
   constructor(
     private preRegisterService: GoogleAuthService,
     private loginService: LoginService,
-    private cdRef: ChangeDetectorRef,
-    private router: Router
   ) {}
 
   closeAllSubMenus(): void {
@@ -109,7 +107,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
     }, 1000);
 
     // Subscribe to user status from PreRegisterService
-    const preRegisterSubscription = this.preRegisterService.user.subscribe(
+    /* const preRegisterSubscription = this.preRegisterService.user.subscribe(
       (user) => {
         this.isUserInRegister = !!user;
         this.updateNavData();
@@ -117,21 +115,23 @@ export class SidenavComponent implements OnInit, OnDestroy {
     );
 
     this.subscriptions.push(preRegisterSubscription);
+    */
   }
 
   checkAuthStatus(): void {
     this.isAdminLoggedIn = this.loginService.isAdminLoggedIn();
     this.isUserLoggedIn = this.loginService.isUserLoggedIn();
-    this.updateNavData();
+    //this.updateNavData();
   }
 
-  updateNavData(): void {
+  /** CODE TO FILTER A SPECIFIC ITEM OF THE SIDENAV ITEMS ARRAY USING A CONDITION */
+  /* updateNavData(): void {
     if (this.isUserLoggedIn || this.isUserInRegister) {
       this.navData = navbarData.filter((item) => item.routeLink !== 'settings');
     } else {
       this.navData = [...navbarData];
     }
-  }
+  } */
 
   toggleCollapse(): void {
     this.collapsed = !this.collapsed;

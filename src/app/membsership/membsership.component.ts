@@ -25,7 +25,7 @@ export class MembsershipComponent implements OnInit {
     private fb: FormBuilder,
     private getUserService: GetUsersService,
     private dialog: MatDialog,
-    private dialogMembershipListRef: MatDialogRef<ActiveMembershipListComponent>
+    private dialogMembershipRef: MatDialogRef<MembsershipComponent>
   ) {
     this.membershipForm = this.fb.group({
       startDate: ['', [Validators.required]],
@@ -139,7 +139,7 @@ export class MembsershipComponent implements OnInit {
   }
 
   viewMembershipList() {
-    this.dialogMembershipListRef.close();
+    this.dialogMembershipRef.close();
     this.openViewMembershipListModal();
   }
 

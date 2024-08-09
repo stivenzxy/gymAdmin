@@ -1,5 +1,5 @@
 <div class="overflow-x-auto relative shadow-md rounded-lg">
-  <h2 class="font-semibold">Listado de reservas activas</h2>
+  <h2 class="font-semibold mb-1 ml-2">Listado de reservas activas</h2>
   <table *ngIf="reservationHistory.length > 0; else noReservationData" class="attendTable w-full text-sm text-left">
     <thead class="tab-head text-xs uppercase">
       <tr>
@@ -28,14 +28,14 @@
 
   <ng-template #noReservationData>
     <div class="text-center p-4">
-      <p class="text-gray-700 dark:text-gray-400">No tienes reservas sin confirmar actualmente</p>
+      <p class="text-gray-700 dark:text-gray-400">No tienes reservas por confirmar actualmente</p>
     </div>
   </ng-template>
 </div>
 
 <!--Attendance Table -->
 <div class="overflow-x-auto relative shadow-md rounded-lg mt-10">
-  <h2 class="font-semibold">Listado de asistencias confirmadas</h2>
+  <h2 class="font-semibold mb-1 ml-2">Listado de asistencias confirmadas</h2>
   <table *ngIf="attendanceHistory.length > 0; else noAttendanceData" class="attendTable w-full text-sm text-left">
     <thead class="tab-head text-xs uppercase">
       <tr>

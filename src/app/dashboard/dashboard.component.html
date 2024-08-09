@@ -9,17 +9,13 @@
         </h1>
 
         <div class="card animate__animated animate__fadeIn">
-            <div class="card-head">Hemos diseñado este sitio con el fin de que sea perfecto para ti. Reserva tu espacio,
-                personaliza tu rutina y alcanza tus metas de salud y fitness con nuestra plataforma</div>
-            <div class="card-body">
-                ¡Prepárate para vivir la experiencia de fitness más completa! En FitLynx, te ofrecemos un espacio donde
-                tus metas de salud y bienestar toman la delantera. Reserva un lugar en tu gimnasio y sumérgete en un
-                ambiente diseñado para motivarte y superarte. Con acceso a instalaciones de primera, consejos de
-                expertos y una comunidad que te respalda, estás a un clic de iniciar la transformación que deseas. No
-                importa en qué punto estés de tu viaje de fitness; tenemos las herramientas y el apoyo que necesitas
-                para llevar tu disciplina al siguiente nivel.
+            <div class="card-head">Accede al gimnasio de manera sencilla</div>
+            <div class="card-body text-justify">
+                Hemos diseñado esta web para que puedas acceder al gimnasio del campus Barcelona de la Universidad de
+                los Llanos de manera más sencilla mediante reservaciones. Olvídate de las filas y asegura tu lugar con
+                antelación.
                 <br><br>
-                <b>¡Únete a nosotros y haz que hoy cuente!</b>
+                <button *ngIf="!loggedUser && !loggedAdmin" class="register-button py-2 px-4 font-medium" (click)="openLoginDialog()">Iniciar sesión o Registrarse</button>
             </div>
         </div>
     </div>
@@ -28,7 +24,7 @@
         <h1 class="font-extrabold text-3xl animate__animated animate__fadeIn">Actualizar Información</h1>
 
         <div class="card animate__animated animate__fadeIn" *ngIf="loggedUser">
-            <div class="card-head">Modifica tus datos personales (Solo puedes cambiar esto una vez, adicionalmente debes
+            <div class="card-head text-justify">Modifica tus datos personales (Solo puedes cambiar esto una vez, adicionalmente debes
                 notificar
                 las razones del cambio al correo de bienestar)</div>
             <div class="card-body">
