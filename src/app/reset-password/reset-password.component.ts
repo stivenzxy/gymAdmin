@@ -45,7 +45,7 @@ export class ResetPasswordComponent implements OnInit{
         this.resetPasswordService.resetPassword(this.uid, this.token, newPassword, confirmNewPassword)
           .subscribe({
             next: (response) => {
-              Swal.fire('¡Éxito!', response.message, 'success');
+              Swal.fire('Proceso Exitoso!', response.message, 'success').then(() => window.location.reload);
             },
             error: (error) => {
               Swal.fire('Error', error.error.message, 'error');
